@@ -1,0 +1,4 @@
+AuthUserFile "/services/users/zstorage3p1/colpetro/www/cpsmtto/.htaclu"
+AuthName Members
+AuthType Basic
+Require valid-user
