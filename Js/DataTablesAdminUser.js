@@ -243,8 +243,6 @@ $(document).ready(function(){
             url: "../functions/Search/SearchTeams.php?warehouse=" + warehouse,
             type: "POST"
         }
-        
-
     })
 
 });

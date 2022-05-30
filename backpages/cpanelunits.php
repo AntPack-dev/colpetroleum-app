@@ -133,13 +133,8 @@ $client_contract = $mtto->getValueMtto('client_contract_units_rsu', 'contract_un
                 </div> 
 
                 <div class="card-body"> 
-
-                    
-                        
                         <table id="id_table_units" class="display" style="width: 100%;">
-                        
-                        <thead>                 
-                            
+                        <thead>
                             <tr style="text-align: center;">
                                 <th>Referencia del equipo</th>
                                 <th>Nombre</th>                                         
@@ -155,28 +150,16 @@ $client_contract = $mtto->getValueMtto('client_contract_units_rsu', 'contract_un
                             </tr>
                         </thead>
                         <tbody style="text-align: center;">
-
-                        
-                        
                         </tbody>
-                        
-                        </table> 
-                        
+                        </table>
                         <!-- <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-default">
                             Registrar Equipo
                         </button>  -->
                         <?php echo $session->AdminRegisterTeams($tokenuser)?>
-                    
-           
-                </div> 
-        
-        
-            </div>          
+                </div>
+            </div>
         </div>
-
-
     </div>
-
 </section>
 
 <div class="modal fade" id="modal-default">

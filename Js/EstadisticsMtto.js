@@ -24,13 +24,14 @@ $(document).ready(function(){
             }           
           ]
         };       
-  
-        var ctx = document.getElementById('ChartMants').getContext('2d');
-  
-        var barGraph = new Chart(ctx, {
-          type: 'bar',
-          data: chartdata
-        });
+        const chartMants = document.getElementById('ChartMants');
+        if (chartMants) {
+          var ctx = chartMants.getContext('2d');
+          var barGraph = new Chart(ctx, {
+            type: 'bar',
+            data: chartdata
+          });
+        }
       },
       error: function(conts) {
         console.log(conts);
@@ -60,13 +61,16 @@ $(document).ready(function(){
             }           
           ]
         };       
-  
-        var ctx = document.getElementById('ChartHours').getContext('2d');
-  
-        var barGraph = new Chart(ctx, {
-          type: 'bar',
-          data: chartdata
-        });
+
+        const chartHours = document.getElementById('ChartHours');
+        if (chartHours) {
+          var ctx = chartHours.getContext('2d');
+
+          var barGraph = new Chart(ctx, {
+            type: 'bar',
+            data: chartdata
+          });
+        }
       },
       error: function(conth) {
         console.log(conth);
@@ -103,13 +107,15 @@ $(document).ready(function(){
             }           
           ]
         };
-  
-        var ctx = document.getElementById('ChartUnits').getContext('2d');
-  
-        var barGraph = new Chart(ctx, {
-          type: 'doughnut',
-          data: chartdata
-        });
+        const chartUnits = document.getElementById('ChartUnits');
+        if (chartUnits) {
+          var ctx = chartUnits.getContext('2d');
+
+          var barGraph = new Chart(ctx, {
+            type: 'doughnut',
+            data: chartdata
+          });
+        }
       },
       error: function(data) {
         console.log(data);
@@ -145,13 +151,16 @@ $(document).ready(function(){
             }           
           ]
         };
-  
-        var ctx = document.getElementById('ChartMantsRsu').getContext('2d');
-  
-        var barGraph = new Chart(ctx, {
-          type: 'doughnut',
-          data: chartdata
-        });
+
+        const chartMantsRsu = document.getElementById('ChartMantsRsu');
+        if (chartMantsRsu) {
+          var ctx = chartMantsRsu.getContext('2d');
+
+          var barGraph = new Chart(ctx, {
+            type: 'doughnut',
+            data: chartdata
+          });
+        }
       },
       error: function(data) {
         console.log(data);
@@ -185,12 +194,14 @@ $(document).ready(function(){
             ]
           };
 
-          var ctx = document.getElementById('ChartHoursEst').getContext('2d');
-          var barGraph = new Chart(ctx, {
-            type: 'bar',
-            data: chartdata
-          });
-
+          const chartHoursEst = document.getElementById('ChartHoursEst');
+          if (chartHoursEst) {
+            var ctx = chartHoursEst.getContext('2d');
+            var barGraph = new Chart(ctx, {
+              type: 'bar',
+              data: chartdata
+            });
+          }
           $(document).on('change', '#year', function(){
             var year = $(this).val();  
             barGraph.destroy(); 
@@ -241,27 +252,29 @@ $(document).ready(function(){
             ]
           }; 
 
-          var ctx = document.getElementById('ChartMantsEst').getContext('2d');
-  
-          var barGraph = new Chart(ctx, {
-            type: 'bar',
-            data: chartdata
-          });
+          const chartMantsEst = document.getElementById('ChartMantsEst');
+          if (chartMantsEst) {
+            var ctx = chartMantsEst.getContext('2d');
 
-          $(document).on('change', '#year', function(){
-            var year = $(this).val();  
-            barGraph.destroy();
+            var barGraph = new Chart(ctx, {
+              type: 'bar',
+              data: chartdata
+            });
 
-            if(year != '')
-            {
-              load_datas(year);
-            }
-            else
-            {
-              load_datas();
-            }
-          })
+            $(document).on('change', '#year', function(){
+              var year = $(this).val();
+              barGraph.destroy();
 
+              if(year != '')
+              {
+                load_datas(year);
+              }
+              else
+              {
+                load_datas();
+              }
+            })
+          }
         },
         error: function(conts) {
           console.log(conts);

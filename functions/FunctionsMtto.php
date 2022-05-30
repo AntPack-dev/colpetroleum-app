@@ -2400,14 +2400,7 @@ class mtto{
             "recordsFiltered"   => intval($totalFilter),
             "data"              => $data
         );
-
-        return json_encode($json_data);
-
-
-
-
-
-
+        return  json_encode($json_data);
     }
 
     //Registra inspecciones y mantenimientos
@@ -2440,9 +2433,8 @@ class mtto{
 
         $nums = 0;
 
-        
 
-        $stmt = $mysqli->prepare("SELECT maintenance_carried, frequency_inspection_teams FROM inspection_of_mant_teams WHERE fk_teams_units = ?");
+        $stmt = $mysqli->prepare("SELECT id_inspection_mant_teams, maintenance_carried, frequency_inspection_teams FROM inspection_of_mant_teams WHERE fk_teams_units = ?");
         $stmt->bind_param('i', $id_teams);
         $stmt->execute();
         $stmt->store_result();
@@ -2452,13 +2444,14 @@ class mtto{
         {
             
 
-            $stmt->bind_result($maintenance, $frequency);
+            $stmt->bind_result($id_inspection_mant_teams, $maintenance, $frequency);
 
             $table = "
                 <tr style='background-color: #FBFCFC;'>
                     <th style='text-align: center;'>ITEM</th>
                     <th style='text-align: center;'>MANTENIMIENTO A REALIZAR</th>
                     <th style='text-align: center;'>FRECUENCIA</th>
+                    <th style='text-align: center;'>ACCIONES</th>
                 </tr>
 
             </thead>
@@ -2467,13 +2460,15 @@ class mtto{
 
             while($stmt->fetch())
             {
-                
-
                 $nums = $nums + 1;
                 $table.= "<tr style='text-align: center;'>
                 <td>".$nums."</td>
                 <td>".$maintenance."</td>
                 <td>".$frequency."</td>
+                <td>
+                    <button class='btn btn-danger btn-sm' type='button' onclick='deleteInspectionFrequency(".$id_inspection_mant_teams.")'>Eliminar</button>
+                    <button class='btn btn-primary btn-sm' type='button' onclick='editInspectionFrequency(".$id_inspection_mant_teams.",\"".$maintenance."\",\"".$frequency."\")'>Editar</button>
+                </td>
             </tr>";
             }
 
@@ -2487,29 +2482,28 @@ class mtto{
         else
         {
             $table.= "
-                <tr style='background-color: #FBFCFC;'>
+            <tr style='background-color: #FBFCFC;'>
                     <th style='text-align: center;'>ITEM</th>
                     <th style='text-align: center;'>MANTENIMIENTO A REALIZAR</th>
                     <th style='text-align: center;'>FRECUENCIA</th>
+                    <th style='text-align: center;'>ACCIONES</th>
                 </tr>
 
             </thead>
 
             <tbody>
             
-            <tr><td colspan='3' style='text-align: center;'>NO EXISTEN REGISTROS</td></tr>
+            <tr><td colspan='4' style='text-align: center;'>NO EXISTEN REGISTROS</td></tr>
             
             </tbody>
-            </table>";
-
+            </table>
+            ";
         }
 
         return $table;
-
-
-
-        
     }
+
+
 
     //Actualiza los datos del equipo 
     function UpdateDetailsTeams($type_up, $model_up, $mark_up, $name_up, $serie_up, $capacity_up, $plate_up, $description_up, $tk_teams)

@@ -12,6 +12,7 @@
 <script src="../styles/dist/js/adminlte.js"></script>
 
 <script src="../styles/plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
+<script src="../styles/plugins/sweetalert2/sweetalert2.all.min.js"></script>
 
 
 
