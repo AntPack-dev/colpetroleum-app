@@ -430,36 +430,33 @@ if (isset($_POST['btnregistermantreport'])) {
 
                     <div class="callout callout-info">
                         <h5>Pasos para registrar Frecuencia de inspección y mantenimiento:</h5>
-
                         <p>
                             1) Escribimos en la casilla Mantenimiento a realizar, la descripción de la actividad a
                             realizar.<br>
                             2) Escribimos en la casilla Frecuencia, el tiempo que se deba hacer la actividad.<br>
                             3) Presionamos sobre el botón <b>Guardar</b>.
-
-
                         </p>
                     </div>
-
                     <div class="row">
-
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>Mantenimiento a realizar<b style="color:#B20F0F;">*</b></label>
                                 <input type="text" class="form-control" name="maint" required>
                             </div>
                         </div>
-
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>Frecuencia<b style="color:#B20F0F;">*</b></label>
                                 <input type="text" class="form-control" name="frequency" required>
                             </div>
                         </div>
-
-
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Frecuencia<b style="color:#B20F0F;">*</b></label>
+                                <input type="text" class="form-control" name="frequency" required>
+                            </div>
+                        </div>
                     </div>
-
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>

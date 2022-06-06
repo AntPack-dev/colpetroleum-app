@@ -482,13 +482,13 @@ class UserFunctions{
             return null;
         }
     }
-   
+
     //Asignar permisos al usuario despues de ser registrado.
     function AsignPermits($iduser, $useremail, $idpermit, $idmodule)
     {
-        global $mysqli;              
+        global $mysqli;
 
-        $stmt = $mysqli->prepare("INSERT INTO asign_permits (user_id_asign, mail_user_asign, permit_user_id, id_module_permit) VALUES(?,?,?,?)"); 
+        $stmt = $mysqli->prepare("INSERT INTO asign_permits (user_id_asign, mail_user_asign, permit_user_id, id_module_permit) VALUES(?,?,?,?)");
         $stmt->bind_param('isii', $iduser, $useremail, $idpermit, $idmodule);
 
         if($stmt->execute())
@@ -497,7 +497,7 @@ class UserFunctions{
             }else{
             return 0;
         }
-    } 
+    }
 
     //Elimina los permisos de manera individual
     function DeletePermitUser($idpermit)
@@ -514,7 +514,7 @@ class UserFunctions{
             return false;
 
         }
-    }    
+    }
 
     //Elimina permisos al usuario
     function DeletePermitsUser($userid)
@@ -537,8 +537,8 @@ class UserFunctions{
     //Valida si existe esos datos en formulario
     function IsNullDetailsUser($username, $firstname, $secondname)
     {
-        if(strlen(trim($firstname)) < 1 || 
-        strlen(trim($secondname)) < 1 ||      
+        if(strlen(trim($firstname)) < 1 ||
+        strlen(trim($secondname)) < 1 ||
         strlen(trim($username)) == null )
         {
             return true;
@@ -613,7 +613,7 @@ class UserFunctions{
                 }
             }
 
-            
+
 
         }
         else
@@ -665,7 +665,7 @@ class UserFunctions{
                         </a>
                     </li>
                     
-                    ";                    
+                    ";
                 }
 
                 if($rol == 2 && $module == 2)
@@ -699,7 +699,7 @@ class UserFunctions{
                     ";
                 }
 
-                
+
             }
 
             $settings .="</ul>
@@ -713,7 +713,7 @@ class UserFunctions{
 
         return $settings;
 
-        
+
     }
 
     //Permisos para acceder a los conceptos
@@ -849,7 +849,7 @@ class UserFunctions{
                       <p>Unidades RSU</p>
                     </a>
                   </li>";
-                }                            
+                }
 
                 if($rol >= 1 && $module == 5)
                 {
@@ -869,7 +869,7 @@ class UserFunctions{
                     </a>
                   </li>";
                 }
-                
+
             }
 
             $settings .="</ul>
@@ -944,6 +944,59 @@ class UserFunctions{
         return $settings;
     }
 
+    //Permitir Gestión de procedimientos
+    function AdminProcedures($tokenuser)
+    {
+        global $mysqli;
+
+
+        $settings = "";
+
+        $stmt = $mysqli->prepare("SELECT permit_user_id, id_module_permit FROM users INNER JOIN asign_permits ON users.id_user = asign_permits.user_id_asign WHERE token = ? GROUP BY id_module_permit");
+        $stmt->bind_param('s', $tokenuser);
+        $stmt->execute();
+        $stmt->store_result();
+        $num = $stmt->num_rows;
+
+        if($num > 0)
+        {
+            $stmt->bind_result($rol, $module);
+
+            $settings = "<li class='nav-item'>
+            <a href='#' class='nav-link'>
+              <i class='text-danger nav-icon fas fa-warehouse'></i>
+              <p>
+                Procedimientos
+                <i class='text-danger fas fa-angle-right right'></i>                
+              </p>
+            </a>
+            <ul class='nav nav-treeview'>";
+
+            while($stmt->fetch())
+            {
+                if($rol >= 1 && $module == 10)
+                {
+                    $settings.="<li class='nav-item'>
+                    <a href='adminprocedures.php' class='nav-link'>
+                      <i class='text-danger fas fa-boxes nav-icon'></i>
+                      <p>Gestionar Procedimientos</p>
+                    </a>
+                  </li>
+                  ";
+                }
+            }
+
+            $settings .="</ul>
+            </li>";
+        }
+        else
+        {
+            return null;
+        }
+
+        return $settings;
+    }
+
     //Permisos Gestión de unidades RSU
     function AdminRegisterRsu($tokenuser)
     {
@@ -983,6 +1036,52 @@ class UserFunctions{
                     Asignar contrato
                     </button>  ";
                 }
+            }
+        }
+        else
+        {
+            return null;
+        }
+
+        return $settings;
+    }
+
+    //Permisos Gestión de procedimientos
+    function AdminRegisterProcedures($tokenuser)
+    {
+        global $mysqli;
+        $settings = "";
+
+        $stmt = $mysqli->prepare("SELECT permit_user_id, id_module_permit FROM users INNER JOIN asign_permits ON users.id_user = asign_permits.user_id_asign WHERE token = ?");
+        $stmt->bind_param('s', $tokenuser);
+        $stmt->execute();
+        $stmt->store_result();
+        $num = $stmt->num_rows;
+
+        if($num > 0)
+        {
+            $stmt->bind_result($rol, $module);
+
+            while($stmt->fetch())
+            {
+                if($rol == 4 && $module == 10)
+                {
+                    $settings = "
+                    <button type='button' class='btn btn-success' data-toggle='modal' data-target='#modal-default'>
+                    Registrar Procedimiento
+                    </button> ";
+                }
+
+                /*if($rol == 4 && $module == 4)
+                {
+                    $settings = "
+                    <button type='button' class='btn btn-success' data-toggle='modal' data-target='#modal-default'>
+                    Registrar Unidad
+                    </button> 
+                    <button type='button' class='btn btn-success' data-toggle='modal' data-target='#modal-default-contract'>
+                    Asignar contrato
+                    </button>  ";
+                }*/
             }
         }
         else

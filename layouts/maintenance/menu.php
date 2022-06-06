@@ -34,6 +34,7 @@ $session = new UserFunctions();
           <?php echo $session->AdminConcepts($tokenuser); ?>
           <?php echo $session->AdminTeams($tokenuser); ?>
           <?php echo $session->AdminWarehouse($tokenuser); ?>
+          <?php echo $session->AdminProcedures($tokenuser); ?>
 
           
           <?php
@@ -49,4 +50,3 @@ $session = new UserFunctions();
     <!-- /.sidebar -->
   </aside>
 
- 

@@ -2233,6 +2233,82 @@ class mtto{
         return json_encode($json_data);
     }
 
+    function insertProcedure($name, $description)
+    {
+        global $mysqli;
+
+        $stmt = $mysqli->prepare("INSERT INTO procedures (name, description) VALUES (?,?)");
+        $stmt->bind_param('ss', $name, $description);
+
+        if($stmt->execute())
+        {
+            return $mysqli->insert_id;
+        }else{
+            return 0;
+        }
+    }
+
+    function SearchProcedures()
+    {
+        global $mysqli;
+
+        $resquest = $_REQUEST;
+
+        $sql = "SELECT id_procedure, name, description FROM procedures";
+
+        $query = $mysqli->query($sql);
+        $totalData = $query->num_rows;
+
+        $totalFilter = $totalData;
+
+        $sql = "SELECT id_procedure, name, description FROM procedures ";
+
+        if(!empty($resquest['search']['value']))
+        {
+            $sql.= "name LIKE '%".$resquest['search']['value']."%' OR description LIKE '%" . $resquest['search']['value'] ."%'";
+        }
+        $query = $mysqli->query($sql);
+        $totalData = $query->num_rows;
+
+        $data = array();
+
+        while($row = $query->fetch_array())
+        {
+            $subdata = array();
+            $subdata[] = $row[1];
+            $subdata[] = $row[2];
+            $subdata[] = "<div class='btn-group'>
+            <button class='btn btn-danger btn-sm' onclick='deleteItem(".$row[0].")' title='Eliminar'>Eliminar</button>
+            </div>";
+
+            $data[] = $subdata;
+
+        }
+
+        $json_data = array(
+            "draw" => intval($resquest['draw']),
+            "recordsTotal"      => intval($totalData),
+            "recordsFiltered"   => intval($totalFilter),
+            "data"              => $data
+        );
+
+        return json_encode($json_data);
+    }
+
+    //Eliminar productos de los consumibles
+    function deleteProcedure($id)
+    {
+        global $mysqli;
+        $stmt = $mysqli->prepare("DELETE FROM procedures WHERE id_procedure = ?");
+        $stmt->bind_param('s', $id);
+        if($stmt->execute())
+        {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     //Listado de opciones de las unidades RSU
     function OptionsUnits()
     {
