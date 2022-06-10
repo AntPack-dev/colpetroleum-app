@@ -2303,7 +2303,7 @@ class mtto{
             $subdata[] = $row[1];
             $subdata[] = $row[3];
             $subdata[] = "<div class='btn-group'>
-            <a class='btn btn-danger btn-sm mr-1' href='/report/Procedure.php?id=". $row[0] ."' title='Exportar'>Exportar</a>
+            <a class='btn btn-danger btn-sm mr-1' target='_blank' href='/report/Procedure.php?id=". $row[0] ."' title='Exportar'>Exportar</a>
             <a class='btn btn-primary btn-sm mr-1' href='/pages/adminprocedurescreateedit.php?action=edit&id=". $row[0] ."' title='Eliminar'>Editar</a>
             <button class='btn btn-danger btn-sm' onclick='deleteItem(".$row[0].")' title='Eliminar'>Eliminar</button>
             </div>";
