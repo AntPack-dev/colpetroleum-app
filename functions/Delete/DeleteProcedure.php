@@ -5,9 +5,6 @@
 include('../../db/ConnectDB.php');
 include('../FunctionsMtto.php');
 
-
-
-
 header('Content-Type: application/json; charset=utf-8');
 try {
     $mtto = new mtto();

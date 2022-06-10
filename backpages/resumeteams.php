@@ -37,11 +37,20 @@ $reference = $letter . "-" . $number;
 if (isset($_POST['btnregisterinspection'])) {
     $date_reg = $mtto->DateMtto();
     $tk_inspection = $mtto->GenerateTokenMtto();
-
     $maint = $mysqli->real_escape_string($_POST['maint']);
     $frequency = $mysqli->real_escape_string($_POST['frequency']);
-
-    $reg = $mtto->InsertInspection($date_reg, $tk_inspection, $maint, $frequency, $id_teams, $id_user);
+    $frequency_type = $mysqli->real_escape_string($_POST['frequency_type']);
+    if ($frequency_type == 1) {
+        $frequency_type_text = 'Por Horas';
+        $frequency_value_hours = $_POST['frequency_value_hours'];
+        $frequency_value_date = null;
+    } else {
+        $frequency_type_text = 'Por fecha';
+        $frequency_value_hours = null;
+        $frequency_value_date = $_POST['frequency_value_date'];
+    }
+//    var_dump($_POST); exit;
+    $reg = $mtto->InsertInspection($date_reg, $tk_inspection, $maint, $frequency, $id_teams, $id_user, $frequency_type, $frequency_type_text, $frequency_value_hours, $frequency_value_date);
 
     if ($reg > 0) {
         echo "<script> window.location='resumeteams?teams=" . $tk_teams . "'; </script>";
@@ -414,7 +423,7 @@ if (isset($_POST['btnregistermantreport'])) {
 
 </section>
 
-<!-- REGISTRAR LA FRECUENCIA DE INSPACCIÓN DE MANTENIMIENTO -->
+<!-- REGISTRAR LA FRECUENCIA DE INSPECCIÓN DE MANTENIMIENTO -->
 <div class="modal fade" id="modal-mants">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -425,9 +434,9 @@ if (isset($_POST['btnregistermantreport'])) {
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="<?php $_SERVER['PHP_SELF'] ?>" method="POST">
+            <form action="<?php $_SERVER['PHP_SELF'] ?>" id="form_inspection_of_mant_teams" method="POST">
+                <input type="hidden" name="btnregisterinspection" value="btnregisterinspection">
                 <div class="modal-body">
-
                     <div class="callout callout-info">
                         <h5>Pasos para registrar Frecuencia de inspección y mantenimiento:</h5>
                         <p>
@@ -452,15 +461,28 @@ if (isset($_POST['btnregistermantreport'])) {
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label>Frecuencia<b style="color:#B20F0F;">*</b></label>
-                                <input type="text" class="form-control" name="frequency" required>
+                                <label>Tipo de Frecuencia<b style="color:#B20F0F;">*</b></label>
+                                <select name="frequency_type" id="frequency_type" class="form-control" required>
+                                    <option value="1">Por Horas</option>
+                                    <option value="2">Por Fechas</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group" id="div_frequency_value_hours">
+                                <label>Valor de frecuencia en horas<b style="color:#B20F0F;">*</b></label>
+                                <input type="number" class="form-control" id="frequency_value_hours" name="frequency_value_hours">
+                            </div>
+                            <div class="form-group" id="div_frequency_value_date" style="display: none">
+                                <label>Valor de frecuencia en fecha<b style="color:#B20F0F;">*</b></label>
+                                <input type="date" class="form-control" id="frequency_value_date" name="frequency_value_date">
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                    <button type="input" class="btn btn-success" name="btnregisterinspection">Guardar</button>
+                    <button type="submit" class="btn btn-success">Guardar</button>
                 </div>
 
             </form>
@@ -470,7 +492,7 @@ if (isset($_POST['btnregistermantreport'])) {
     <!-- /.modal-dialog -->
 </div>
 
-<!-- EDITAR LA FRECUENCIA DE INSPACCIÓN DE MANTENIMIENTO -->
+<!-- EDITAR LA FRECUENCIA DE INSPECCIÓN DE MANTENIMIENTO -->
 <div class="modal fade" id="editInspectionFrequencyModal">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -496,6 +518,25 @@ if (isset($_POST['btnregistermantreport'])) {
                             <div class="form-group">
                                 <label>Frecuencia<b style="color:#B20F0F;">*</b></label>
                                 <input type="text" class="form-control" name="frequency" id="frequency" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Tipo de Frecuencia<b style="color:#B20F0F;">*</b></label>
+                                <select name="frequency_type" id="frequency_type_edit" class="form-control" required>
+                                    <option value="1">Por Horas</option>
+                                    <option value="2">Por Fechas</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group" id="div_frequency_value_hours_edit">
+                                <label>Valor de frecuencia en horas<b style="color:#B20F0F;">*</b></label>
+                                <input type="number" class="form-control" id="frequency_value_hours_edit" name="frequency_value_hours">
+                            </div>
+                            <div class="form-group" id="div_frequency_value_date_edit" style="display: none">
+                                <label>Valor de frecuencia en fecha<b style="color:#B20F0F;">*</b></label>
+                                <input type="date" class="form-control" id="frequency_value_date_edit" name="frequency_value_date">
                             </div>
                         </div>
                     </div>
@@ -745,7 +786,10 @@ if (isset($_POST['btnregistermantreport'])) {
         });
     }
 
-    function editInspectionFrequency(id, maintenance, frequency) {
+    function editInspectionFrequency(id, maintenance, frequency, frequency_type, frequency_value_hours, frequency_value_date) {
+        $('#frequency_type_edit').val(frequency_type).change();
+        $('#frequency_value_hours_edit').val(frequency_value_hours);
+        $('#frequency_value_date_edit').val(frequency_value_date);
         $('#id_inspection_mant_teams').val(id);
         $('#maint').val(maintenance);
         $('#frequency').val(frequency);
@@ -754,13 +798,37 @@ if (isset($_POST['btnregistermantreport'])) {
 
     function editInspectionFrequencyForm() {
         event.preventDefault();
+
+        const frequencyType = $('#frequency_type_edit').val();
+        if (frequencyType == 1 && !$('#frequency_value_hours_edit').val()) {
+            swal.fire({
+                title: 'Ingrese un valor para la frecuencia en horas',
+                type: 'error',
+            });
+            return;
+        }
+        if (frequencyType == 2 && !$('#frequency_value_date_edit').val()) {
+            swal.fire({
+                title: 'Ingrese un valor para la frecuencia en fechas',
+                type: 'error',
+            });
+            return;
+        }
+
+
         fetch(`../functions/Delete/InspectionFrequency.php?action=update&id=${$('#id_inspection_mant_teams').val()}`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({maint: $('#maint').val(), frequency: $('#frequency').val()})
+            body: JSON.stringify({
+                maint: $('#maint').val(),
+                frequency: $('#frequency').val(),
+                frequency_type: $('#frequency_type_edit').val(),
+                frequency_value_hours: $('#frequency_value_hours_edit').val(),
+                frequency_value_date: $('#frequency_value_date_edit').val(),
+            })
         }).then(function (res) {
             return res.json();
         }).then(function (res) {

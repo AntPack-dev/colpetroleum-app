@@ -61,7 +61,7 @@ if(isset($_POST['btnregisterprocedures']))
 </section>
 
 
-<div class="modal fade" id="modal-default">
+<!--<div class="modal fade" id="modal-default">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -70,17 +70,8 @@ if(isset($_POST['btnregisterprocedures']))
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="<?php $_SERVER['PHP_SELF'] ?>" method="POST">
+            <form action="<?php /*$_SERVER['PHP_SELF'] */?>" method="POST">
                 <div class="modal-body">
-                    <!--<div class="callout callout-info">
-                        <h5>Pasos para registrar Procedimiento:</h5>
-                        <p>
-                            1) Escribimos en la casilla Referencia del equipo, la descripción del equipo (Ejemplo: RSU 01, RSU 02, etc.)<br>
-                            2) Escribimos en la casilla Estado Actual, Unidad Asignada.<br>
-                            3) Presionamos sobre el botón <b>Guardar</b>.<br>
-                            <b>NOTA:</b> El registro no aparecerá en la tabla hasta que le asigne un contrato.
-                        </p>
-                    </div>-->
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
@@ -104,7 +95,7 @@ if(isset($_POST['btnregisterprocedures']))
             </form>
         </div>
     </div>
-</div>
+</div>-->
 
 <script>
     function deleteItem(id) {
@@ -161,7 +152,7 @@ if(isset($_POST['btnregisterprocedures']))
         });
     }
 
-    function editInspectionFrequency(id, maintenance, frequency) {
+    /*function editInspectionFrequency(id, maintenance, frequency) {
         $('#id_inspection_mant_teams').val(id);
         $('#maint').val(maintenance);
         $('#frequency').val(frequency);
@@ -190,7 +181,7 @@ if(isset($_POST['btnregisterprocedures']))
                 window.location.reload();
             });
         })
-    }
+    }*/
 
 
 </script>

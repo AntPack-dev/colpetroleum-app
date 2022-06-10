@@ -1067,9 +1067,9 @@ class UserFunctions{
                 if($rol == 4 && $module == 10)
                 {
                     $settings = "
-                    <button type='button' class='btn btn-success' data-toggle='modal' data-target='#modal-default'>
+                    <a href='/pages/adminprocedurescreateedit.php' class='btn btn-success'>
                     Registrar Procedimiento
-                    </button> ";
+                    </a> ";
                 }
 
                 /*if($rol == 4 && $module == 4)
