@@ -222,9 +222,25 @@ $(document).ready(function(){
             url: "../functions/Search/SearchUnits.php",
             type: "POST"
         }
-
     })
+});
 
+$(document).ready(function(){
+    $('#id_table_procedures').DataTable({
+        paging: true,
+        scrollY: 300,
+        hover: true,
+        language: spanish,
+        autoWidth: false,
+        responsive: true,
+        info: true,
+        processing: true,
+        serverside: true,
+        ajax:{
+            url: "../functions/Search/SearchProcedures.php",
+            type: "POST"
+        }
+    })
 });
 
 $(document).ready(function(){

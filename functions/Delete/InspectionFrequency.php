@@ -4,9 +4,11 @@ include('../../db/ConnectDB.php');
 switch ($_REQUEST['action']) {
     case 'delete': {
         deleteInspectionFrequency();
+        break;
     }
     case 'update': {
         updateInspectionFrequency();
+        break;
     }
 }
 
@@ -45,9 +47,19 @@ function updateInspectionFrequency()
         $json = file_get_contents('php://input');
         $data = json_decode($json, true);
         $id = $_REQUEST['id'];
-        $maint = $data['maint'];
-        $frequency = $data['frequency'];
-        if ($mysqli->query( "UPDATE inspection_of_mant_teams SET maintenance_carried='$maint', frequency_inspection_teams='$frequency' WHERE id_inspection_mant_teams = $id") === TRUE) {
+        $maint = $mysqli->real_escape_string($data['maint']) ;
+        $frequency = $mysqli->real_escape_string($data['frequency']);
+        $frequency_type = $mysqli->real_escape_string($data['frequency_type']);
+        if ($frequency_type == 1) {
+            $frequency_type_text = 'Por Horas';
+            $frequency_value_hours = $data['frequency_value_hours'];
+            $frequency_value_date = 'NULL';
+        } else {
+            $frequency_type_text = 'Por fecha';
+            $frequency_value_hours = 'NULL';
+            $frequency_value_date = $data['frequency_value_date'];
+        }
+        if ($mysqli->query( "UPDATE inspection_of_mant_teams SET maintenance_carried='$maint', frequency_inspection_teams='$frequency', frequency_type= $frequency_type, frequency_type_text='$frequency_type_text', frequency_value_hours= $frequency_value_hours, frequency_value_date='$frequency_value_date' WHERE id_inspection_mant_teams = $id") === TRUE) {
             $data = [
                 'success' => true,
                 'message' => 'El registro fue actualizado'

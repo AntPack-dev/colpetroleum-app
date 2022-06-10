@@ -2233,6 +2233,109 @@ class mtto{
         return json_encode($json_data);
     }
 
+    function insertProcedure($data)
+    {
+        global $mysqli;
+
+        $stmt = $mysqli->prepare("INSERT INTO procedures (title, date, objective, scope, definitions, position_1, number_workers_1, responsibilities_1, position_2, number_workers_2, responsibilities_2, recommendations, planning, monthly_maintenance, semi_annual_maintenance, maintenance_2_years, equipment_tools, records, confidentiality_note, version, change_reason) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+        $stmt->bind_param('sssssssssssssssssssss', $data['title'], $data['date'], $data['objective'], $data['scope'], $data['definitions'], $data['position_1'], $data['number_workers_1'], $data['responsibilities_1'], $data['position_2'], $data['number_workers_2'], $data['responsibilities_2'], $data['recommendations'], $data['planning'], $data['monthly_maintenance'], $data['semi_annual_maintenance'], $data['maintenance_2_years'], $data['equipment_tools'], $data['records'], $data['confidentiality_note'], $data['version'], $data['change_reason']);
+
+        if($stmt->execute())
+        {
+            return $mysqli->insert_id;
+        }else{
+            return 0;
+        }
+    }
+
+    function updateProcedure($id, $data)
+    {
+        global $mysqli;
+
+        $stmt = $mysqli->prepare("UPDATE procedures SET title=?, date=?, objective=?, scope=?, definitions=?, position_1=?, number_workers_1=?, responsibilities_1=?, position_2=?, number_workers_2=?, responsibilities_2=?, recommendations=?, planning=?, monthly_maintenance=?, semi_annual_maintenance=?, maintenance_2_years=?, equipment_tools=?, records=?, confidentiality_note=?, version=?, change_reason=? WHERE id_procedure=?");
+        $stmt->bind_param('ssssssssssssssssssssss', $data['title'], $data['date'], $data['objective'], $data['scope'], $data['definitions'], $data['position_1'], $data['number_workers_1'], $data['responsibilities_1'], $data['position_2'], $data['number_workers_2'], $data['responsibilities_2'], $data['recommendations'], $data['planning'], $data['monthly_maintenance'], $data['semi_annual_maintenance'], $data['maintenance_2_years'], $data['equipment_tools'], $data['records'], $data['confidentiality_note'], $data['version'], $data['change_reason'], $id);
+
+        if($stmt->execute())
+        {
+            return $mysqli->insert_id;
+        }else{
+            return 0;
+        }
+    }
+
+    function findProcedure($id)
+    {
+        global $mysqli;
+        $stmt = $mysqli->prepare('SELECT id_procedure, title, date, objective, scope, definitions, position_1, number_workers_1, responsibilities_1, position_2, number_workers_2, responsibilities_2, recommendations, planning, monthly_maintenance, semi_annual_maintenance, maintenance_2_years, equipment_tools, records, confidentiality_note, version, change_reason FROM procedures WHERE id_procedure=?');
+        $stmt->bind_param("s", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc();
+    }
+
+    function SearchProcedures()
+    {
+        global $mysqli;
+
+        $resquest = $_REQUEST;
+
+        $sql = "SELECT id_procedure, title, date, objective, scope, definitions, position_1, number_workers_1, responsibilities_1, position_2, number_workers_2, responsibilities_2, recommendations, planning, monthly_maintenance, semi_annual_maintenance, maintenance_2_years, equipment_tools, records, confidentiality_note, version, change_reason FROM procedures";
+
+        $query = $mysqli->query($sql);
+        $totalData = $query->num_rows;
+
+        $totalFilter = $totalData;
+
+//        $sql = "SELECT id_procedure, name, description FROM procedures ";
+
+        if(!empty($resquest['search']['value']))
+        {
+            $sql.= "title LIKE '%".$resquest['search']['value']."%' OR objective LIKE '%" . $resquest['search']['value'] ."%'";
+        }
+        $query = $mysqli->query($sql);
+        $totalData = $query->num_rows;
+
+        $data = array();
+
+        while($row = $query->fetch_array())
+        {
+            $subdata = array();
+            $subdata[] = $row[1];
+            $subdata[] = $row[3];
+            $subdata[] = "<div class='btn-group'>
+            <a class='btn btn-danger btn-sm mr-1' target='_blank' href='/report/Procedure.php?id=". $row[0] ."' title='Exportar'>Exportar</a>
+            <a class='btn btn-primary btn-sm mr-1' href='/pages/adminprocedurescreateedit.php?action=edit&id=". $row[0] ."' title='Eliminar'>Editar</a>
+            <button class='btn btn-danger btn-sm' onclick='deleteItem(".$row[0].")' title='Eliminar'>Eliminar</button>
+            </div>";
+
+            $data[] = $subdata;
+
+        }
+
+        $json_data = array(
+            "draw" => intval($resquest['draw']),
+            "recordsTotal"      => intval($totalData),
+            "recordsFiltered"   => intval($totalFilter),
+            "data"              => $data
+        );
+
+        return json_encode($json_data);
+    }
+
+    //Eliminar productos de los consumibles
+    function deleteProcedure($id)
+    {
+        global $mysqli;
+        $stmt = $mysqli->prepare("DELETE FROM procedures WHERE id_procedure = ?");
+        $stmt->bind_param('s', $id);
+        if($stmt->execute())
+        {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     //Listado de opciones de las unidades RSU
     function OptionsUnits()
     {
@@ -2404,12 +2507,12 @@ class mtto{
     }
 
     //Registra inspecciones y mantenimientos
-    function InsertInspection($date_reg, $tk_inspection, $maint, $frequency, $id_teams, $id_user)
+    function InsertInspection($date_reg, $tk_inspection, $maint, $frequency, $id_teams, $id_user, $frequency_type, $frequency_type_text, $frequency_value_hours, $frequency_value_date)
     {
         global $mysqli;
 
-        $stmt = $mysqli->prepare("INSERT INTO inspection_of_mant_teams (date_reguster_inspection, token_inspection_mant_teams, maintenance_carried, frequency_inspection_teams, fk_teams_units, fk_user_id) VALUES (?,?,?,?,?,?)");
-        $stmt->bind_param('ssssii',$date_reg, $tk_inspection, $maint, $frequency, $id_teams, $id_user);
+        $stmt = $mysqli->prepare("INSERT INTO inspection_of_mant_teams (date_reguster_inspection, token_inspection_mant_teams, maintenance_carried, frequency_inspection_teams, fk_teams_units, fk_user_id, frequency_type, frequency_type_text, frequency_value_hours, frequency_value_date) VALUES (?,?,?,?,?,?,?,?,?,?)");
+        $stmt->bind_param('ssssiiisds',$date_reg, $tk_inspection, $maint, $frequency, $id_teams, $id_user, $frequency_type, $frequency_type_text, $frequency_value_hours, $frequency_value_date);
 
         if($stmt->execute())
         {
@@ -2434,7 +2537,7 @@ class mtto{
         $nums = 0;
 
 
-        $stmt = $mysqli->prepare("SELECT id_inspection_mant_teams, maintenance_carried, frequency_inspection_teams FROM inspection_of_mant_teams WHERE fk_teams_units = ?");
+        $stmt = $mysqli->prepare("SELECT id_inspection_mant_teams, maintenance_carried, frequency_inspection_teams, frequency_type, frequency_type_text, frequency_value_hours, frequency_value_date FROM inspection_of_mant_teams WHERE fk_teams_units = ?");
         $stmt->bind_param('i', $id_teams);
         $stmt->execute();
         $stmt->store_result();
@@ -2444,13 +2547,15 @@ class mtto{
         {
             
 
-            $stmt->bind_result($id_inspection_mant_teams, $maintenance, $frequency);
+            $stmt->bind_result($id_inspection_mant_teams, $maintenance, $frequency, $frequency_type, $frequency_type_text, $frequency_value_hours, $frequency_value_date);
 
             $table = "
                 <tr style='background-color: #FBFCFC;'>
                     <th style='text-align: center;'>ITEM</th>
                     <th style='text-align: center;'>MANTENIMIENTO A REALIZAR</th>
                     <th style='text-align: center;'>FRECUENCIA</th>
+                    <th style='text-align: center;'>TIPO DE FRECUENCIA</th>
+                    <th style='text-align: center;'>VALOR DE FRECUENCIA</th>
                     <th style='text-align: center;'>ACCIONES</th>
                 </tr>
 
@@ -2465,9 +2570,11 @@ class mtto{
                 <td>".$nums."</td>
                 <td>".$maintenance."</td>
                 <td>".$frequency."</td>
+                <td>".$frequency_type_text."</td>
+                <td>".($frequency_type == 1 ? $frequency_value_hours : $frequency_value_date)."</td>
                 <td>
                     <button class='btn btn-danger btn-sm' type='button' onclick='deleteInspectionFrequency(".$id_inspection_mant_teams.")'>Eliminar</button>
-                    <button class='btn btn-primary btn-sm' type='button' onclick='editInspectionFrequency(".$id_inspection_mant_teams.",\"".$maintenance."\",\"".$frequency."\")'>Editar</button>
+                    <button class='btn btn-primary btn-sm' type='button' onclick='editInspectionFrequency(".$id_inspection_mant_teams.",\"".$maintenance."\",\"".$frequency."\",\"".$frequency_type."\",\"".$frequency_value_hours."\",\"".$frequency_value_date."\")'>Editar</button>
                 </td>
             </tr>";
             }
@@ -3066,8 +3173,6 @@ class mtto{
             }else{
             return 0;
         }
-
-
     }
     
     //Trae el ultimo número del registro
