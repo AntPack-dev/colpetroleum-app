@@ -2610,6 +2610,48 @@ class mtto{
         return $table;
     }
 
+    function getInspection_of_mant_teamsForCalendar($tk_teams)
+    {
+        global $mysqli;
+        $mtto = new mtto();
+        $id_teams = $mtto->getValueMtto('id_teams_units','teams_units_rsu','token_teams_units', $tk_teams);
+
+        $rows = [];
+        $result = $mysqli->query("SELECT id_inspection_mant_teams, maintenance_carried, frequency_inspection_teams, frequency_type, frequency_type_text, frequency_value_hours, frequency_value_date FROM inspection_of_mant_teams WHERE fk_teams_units = $id_teams");
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                $row['next_date'] = $row['frequency_value_date'];
+                $rows[] = $row;
+
+                $date = date_create($row['frequency_value_date']);
+                $date->modify('+1 month');
+                $row['next_date'] = $date->format('Y-m-d');
+                $rows[] = $row;
+            }
+        }
+        return $rows;
+    }
+
+
+    function getInspection_of_mant_teamsForGeneralCalendar()
+    {
+        global $mysqli;
+        $mtto = new mtto();
+        $rows = [];
+        $result = $mysqli->query('select id_inspection_mant_teams, maintenance_carried, frequency_inspection_teams, frequency_type, frequency_type_text, frequency_value_hours, frequency_value_date, type_teams_units, plate_teams_units, name_teams_units, model_teams_units, serie_teams_units, CONCAT(letter_units_teams, "-", number_teams_units) AS reference, capacity_teams_units, mark_teams_units, description_teams_units from teams_units_rsu inner join inspection_of_mant_teams on inspection_of_mant_teams.fk_teams_units = teams_units_rsu.id_teams_units');
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                $row['next_date'] = $row['frequency_value_date'];
+                $rows[] = $row;
+
+                $date = date_create($row['frequency_value_date']);
+                $date->modify('+1 month');
+                $row['next_date'] = $date->format('Y-m-d');
+                $rows[] = $row;
+            }
+        }
+        return $rows;
+    }
 
 
     //Actualiza los datos del equipo 

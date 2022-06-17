@@ -50,6 +50,7 @@ $dates = date("Y-m-d");
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="../styles/plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="../styles/plugins/summernote/summernote.min.css">
+    <link rel="stylesheet" href="../styles/plugins/fullcalendar/main.min.css">
 
     <link rel="shortcut icon" href="../styles/dist/img/icono.png">
 </head>

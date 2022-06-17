@@ -167,7 +167,7 @@ if (isset($_POST['btnregistermantreport'])) {
                                     <div class="card-header">
                                         <h5 class="card-title">Programa de mantenimiento e inspección</h5>
                                         <div class="card-tools">
-
+                                            <button class="btn btn-primary" onclick="showCalendar()">Ver calendario de mantenimiento</button>
                                             <a href="../report/ResumeTeams?teams=<?php echo $tk_teams; ?>"
                                                target="_blank" class="btn btn-danger">Ver formato</a>
                                         </div>
@@ -731,6 +731,25 @@ if (isset($_POST['btnregistermantreport'])) {
     <!-- /.modal-dialog -->
 </div>
 
+<div class="modal fade" id="modal-calendar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Calendario de Matenimientos</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="calendar"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     function deleteInspectionFrequency(id) {
         swal.fire({
@@ -848,4 +867,7 @@ if (isset($_POST['btnregistermantreport'])) {
         e.preventDefault();
         console.log(this);
     });*/
+
+    const maintenanceEvents = <?php echo json_encode($mtto->getInspection_of_mant_teamsForCalendar($tk_teams))?>;
+
 </script>

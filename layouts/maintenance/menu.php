@@ -35,7 +35,14 @@ $session = new UserFunctions();
           <?php echo $session->AdminTeams($tokenuser); ?>
           <?php echo $session->AdminWarehouse($tokenuser); ?>
           <?php echo $session->AdminProcedures($tokenuser); ?>
-
+            <li class="nav-item">
+                <a href="/pages/masterCalendar.php" class="nav-link">
+                    <i class="nav-icon far fa-image"></i>
+                    <p>
+                        Calendario de Edquipos
+                    </p>
+                </a>
+            </li>
           
           <?php
 
