@@ -2322,6 +2322,68 @@ class mtto{
         return json_encode($json_data);
     }
 
+    function SearchTeamActivities()
+    {
+        global $mysqli;
+
+        $resquest = $_REQUEST;
+
+        $sql = "SELECT id_team_activity, hours_worked, date, comment FROM team_activities";
+
+        $query = $mysqli->query($sql);
+        $totalData = $query->num_rows;
+
+        $totalFilter = $totalData;
+
+        if(!empty($resquest['search']['value']))
+        {
+            $sql.= "hours_worked LIKE '%".$resquest['search']['value']."%' OR date LIKE '%" . $resquest['search']['value'] ."%' OR comment LIKE '%" . $resquest['search']['value'] . "%'";
+        }
+        $query = $mysqli->query($sql);
+        $totalData = $query->num_rows;
+
+        $data = array();
+
+        while($row = $query->fetch_array())
+        {
+            $subdata = array();
+            $subdata[] = $row[2];
+            $subdata[] = $row[1];
+            $subdata[] = $row[3];
+            $subdata[] = "<div class='btn-group'>
+            </div>";
+            $data[] = $subdata;
+        }
+
+        $json_data = array(
+            "draw" => intval($resquest['draw']),
+            "recordsTotal"      => intval($totalData),
+            "recordsFiltered"   => intval($totalFilter),
+            "data"              => $data
+        );
+
+        return json_encode($json_data);
+    }
+
+    function insertTeamActivities($data)
+    {
+        global $mysqli;
+
+        $stmt = $mysqli->prepare("INSERT INTO team_activities (fk_teams_units, fk_user_id, hours_worked, date, comment) VALUES (?,?,?,?,?)");
+        $stmt->bind_param('sssss', $data['fk_teams_units'], $data['fk_user_id'], $data['hours_worked'], $data['date'], $data['comment']);
+        $id = $mysqli->insert_id;
+        if($stmt->execute())
+        {
+            $hourWorked = $data['hours_worked'];
+            $stmt = $mysqli->prepare("UPDATE teams_units_rsu SET accumulated_hours_worked = (accumulated_hours_worked + $hourWorked)");
+            $stmt->execute();
+            $stmt->close();
+            return $id;
+        }else{
+            return 0;
+        }
+    }
+
     //Eliminar productos de los consumibles
     function deleteProcedure($id)
     {
