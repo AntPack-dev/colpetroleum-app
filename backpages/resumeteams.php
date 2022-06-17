@@ -31,6 +31,7 @@ $description = $mtto->getValueMtto('description_teams_units', 'teams_units_rsu',
 $url_image_uno = $mtto->getValueMtto('teams_image_one', 'teams_units_rsu', 'token_teams_units', $tk_teams);
 $url_image_dos = $mtto->getValueMtto('teams_image_two', 'teams_units_rsu', 'token_teams_units', $tk_teams);
 $total_m = $mtto->getValueMtto('SUM(totalcost_teams_maint)', 'report_teams_maint', 'fk_teams_report_maint', $id_teams);
+$accumulated_hours_worked = $mtto->getValueMtto('accumulated_hours_worked', 'teams_units_rsu', 'token_teams_units', $tk_teams);
 
 $reference = $letter . "-" . $number;
 
@@ -145,6 +146,17 @@ if (isset($_POST['btnregistermantreport'])) {
 
 }
 
+if (isset($_POST['action']) && $_POST['action'] == 'team_activity_create') {
+    $reg = $mtto->insertTeamActivities([
+        'fk_teams_units'=> $id_teams,
+        'fk_user_id'=> $id_user,
+        'hours_worked'=> $_POST['team_activity_hours_worked'],
+        'date'=> $_POST['team_activity_date'],
+        'comment'=> $_POST['team_activity_comment'],
+    ]);
+    echo "<script> window.location='resumeteams?teams=" . $tk_teams . "'; </script>";
+}
+
 ?>
 
 <section class="content">
@@ -167,7 +179,7 @@ if (isset($_POST['btnregistermantreport'])) {
                                     <div class="card-header">
                                         <h5 class="card-title">Programa de mantenimiento e inspección</h5>
                                         <div class="card-tools">
-
+                                            <button class="btn btn-primary" onclick="showCalendar()">Ver calendario de mantenimiento</button>
                                             <a href="../report/ResumeTeams?teams=<?php echo $tk_teams; ?>"
                                                target="_blank" class="btn btn-danger">Ver formato</a>
                                         </div>
@@ -270,6 +282,15 @@ if (isset($_POST['btnregistermantreport'])) {
                                                     </div>
                                                     <input type="text" class="form-control" name="plate"
                                                            value="<?php echo $plate; ?>">
+                                                </div>
+
+                                                <div class="input-group mb-1 col-sm-6">
+                                                    <div class="input-group-prepend">
+                                                        <span style="background-color: #F8F9F9;"
+                                                              class="input-group-text">Horas Trabajadas</span>
+                                                    </div>
+                                                    <input type="text" class="form-control"
+                                                           value="<?php echo $accumulated_hours_worked; ?>" readonly>
                                                 </div>
 
                                                 <div class="input-group mb-1 col-sm-12">
@@ -412,9 +433,30 @@ if (isset($_POST['btnregistermantreport'])) {
                             </div>
 
 
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title">Registros de actividades diarias</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <table id="id_table_activities" class="display" style="width: 100%;">
+                                            <thead>
+                                            <tr>
+                                                <th>Fecha</th>
+                                                <th>Horas trabajadas</th>
+                                                <th>Comentario</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody style="text-align: center;">
+                                            </tbody>
+                                        </table>
+                                        <button class='btn btn-danger' data-toggle='modal' data-target='#modal-reg-act-daily'>
+                                            Registrar Actividad
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-
-
                     </div>
                 </div>
             </div>
@@ -731,6 +773,76 @@ if (isset($_POST['btnregistermantreport'])) {
     <!-- /.modal-dialog -->
 </div>
 
+
+<!-- REGISTRAR ACTIVIDAD DE TRABAJO DEL EQUIPO -->
+<div class="modal fade" id="modal-reg-act-daily">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                    <h4 class="modal-title">Registrar actividad del Equipo
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="<?php $_SERVER['PHP_SELF'] ?>" method="POST">
+                <input type="hidden" name="action" value="team_activity_create">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="inputSuccess">Fecha:<b style="color:#B20F0F;">*</b></label>
+                                <input type="date" class="form-control" name="team_activity_date" required>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Horas trabajadas</label>
+                                <input type="number" class="form-control" name="team_activity_hours_worked" required>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>Comentario</label>
+                                <textarea name="team_activity_comment" class="form-control" rows="5"></textarea>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success" >Guardar</button>
+                </div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="modal-calendar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Calendario de Matenimientos</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="calendar"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     function deleteInspectionFrequency(id) {
         swal.fire({
@@ -848,4 +960,7 @@ if (isset($_POST['btnregistermantreport'])) {
         e.preventDefault();
         console.log(this);
     });*/
+
+    const maintenanceEvents = <?php echo json_encode($mtto->getInspection_of_mant_teamsForCalendar($tk_teams))?>;
+
 </script>

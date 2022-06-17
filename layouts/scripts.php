@@ -35,6 +35,7 @@
 
 <script src="../Js/DataTablesAdminUser.js"></script>
 <script src="../styles/plugins/summernote/summernote.min.js"></script>
+<script src="../styles/plugins/fullcalendar/main.min.js"></script>
 <script src="../Js/general.js"></script>
 
 

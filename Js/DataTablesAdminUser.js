@@ -400,6 +400,24 @@ $(document).ready(function(){
     })
 });
 
+$(document).ready(function(){
+    $('#id_table_activities').DataTable({
+        paging: true,
+        scrollY: 400,
+        hover: true,
+        language: spanish,
+        autoWidth: true,
+        responsive: true,
+        info: true,
+        processing: true,
+        serverside: true,
+        ajax:{
+            url: "../functions/Search/SearchTeamActivities.php",
+            type: "POST"
+        }
+    })
+});
+
 
 $(document).ready(function(){
     load_data();
