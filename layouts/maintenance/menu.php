@@ -39,7 +39,7 @@ $session = new UserFunctions();
                 <a href="/pages/masterCalendar.php" class="nav-link">
                     <i class="nav-icon far fa-image"></i>
                     <p>
-                        Calendario de Edquipos
+                        Calendario General
                     </p>
                 </a>
             </li>

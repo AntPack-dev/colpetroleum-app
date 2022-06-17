@@ -50,58 +50,78 @@ $admin = new Admin();
                                 <p id="tipo-equipo"></p>
                             </div>
                         </div>
-                        <div class="col-md-6">
+
+                        <div id="container-modelo" class="col-md-6">
                             <div class="form-group">
                                 <label>Modelo</label>
                                 <p id="modelo"></p>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div id="container-serie" class="col-md-6">
                             <div class="form-group">
                                 <label>Serie</label>
                                 <p id="serie"></p>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div id="container-referencia" class="col-md-6">
                             <div class="form-group">
                                 <label>Referencia</label>
                                 <p id="referencia"></p>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div id="container-capacidad" class="col-md-6">
                             <div class="form-group">
                                 <label>Capacidad</label>
                                 <p id="capacidad"></p>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div id="container-marca" class="col-md-6">
                             <div class="form-group">
                                 <label>Marca</label>
                                 <p id="marca"></p>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div id="container-placa" class="col-md-6">
                             <div class="form-group">
                                 <label>Placa</label>
                                 <p id="placa"></p>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div id="container-caracteristicas" class="col-md-6">
                             <div class="form-group">
                                 <label>Caracteristicas</label>
                                 <p id="caracteristicas"></p>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div id="container-mantenimiento" class="col-md-6">
                             <div class="form-group">
                                 <label>Matenimiento</label>
                                 <p id="mantenimiento"></p>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div id="container-frecuencia" class="col-md-6">
                             <div class="form-group">
                                 <label>Frecuencia</label>
                                 <p id="frecuencia"></p>
+                            </div>
+                        </div>
+
+                        <div id="container-fecha-activity" class="col-md-6">
+                            <div class="form-group">
+                                <label>Fecha</label>
+                                <p id="fecha-activity"></p>
+                            </div>
+                        </div>
+                        <div id="container-hours-activity" class="col-md-6">
+                            <div class="form-group">
+                                <label>Horas Trabajadas</label>
+                                <p id="hours-activity"></p>
+                            </div>
+                        </div>
+                        <div id="container-comment-activity" class="col-md-6">
+                            <div class="form-group">
+                                <label>Comentario</label>
+                                <p id="comment-activity"></p>
                             </div>
                         </div>
                     </div>
