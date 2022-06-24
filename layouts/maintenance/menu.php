@@ -51,6 +51,14 @@ $session = new UserFunctions();
                     </p>
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="/pages/adminrequisition.php" class="nav-link">
+                    <i class="nav-icon far fa-image"></i>
+                    <p>
+                        Administrar requisiciones
+                    </p>
+                </a>
+            </li>
           
           <?php
 
