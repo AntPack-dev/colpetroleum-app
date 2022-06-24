@@ -21,7 +21,7 @@ if ($_GET['action'] == 'entregar') {
                 <h5>Requisiciones</h5>
             </div>
             <div class="col-md-12">
-                <div class="card card-primary card-tabs">
+                <div class="card card-danger card-tabs">
                     <div class="card-header p-0 pt-1">
                         <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
                             <li class="nav-item">
