@@ -20,6 +20,16 @@ $('#frequency_type_edit').change(function () {
     }
 });
 
+$('#team_activity_type').change(function () {
+    if (this.value == 1) {
+        $('#div_team_activity_hours_worked').show();
+        $('#team_activity_hours_worked').attr('required', 'required');
+    } else {
+        $('#div_team_activity_hours_worked').hide();
+        $('#team_activity_hours_worked').removeAttr('required');
+    }
+});
+
 $('#form_inspection_of_mant_teams').on('submit', function (e) {
     e.preventDefault();
     const frequencyType = $('#frequency_type').val();
@@ -48,38 +58,38 @@ if (calendarEl) {
     maintenanceEvents.forEach(event => {
         if (event.type_row == 'frecuencia') {
             const dateParts = event.next_date.split("-");
-            const jsDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2].substr(0,2));
+            const jsDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2].substr(0, 2));
 
             eventResults.push({
-                title          : event.maintenance_carried,
-                start          : jsDate,
-                allDay         : false,
+                title: event.maintenance_carried,
+                start: jsDate,
+                allDay: false,
                 backgroundColor: '#0073b7', //Blue
-                borderColor    : '#0073b7' //Blue
+                borderColor: '#0073b7' //Blue
             });
         } else {
             const dateParts = event.date.split("-");
-            const jsDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2].substr(0,2));
+            const jsDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2].substr(0, 2));
             eventResults.push({
-                title          : event.comment ? event.comment : 'Horas Trabajadas',
-                start          : jsDate,
-                allDay         : false,
+                title: event.comment ? event.comment : 'Horas Trabajadas',
+                start: jsDate,
+                allDay: false,
                 backgroundColor: '#b7002b', //Blue
-                borderColor    : '#b7002b' //Blue
+                borderColor: '#b7002b' //Blue
             });
         }
     });
     var calendar = new Calendar(calendarEl, {
         headerToolbar: {
-            left  : 'prev,next today',
+            left: 'prev,next today',
             center: 'title',
-            right : 'dayGridMonth,timeGridWeek,timeGridDay'
+            right: 'dayGridMonth,timeGridWeek,timeGridDay'
         },
         themeSystem: 'bootstrap',
         //Random default events
         events: eventResults,
-        editable  : true,
-        eventClick: function(info) {
+        editable: true,
+        eventClick: function (info) {
             alert(info.event.title);
         }
     });
@@ -103,41 +113,41 @@ if (generalCalendarEl) {
         if (event.type_row == 'frecuencia') {
             if (event.next_date) {
                 const dateParts = event.next_date.split("-");
-                const jsDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2].substr(0,2));
+                const jsDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2].substr(0, 2));
 
                 eventResults.push({
-                    title          : `${event.type_teams_units} / ${event.name_teams_units} ${event.maintenance_carried}`,
-                    start          : jsDate,
-                    allDay         : false,
+                    title: `${event.type_teams_units} / ${event.name_teams_units} ${event.maintenance_carried}`,
+                    start: jsDate,
+                    allDay: false,
                     backgroundColor: '#0073b7', //Blue
-                    borderColor    : '#0073b7', //Blue,
+                    borderColor: '#0073b7', //Blue,
                     extraDataAttrs: event
                 });
             }
         } else {
             const dateParts = event.date.split("-");
-            const jsDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2].substr(0,2));
+            const jsDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2].substr(0, 2));
             eventResults.push({
-                title          : (`${event.type_teams_units} / ${event.name_teams_units} ` + (event.comment ? event.comment : 'Horas Trabajadas')),
-                start          : jsDate,
-                allDay         : false,
+                title: (`${event.type_teams_units} / ${event.name_teams_units} ` + (event.comment ? event.comment : 'Horas Trabajadas')),
+                start: jsDate,
+                allDay: false,
                 backgroundColor: '#b7002b', //Blue
-                borderColor    : '#b7002b', //Blue,
+                borderColor: '#b7002b', //Blue,
                 extraDataAttrs: event
             });
         }
     });
     var calendar = new Calendar(generalCalendarEl, {
         headerToolbar: {
-            left  : 'prev,next today',
+            left: 'prev,next today',
             center: 'title',
-            right : 'dayGridMonth,timeGridWeek,timeGridDay'
+            right: 'dayGridMonth,timeGridWeek,timeGridDay'
         },
         themeSystem: 'bootstrap',
         //Random default events
         events: eventResults,
-        editable  : true,
-        eventClick: function(info) {
+        editable: true,
+        eventClick: function (info) {
             if (info.event.extendedProps.extraDataAttrs.type_row == 'frecuencia') {
                 $('#nombre-especifico').text(info.event.extendedProps.extraDataAttrs.name_teams_units);
                 $('#tipo-equipo').text(info.event.extendedProps.extraDataAttrs.type_teams_units);
