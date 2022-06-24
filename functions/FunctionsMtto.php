@@ -2430,8 +2430,8 @@ class mtto{
             $mail->SMTPSecure = 'tls';
             $mail->Host = 'smtp.mailtrap.io';
             $mail->Port = 2525;
-            $mail->Username = 'fc26ece49efa41';
-            $mail->Password = '2c938163bdabfe';
+            $mail->Username = '1355a47bcecae7';
+            $mail->Password = '515048fe7327d4';
 
 
             $mail->setFrom('cpsmtto@colpetroleumservices.com','CPS MTTO');
@@ -10385,6 +10385,19 @@ class mtto{
     function obtenerRequisiciones() {
         global $mysqli;
         $result = $mysqli->query('select user_id, admin_id, equipment, requested_items, place, request_date, delivery_date, status, status_text from requisitions where user_id = ' . $_SESSION['id_user']);
+        $resultArr = [];
+        if ($result->num_rows > 0) {
+            // output data of each row
+            while($row = $result->fetch_assoc()) {
+                $resultArr[] = $row;
+            }
+        }
+        return $resultArr;
+    }
+
+    function obtenerRequisicionesAdmin($status) {
+        global $mysqli;
+        $result = $mysqli->query("select user_id, admin_id, equipment, requested_items, place, request_date, delivery_date, status, status_text, users.first_name, users.second_name from requisitions inner join users on users.id_user = requisitions.user_id where status = $status");
         $resultArr = [];
         if ($result->num_rows > 0) {
             // output data of each row
