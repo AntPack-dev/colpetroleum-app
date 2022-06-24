@@ -6,7 +6,7 @@ class mtto{
     //Devuelve la fecha para registrar.
     function DateMtto()
     {
-        date_default_timezone_set('America/Bogota'); 
+        date_default_timezone_set('America/Bogota');
 
         $date = date("Y-m-d H:i:s");
 
@@ -81,7 +81,7 @@ class mtto{
             foreach($errors as $error)
             {
                 echo $error. "<br>";
-            }            
+            }
             echo "</div>";
         }
     }
@@ -104,7 +104,7 @@ class mtto{
         }
 
     }
-    
+
     //Registrar Almacén
     function RegisterWarehouse($tokenwarehouse, $namewarehouse, $datewarehouse, $statewarehouse)
     {
@@ -203,7 +203,7 @@ class mtto{
 
         if(!empty($resquest['search']['value']))
         {
-            $sql.= "description_warehouse LIKE '".$resquest['search']['value']."%'";            
+            $sql.= "description_warehouse LIKE '".$resquest['search']['value']."%'";
         }
         $query = $mysqli->query($sql);
         $totalData = $query->num_rows;
@@ -276,7 +276,7 @@ class mtto{
         while($row = $query->fetch_array())
         {
             $subdata = array();
-            
+
             $subdata[] = $row[4]."".$row[5];
             $subdata[] = $row[2];
             $subdata[] = $row[6];
@@ -317,7 +317,7 @@ class mtto{
 
         if(!empty($resquest['search']['value']))
         {
-            $sql.= "description_warehouse LIKE '".$resquest['search']['value']."%'";            
+            $sql.= "description_warehouse LIKE '".$resquest['search']['value']."%'";
         }
         $query = $mysqli->query($sql);
         $totalData = $query->num_rows;
@@ -422,8 +422,8 @@ class mtto{
 						<!-- /.modal-content -->
 						</div>
 						<!-- /.modal-dialog -->
-					</div>";                 
-                
+					</div>";
+
 
             }
 
@@ -485,7 +485,7 @@ class mtto{
         $query = $mysqli->query($sql);
         $totalData = $query->num_rows;
 
-        $totalFilter = $totalData;     
+        $totalFilter = $totalData;
 
         $data = array();
 
@@ -558,7 +558,7 @@ class mtto{
 
     //Opciones de activos registrados
     function OptionActiveA($value)
-    {   
+    {
         global $mysqli;
 
         $stmt = $mysqli->prepare("SELECT id_spares, concept_warehouse, num_concept_warehouse, description_element_spares, unity_spares, stock_spares FROM spares_parts WHERE warehouse_reference_spares = ?");
@@ -680,14 +680,14 @@ class mtto{
 
         $totalFilter = $totalData;
 
-        //Search 
+        //Search
 
         $sql = "SELECT * FROM spares_parts INNER JOIN type_active ON spares_parts.type_element_spares = type_active.id_type_active WHERE warehouse_reference_spares = '".$ware."'";
 
         if(!empty($resquest['search']['value']))
         {
-            $sql.= "description_element_spares LIKE '".$resquest['search']['value']."%'";            
-            $sql.= "OR maker_spares LIKE '".$resquest['search']['value']."%'";            
+            $sql.= "description_element_spares LIKE '".$resquest['search']['value']."%'";
+            $sql.= "OR maker_spares LIKE '".$resquest['search']['value']."%'";
         }
         $query = $mysqli->query($sql);
         $totalData = $query->num_rows;
@@ -701,7 +701,7 @@ class mtto{
             $subdata = array();
             $subdata[] = $row[3]."-".$row[4];//Número del registro
             $subdata[] = $row[6];//Descripción del activo
-            $subdata[] = $row[19];//Tipo de activo   
+            $subdata[] = $row[19];//Tipo de activo
             $subdata[] = $row[8];//Unidad del activo
             $subdata[] = $row[14];//Alarma de requisición
             $subdata[] = "$ ".number_format($row[10]);//Valor unitario
@@ -722,11 +722,11 @@ class mtto{
         );
 
         return json_encode($json_data);
-    }  
+    }
 
     //Consulta tres tablas y el formulario para completar el analisis de costos
     function SearchAnalysisCosts($value)
-    {  
+    {
         global $mysqli;
 
         $mtto = new mtto();
@@ -741,7 +741,7 @@ class mtto{
 
         $top = $letter."".$number;
 
-        $form = "";  
+        $form = "";
 
         $form = "
 
@@ -783,16 +783,16 @@ class mtto{
 
         
         ";
-        
-        
+
+
 
         //CONSULTA DEL PERSONAL
 
-        $subsuma = 0; 
+        $subsuma = 0;
         $subsumas = 0;
         $subsum = 0;
-        $nums = 0; 
-        $nus = 0;        
+        $nums = 0;
+        $nus = 0;
 
         $stmtp = $mysqli->prepare("SELECT id_person, token_person, fk_id_workforce, unit_measure, 
         cant_hours_person, unity_value_person, partial_value_person FROM person_analysis WHERE fk_warehouse_person_analysis = ? AND state_person_analysis = 0");
@@ -1017,7 +1017,7 @@ class mtto{
 						<!-- /.modal-dialog -->
 					</div>";
 
-                    
+
                     }
 
                     $form.="               
@@ -1070,10 +1070,10 @@ class mtto{
             }
 
             if($numg > 0)
-            {     
-                $tableexp = "expected_analysis";  
-                $condicg = "token_expected_analysis"; 
-                
+            {
+                $tableexp = "expected_analysis";
+                $condicg = "token_expected_analysis";
+
                 $stmtg->bind_result($idexpect, $tokenexpect, $descriptionexp, $unityexp, $cantexp, $unityvalueexp, $partialvalueexp);
 
                 $form.= "
@@ -1155,7 +1155,7 @@ class mtto{
                     
                 </div>
 
-                    ";                   
+                    ";
 
             }
             else
@@ -1337,9 +1337,9 @@ class mtto{
           
           ";
         }
-        return $form;       
+        return $form;
 
-    }    
+    }
 
     //Valida un valor
     function ValideValue($value)
@@ -1421,7 +1421,7 @@ class mtto{
 
     //Devuelve el ultimo número del analisis de costos
     function AfterNumAnalisys($value)
-    {        
+    {
         global $mysqli;
 
         $top = 0;
@@ -1439,7 +1439,7 @@ class mtto{
         return $top;
     }
 
-    //Inserta el analisis de costos 
+    //Inserta el analisis de costos
     function InsertAnalisysData($token, $date, $id_warehouse, $letter, $number, $description, $totalvalue, $state)
     {
         global $mysqli;
@@ -1495,7 +1495,7 @@ class mtto{
         if($num > 0)
         {
 
-            $stmt->bind_result($namework, $unitmea, $canthours, $unityvaleperson, $partialvalueper);          
+            $stmt->bind_result($namework, $unitmea, $canthours, $unityvaleperson, $partialvalueper);
 
             $tablep = "<table style='border: 1px solid black; margin-top: 10px;'>
 
@@ -1527,7 +1527,7 @@ class mtto{
                     <td style='border: 1px solid black; width: 100px; height: 20px;'>$".number_format($partialvalueper)."</td>
                 </tr>";
 
-            }            
+            }
 
             $tablep.="
             
@@ -1578,7 +1578,7 @@ class mtto{
                     <th style='border: 1px solid black; width: 559px; text-align:right; background-color: #F2DCDB'>SUB TOTAL ACTIVIDAD</th>
                     <td style='border: 1px solid black; width: 100px; text-align: center;'>$".number_format($subsuma)."</td>
                 </tr>
-            </table>";   
+            </table>";
         }
 
         return $tablep;
@@ -1594,7 +1594,7 @@ class mtto{
 
         $tablep = "";
 
-        
+
         $subsuma = 0;
 
         $id_analisys = $mtto->getValueMtto('id_analysis_data','analysis_data','token_analysis_data',$value);
@@ -1733,7 +1733,7 @@ class mtto{
             </tr>";
 
             while($stmt->fetch())
-            {   
+            {
                 $nums = $nums + 1;
                 $subsuma +=$partialvalueexp;
                 $tablep.="
@@ -1762,7 +1762,7 @@ class mtto{
             ";
         }
         else
-        {   
+        {
             $tablep.="<table style='border: 1px solid black; margin-top: 10px;'>
 
         
@@ -1927,8 +1927,8 @@ class mtto{
     function SumStockActive($active_ea, $cant_ea)
     {
         $sub = 0;
-        
-        global $mysqli;       
+
+        global $mysqli;
 
         $mysqli->begin_transaction();
         $consult = $mysqli->prepare("SELECT stock_spares FROM spares_parts WHERE id_spares = ?");
@@ -1938,7 +1938,7 @@ class mtto{
         $consult->store_result();
         $consult->bind_result($stock);
         $consult->fetch();
-        
+
         $sub = $stock + $cant_ea;
 
         $mysqli->begin_transaction();
@@ -1967,7 +1967,7 @@ class mtto{
         $consult->bind_result($stock);
         $consult->fetch();
 
-       
+
         $sub = $stock - $cant_sa;
 
         $mysqli->begin_transaction();
@@ -1975,9 +1975,9 @@ class mtto{
         $stmt->bind_param('ii', $sub, $active_sa);
         $mysqli->commit();
         $stmt->execute();
-        $stmt->close();     
+        $stmt->close();
 
-       
+
 
     }
 
@@ -2001,7 +2001,7 @@ class mtto{
 
         if(!empty($resquest['search']['value']))
         {
-            $sql.= "description_element_spares LIKE '".$resquest['search']['value']."%'";          
+            $sql.= "description_element_spares LIKE '".$resquest['search']['value']."%'";
         }
         $query = $mysqli->query($sql);
         $totalData = $query->num_rows;
@@ -2013,10 +2013,10 @@ class mtto{
         {
             $subdata = array();
             $subdata[] = $row[0];
-            $subdata[] = $row[1];            
+            $subdata[] = $row[1];
             $subdata[] = $row[2]."-".$row[3];
             $subdata[] = $row[4];
-            $subdata[] = $row[5];           
+            $subdata[] = $row[5];
 
             $data[] = $subdata;
 
@@ -2053,7 +2053,7 @@ class mtto{
 
         if(!empty($resquest['search']['value']))
         {
-            $sql.= "description_element_spares LIKE '".$resquest['search']['value']."%'";          
+            $sql.= "description_element_spares LIKE '".$resquest['search']['value']."%'";
         }
         $query = $mysqli->query($sql);
         $totalData = $query->num_rows;
@@ -2065,10 +2065,10 @@ class mtto{
         {
             $subdata = array();
             $subdata[] = $row[0];
-            $subdata[] = $row[1];            
+            $subdata[] = $row[1];
             $subdata[] = $row[2]."-".$row[3];
-            $subdata[] = $row[4];  
-            $subdata[] = $row[5];         
+            $subdata[] = $row[4];
+            $subdata[] = $row[5];
 
             $data[] = $subdata;
 
@@ -2199,7 +2199,7 @@ class mtto{
 
         if(!empty($resquest['search']['value']))
         {
-            $sql.= "reference_units_rsu LIKE '".$resquest['search']['value']."%'";          
+            $sql.= "reference_units_rsu LIKE '".$resquest['search']['value']."%'";
         }
         $query = $mysqli->query($sql);
         $totalData = $query->num_rows;
@@ -2210,14 +2210,14 @@ class mtto{
         {
             $subdata = array();
             $subdata[] = $row[1];
-            $subdata[] = $row[0];            
+            $subdata[] = $row[0];
             $subdata[] = $row[2];
-            $subdata[] = $row[5];  
+            $subdata[] = $row[5];
             $subdata[] = $row[6];
             $subdata[] = "<div class='btn-group'>
             <a class='btn btn-default btn-sm' title='Detalles' href='cpanelunits?units=".$row[7]."'><i class='fas fa-info-circle'></i></a>
                              
-            </div>";         
+            </div>";
 
             $data[] = $subdata;
 
@@ -2328,7 +2328,7 @@ class mtto{
 
         $resquest = $_REQUEST;
 
-        $sql = "SELECT id_team_activity, hours_worked, date, comment FROM team_activities";
+        $sql = "SELECT id_team_activity, hours_worked, date, comment, IF(`type` = 1, 'Horas de trabajo', 'Cambio de aceite') AS type_text FROM team_activities";
 
         $query = $mysqli->query($sql);
         $totalData = $query->num_rows;
@@ -2348,10 +2348,11 @@ class mtto{
         {
             $subdata = array();
             $subdata[] = $row[2];
+            $subdata[] = $row[4];
             $subdata[] = $row[1];
             $subdata[] = $row[3];
-            $subdata[] = "<div class='btn-group'>
-            </div>";
+//            $subdata[] = "<div class='btn-group'>
+//            </div>";
             $data[] = $subdata;
         }
 
@@ -2369,18 +2370,88 @@ class mtto{
     {
         global $mysqli;
 
-        $stmt = $mysqli->prepare("INSERT INTO team_activities (fk_teams_units, fk_user_id, hours_worked, date, comment) VALUES (?,?,?,?,?)");
-        $stmt->bind_param('sssss', $data['fk_teams_units'], $data['fk_user_id'], $data['hours_worked'], $data['date'], $data['comment']);
+        $stmt = $mysqli->prepare("INSERT INTO team_activities (fk_teams_units, fk_user_id, hours_worked, date, comment, type) VALUES (?,?,?,?,?,?)");
+        $stmt->bind_param('ssssss', $data['fk_teams_units'], $data['fk_user_id'], $data['hours_worked'], $data['date'], $data['comment'], $data['type']);
         $id = $mysqli->insert_id;
         if($stmt->execute())
         {
-            $hourWorked = $data['hours_worked'];
-            $stmt = $mysqli->prepare("UPDATE teams_units_rsu SET accumulated_hours_worked = (accumulated_hours_worked + $hourWorked)");
-            $stmt->execute();
-            $stmt->close();
+            if (!empty($data['hours_worked'])) {
+                $hourWorked = $data['hours_worked'];
+                $stmt = $mysqli->prepare("UPDATE teams_units_rsu SET accumulated_hours_worked = (accumulated_hours_worked + $hourWorked) WHERE id_teams_units = " . $data['fk_teams_units']);
+                $stmt->execute();
+                $stmt->close();
+
+                //validar horas trabajadas
+                $sql = "SELECT id_teams_units, token_teams_units, letter_units_teams, number_teams_units, plate_teams_units, accumulated_hours_worked FROM teams_units_rsu WHERE id_teams_units = ".$data['fk_teams_units'];
+                $result = $mysqli->query($sql);
+                $row   = $result->fetch_array();
+
+                if($row['accumulated_hours_worked'] >= 190 && $row['accumulated_hours_worked'] < 200) {
+                    //enviar correo
+                    $this->envioDeNotificacionCambioAceite($row);
+                } elseif($row['accumulated_hours_worked'] >= 200) {
+                    $this->envioDeNotificacionCambioAceite($row, true);
+                }
+            }
+
+            if (!empty($data['type']) && $data['type'] == 2) {
+                $stmt = $mysqli->prepare("UPDATE teams_units_rsu SET accumulated_hours_worked = 0 WHERE id_teams_units = " .$data['fk_teams_units']);
+                $stmt->execute();
+                $stmt->close();
+            }
+
             return $id;
         }else{
             return 0;
+        }
+    }
+
+    function envioDeNotificacionCambioAceite($equipo, $flagUrgente = false)
+    {
+        global $mysqli;
+
+        //obtener administradores
+        $result = $mysqli->query('select first_name, second_name, email_user from asign_permits inner join users on users.id_user = asign_permits.user_id_asign where id_module_permit = 1 group by user_id_asign');
+        $usersEmails = [];
+        if ($result->num_rows > 0) {
+            // output data of each row
+            while($row = $result->fetch_assoc()) {
+                $usersEmails[] = $row;
+            }
+
+            require_once '../bookstores/PHPMailer/PHPMailerAutoload.php';
+            $template = file_get_contents('../report/view/notificacionCambioAceite.php');
+            $template = str_replace("{{indicadorUrgente}}", $flagUrgente ? 'URGENTE!' : '', $template);
+            $template = str_replace("{{nombreDeEquipo}}", $equipo['letter_units_teams'] . ' con placa '. $equipo['plate_teams_units'], $template);
+
+            $mail = new PHPMailer();
+            $mail->isSMTP();
+            $mail->SMTPAuth = true;
+            $mail->SMTPSecure = 'tls';
+            $mail->Host = 'smtp.mailtrap.io';
+            $mail->Port = 2525;
+            $mail->Username = 'fc26ece49efa41';
+            $mail->Password = '2c938163bdabfe';
+
+
+            $mail->setFrom('cpsmtto@colpetroleumservices.com','CPS MTTO');
+            $mail->addAddress($usersEmails[0]['email_user'], $usersEmails[0]['first_name'] . ' ' . $usersEmails[0]['second_name']);
+            foreach ($usersEmails as $key => $usersEmail) {
+                if($key > 0) {
+                    $mail->addCC($usersEmail['email_user'], $usersEmail['first_name'] . ' ' . $usersEmail['second_name']);
+                }
+            }
+            $mail->wordwrap = 50;
+
+            $mail->Subject = 'Cambio de Aceite';
+            $mail->Body = $template;
+            $mail->isHTML(true);
+            $mail->CharSet = 'UTF-8';
+
+            if($mail->send())
+                return true;
+            else
+                return false;
         }
     }
 
@@ -2410,7 +2481,7 @@ class mtto{
 
         while($stmt->fetch())
         {
-            
+
 
             echo "<option value=".$id_units."> Unidad: ".$reference_units."</option>";
         }
@@ -2427,7 +2498,7 @@ class mtto{
         $stmt->bind_result($id_report, $num_report, $reference_report, $teams_report);
 
         while($stmt->fetch())
-        {           
+        {
 
             echo "<option value=".$id_report.">".$num_report."-".$reference_report."-".$teams_report."</option>";
         }
@@ -2528,7 +2599,7 @@ class mtto{
 
         if(!empty($resquest['search']['value']))
         {
-            $sql.= "name_teams_units LIKE '".$resquest['search']['value']."%'";          
+            $sql.= "name_teams_units LIKE '".$resquest['search']['value']."%'";
         }
         $query = $mysqli->query($sql);
         $totalData = $query->num_rows;
@@ -2540,12 +2611,12 @@ class mtto{
         {
             $subdata = array();
             $subdata[] = $row[0]."-".$row[1];
-            $subdata[] = $row[2];            
+            $subdata[] = $row[2];
             $subdata[] = $row[3];
-            $subdata[] = $row[4];  
-            $subdata[] = $row[5];         
-            $subdata[] = $row[6];         
-            $subdata[] = $row[7];         
+            $subdata[] = $row[4];
+            $subdata[] = $row[5];
+            $subdata[] = $row[6];
+            $subdata[] = $row[7];
             $subdata[] = $row[8];
             $subdata[] = $row[9];
             $subdata[] = $row[10];
@@ -2553,7 +2624,7 @@ class mtto{
             <a class='btn btn-default btn-sm' title='Ver información' href='resumeteams?teams=".$row[11]."'><i class='fas fa-file'></i></a>
                              
             </div>";
-            
+
 
             $data[] = $subdata;
 
@@ -2607,7 +2678,7 @@ class mtto{
 
         if($num > 0)
         {
-            
+
 
             $stmt->bind_result($id_inspection_mant_teams, $maintenance, $frequency, $frequency_type, $frequency_type_text, $frequency_value_hours, $frequency_value_date);
 
@@ -2739,7 +2810,7 @@ class mtto{
     }
 
 
-    //Actualiza los datos del equipo 
+    //Actualiza los datos del equipo
     function UpdateDetailsTeams($type_up, $model_up, $mark_up, $name_up, $serie_up, $capacity_up, $plate_up, $description_up, $tk_teams)
     {
         global $mysqli;
@@ -2772,7 +2843,7 @@ class mtto{
 
         $ruta = '../images/'.$imagendos['imagendos']['name'];
         move_uploaded_file($imagendos['imagendos']['tmp_name'],$ruta);
-        
+
         $stmt = $mysqli->prepare("UPDATE teams_units_rsu SET teams_image_two = ? WHERE 	token_teams_units = ?");
         $stmt->bind_param('ss', $ruta, $tk_teams);
         $stmt->execute();
@@ -2834,7 +2905,7 @@ class mtto{
     //Busca los reporte de fallas y mantenimientos
     function SearchReportFails()
     {
-        global $mysqli;       
+        global $mysqli;
 
         $resquest = $_REQUEST;
 
@@ -2848,11 +2919,11 @@ class mtto{
 
         $sql = "SELECT num_report_fails, reference_teams_report_fails, no_analysis_report_fails, name_teams_report_fails, name_report_fails, description_report_fails,
         datereg_report_fails, costnpt_report_fails, time_stop_report_fails, warning_person_report_fails, 
-        warning_ambiental_report_fails, token_report_fails FROM report_fails";        
+        warning_ambiental_report_fails, token_report_fails FROM report_fails";
 
         if(!empty($resquest['search']['value']))
         {
-            $sql.= "name_report_fails LIKE '".$resquest['search']['value']."%'";          
+            $sql.= "name_report_fails LIKE '".$resquest['search']['value']."%'";
         }
         $query = $mysqli->query($sql);
         $totalData = $query->num_rows;
@@ -2862,7 +2933,7 @@ class mtto{
 
         while($row = $query->fetch_array())
         {
-            
+
             if($row[9] == "NO")
             {
                 $ct = "<small class='badge badge-danger'>NO</small>";
@@ -2874,7 +2945,7 @@ class mtto{
 
             if($row[10] == "NO")
             {
-                $ca = "<small class='badge badge-danger'>NO</small>";;   
+                $ca = "<small class='badge badge-danger'>NO</small>";;
             }
             else
             {
@@ -2884,18 +2955,18 @@ class mtto{
             $subdata = array();
             $subdata[] = $row[0];
             $subdata[] = $row[3];
-            $subdata[] = $row[1];            
+            $subdata[] = $row[1];
             $subdata[] = $row[5];
-            $subdata[] = $row[8];  
-            $subdata[] = $ct;         
-            $subdata[] = $ca;         
-            $subdata[] = $row[6];         
+            $subdata[] = $row[8];
+            $subdata[] = $ct;
+            $subdata[] = $ca;
+            $subdata[] = $row[6];
             $subdata[] = $row[2];
             $subdata[] = "<div class='btn-group'>
             <a class='btn btn-default btn-sm' title='Ver información' href='../report/ReportFails?report=".$row[11]."' target='_blank'><i class='fas fa-file'></i></a>
                              
             </div>";
-            
+
 
             $data[] = $subdata;
 
@@ -2938,7 +3009,7 @@ class mtto{
     
             </div>
 
-        </div>";  
+        </div>";
 
         return $widget;
 
@@ -2978,7 +3049,7 @@ class mtto{
     //Consulta el total de costos NPT, para establecer en el reporte (F-270).
     function TotalMantReport($value)
     {
-        global $mysqli;       
+        global $mysqli;
 
         $stmt = $mysqli->prepare("SELECT SUM(totalcost_teams_maint) AS TOTAL FROM report_teams_maint AS a INNER JOIN 
         teams_units_rsu AS b ON a.fk_teams_report_maint = b.id_teams_units INNER JOIN 
@@ -2987,7 +3058,7 @@ class mtto{
         $stmt->execute();
         $stmt->store_result();
         $stmt->bind_result($total_m);
-        $stmt->fetch();       
+        $stmt->fetch();
 
         return $total_m;
     }
@@ -2995,7 +3066,7 @@ class mtto{
     //Consulta el total de costos NPT, para establecer en el reporte (F-270).
     function TotalNPTReport($value)
     {
-        global $mysqli;       
+        global $mysqli;
 
         $stmt = $mysqli->prepare("SELECT SUM(a.costnpt_report_fails) AS TOTAL FROM report_fails AS a INNER JOIN 
         father_units_rsu AS b ON a.fk_units_report_fail = b.id_units_rsu WHERE b.id_units_rsu = ?");
@@ -3003,7 +3074,7 @@ class mtto{
         $stmt->execute();
         $stmt->store_result();
         $stmt->bind_result($total_n);
-        $stmt->fetch();       
+        $stmt->fetch();
 
         return $total_n;
     }
@@ -3099,7 +3170,7 @@ class mtto{
 
         $table = "";
 
-        
+
 
         $val = $mt->getValueMtto('id_teams_units','teams_units_rsu','token_teams_units',$value);
 
@@ -3119,7 +3190,7 @@ class mtto{
             <th style='border: 1px solid black; width:400px;'>FRECUENCIA</th>
           </tr>";
 
-            
+
 
             while($stmt->fetch())
             {
@@ -3259,7 +3330,7 @@ class mtto{
                             
                             </tr>";
             }
-            
+
 
         }
         else
@@ -3301,7 +3372,7 @@ class mtto{
             return 0;
         }
     }
-    
+
     //Trae el ultimo número del registro
     function TopReportMaint()
     {
@@ -3322,8 +3393,8 @@ class mtto{
 
     //Busca los reportes de mantenimientos
     function SearchReportMant()
-    {   
-        global $mysqli;       
+    {
+        global $mysqli;
 
         $resquest = $_REQUEST;
 
@@ -3335,11 +3406,11 @@ class mtto{
         $totalFilter = $totalData;
 
         $sql = "SELECT number_report_mant, type_activity_report_maint, location_report_mant, reference_teams_report_mant, name_teams_report_mant, cod_report_fails_mant, description_report_mant, 
-        actor_execution_report_mant, analysis_data_report_mant, date_report_mant, token_report_maint FROM report_maint";        
+        actor_execution_report_mant, analysis_data_report_mant, date_report_mant, token_report_maint FROM report_maint";
 
         if(!empty($resquest['search']['value']))
         {
-            $sql.= "number_report_mant LIKE '".$resquest['search']['value']."%'";          
+            $sql.= "number_report_mant LIKE '".$resquest['search']['value']."%'";
         }
         $query = $mysqli->query($sql);
         $totalData = $query->num_rows;
@@ -3349,7 +3420,7 @@ class mtto{
 
         while($row = $query->fetch_array())
         {
-            
+
             if($row[5] == "")
             {
                 $st = "<small class='badge badge-danger'>NO APLICA</small>";
@@ -3362,12 +3433,12 @@ class mtto{
             $subdata = array();
             $subdata[] = $row[0];
             $subdata[] = $row[1];
-            $subdata[] = $row[2];            
+            $subdata[] = $row[2];
             $subdata[] = $row[3];
-            $subdata[] = $row[4];  
+            $subdata[] = $row[4];
             $subdata[] = $st;
-            $subdata[] = $row[6];         
-            $subdata[] = $row[7];         
+            $subdata[] = $row[6];
+            $subdata[] = $row[7];
             $subdata[] = $row[8];
             $subdata[] = $row[9];
             $subdata[] = "<div class='btn-group'>
@@ -3441,8 +3512,8 @@ class mtto{
     //Consulta los reportes de mantenimientos según el equipo
     function SearchReportTeamsMant($value)
     {
-        global $mysqli;  
-        
+        global $mysqli;
+
         $num = 0;
 
         $resquest = $_REQUEST;
@@ -3457,11 +3528,11 @@ class mtto{
 
         $sql = "SELECT number_maintence_teams_maint, type_teams_maint, description_teams_maint, autor_execution_teams_maint, 
         location_execution_teams_maint, codreportfails_teams_maint, date_teams_maint, alarm_teams_maint, proxdate_teams_maint, 
-        confirm_execute_teams_maint, totalcost_teams_maint FROM report_teams_maint WHERE fk_teams_report_maint = '".$value."'";     
+        confirm_execute_teams_maint, totalcost_teams_maint FROM report_teams_maint WHERE fk_teams_report_maint = '".$value."'";
 
         if(!empty($resquest['search']['value']))
         {
-            $sql.= "description_teams_maint LIKE '".$resquest['search']['value']."%'";          
+            $sql.= "description_teams_maint LIKE '".$resquest['search']['value']."%'";
         }
         $query = $mysqli->query($sql);
         $totalData = $query->num_rows;
@@ -3490,7 +3561,7 @@ class mtto{
             {
                 $sts = $row[5];
             }
-            
+
 
             $subdata = array();
             $subdata[] = $num;
@@ -3532,9 +3603,9 @@ class mtto{
         $stmt->execute();
         $stmt->close();
     }
-    
 
-    //Registra las notificaciones 
+
+    //Registra las notificaciones
     function InsertNotificationMantMtto($token, $module, $description, $datetime, $view, $statereg, $fkteams, $fktype)
     {
         global $mysqli;
@@ -3593,8 +3664,8 @@ class mtto{
     function ValideNotificationOneMtto($date)
     {
 
-        global $mysqli;        
-        
+        global $mysqli;
+
         $mto = new mtto();
 
         $stmt_con = $mysqli->prepare("SELECT id_report_teams_maint, fk_teams_report_maint, proxdate_teams_maint, state_notification_mtto, letter_units_teams, number_teams_units FROM report_teams_maint INNER JOIN teams_units_rsu ON report_teams_maint.fk_teams_report_maint = teams_units_rsu.id_teams_units WHERE DATEDIFF(proxdate_teams_maint, ?) = 2 AND state_notification_mtto = 0");
@@ -3605,10 +3676,10 @@ class mtto{
 
         if($num > 0)
         {
-            $stmt_con->bind_result($id_report, $id_teams, $dateprox, $state, $letter, $number);            
+            $stmt_con->bind_result($id_report, $id_teams, $dateprox, $state, $letter, $number);
 
             while($stmt_con->fetch())
-            {               
+            {
 
                 $state = $state + 1;
 
@@ -3619,29 +3690,29 @@ class mtto{
                 $view = 0;
                 $statereg = 0;
                 $fkmainteams = $id_teams;
-                $typenot = 2;                                               
-                    
+                $typenot = 2;
+
                 $mto->InsertNotificationMantMtto($token, $module, $description, $datetime, $view, $statereg, $fkmainteams, $typenot);
                 $mto->UpdateStateNotification($state, $id_report);
-               
-      
+
+
             }
-        }  
+        }
         else
         {
             return null;
         }
-        
-        
-        
+
+
+
     }
 
     //Valida las notificaciones antes de ser registradas
     function ValideNotificationTwoMtto($date)
     {
 
-        global $mysqli;        
-        
+        global $mysqli;
+
         $mto = new mtto();
 
         $stmt_con = $mysqli->prepare("SELECT id_report_teams_maint, fk_teams_report_maint, proxdate_teams_maint, state_notification_mtto, letter_units_teams, number_teams_units FROM report_teams_maint INNER JOIN teams_units_rsu ON report_teams_maint.fk_teams_report_maint = teams_units_rsu.id_teams_units WHERE proxdate_teams_maint <= ? AND state_notification_mtto = 1");
@@ -3652,12 +3723,12 @@ class mtto{
 
         if($num > 0)
         {
-            $stmt_con->bind_result($id_report, $id_teams, $dateprox, $state, $letter, $number);            
+            $stmt_con->bind_result($id_report, $id_teams, $dateprox, $state, $letter, $number);
 
             while($stmt_con->fetch())
-            {          
+            {
 
-                $state = $state + 1;                  
+                $state = $state + 1;
 
                 $token = $mto->GenerateTokenMtto();
                 $module = "Alerta de mantenimiento.";
@@ -3667,26 +3738,26 @@ class mtto{
                 $statereg = 0;
                 $fkmainteams = $id_teams;
                 $typenot = 1;
-                
-                $mto->InsertNotificationMantMtto($token, $module, $description, $datetime, $view, $statereg, $fkmainteams, $typenot);                         
-                $mto->UpdateStateNotification($state, $id_report);    
+
+                $mto->InsertNotificationMantMtto($token, $module, $description, $datetime, $view, $statereg, $fkmainteams, $typenot);
+                $mto->UpdateStateNotification($state, $id_report);
 
             }
-        }  
+        }
         else
         {
             return null;
         }
-        
-        
-        
+
+
+
     }
 
     //Valida las notificaciones de stock de inventario
     function ValideNotificationStock()
     {
-        global $mysqli;        
-        
+        global $mysqli;
+
         $mto = new mtto();
 
         $stmt_con = $mysqli->prepare("SELECT id_spares, stock_spares, alarm_spares_stock, state_notification_mtto_spares_parts, concept_warehouse, num_concept_warehouse FROM spares_parts WHERE alarm_spares_stock = stock_spares AND state_notification_mtto_spares_parts = 0");
@@ -3696,7 +3767,7 @@ class mtto{
 
         if($num > 0)
         {
-            $stmt_con->bind_result($id_spares, $stock, $stock_alarm, $state, $concept, $number);            
+            $stmt_con->bind_result($id_spares, $stock, $stock_alarm, $state, $concept, $number);
 
             while($stmt_con->fetch())
             {
@@ -3710,19 +3781,19 @@ class mtto{
                 $view = 0;
                 $statereg = 0;
                 $fkstock = $id_spares;
-                $typenot = 3; 
+                $typenot = 3;
 
                 $mto->InsertNotificationStock($token, $module, $description, $datetime, $view, $statereg, $fkstock, $typenot);
                 $mto->UpdateStateNotificationStock($state, $fkstock);
-               
+
             }
         }
     }
 
     function ValideNotificationStockNew()
     {
-        global $mysqli;        
-        
+        global $mysqli;
+
         $mto = new mtto();
 
         $stmt_con = $mysqli->prepare("SELECT id_spares, stock_spares, alarm_spares_stock, state_notification_mtto_spares_parts, concept_warehouse, num_concept_warehouse FROM spares_parts WHERE stock_spares < alarm_spares_stock AND state_notification_mtto_spares_parts = 1");
@@ -3732,12 +3803,12 @@ class mtto{
 
         if($num > 0)
         {
-            $stmt_con->bind_result($id_spares, $stock, $stock_alarm, $state, $concept, $number);            
+            $stmt_con->bind_result($id_spares, $stock, $stock_alarm, $state, $concept, $number);
 
             while($stmt_con->fetch())
             {
-                $state = $state + 1;             
-       
+                $state = $state + 1;
+
                 $token = $mto->GenerateTokenMtto();
                 $module = "Alerta de Stock de inventario.";
                 $description = "Hacer requesición inmediata, de la siguiente referencia: ".$concept.$number;
@@ -3745,20 +3816,20 @@ class mtto{
                 $view = 0;
                 $statereg = 0;
                 $fkstock = $id_spares;
-                $typenot = 2; 
+                $typenot = 2;
 
                 $mto->InsertNotificationStock($token, $module, $description, $datetime, $view, $statereg, $fkstock, $typenot);
                 $mto->UpdateStateNotificationStock($state, $fkstock);
 
-                
+
             }
         }
     }
 
     function ValideNotificationStockF()
     {
-        global $mysqli;        
-        
+        global $mysqli;
+
         $mto = new mtto();
 
         $stmt_con = $mysqli->prepare("SELECT id_spares, stock_spares, alarm_spares_stock, state_notification_mtto_spares_parts, concept_warehouse, num_concept_warehouse FROM spares_parts WHERE stock_spares < alarm_spares_stock AND state_notification_mtto_spares_parts = 0");
@@ -3768,12 +3839,12 @@ class mtto{
 
         if($num > 0)
         {
-            $stmt_con->bind_result($id_spares, $stock, $stock_alarm, $state, $concept, $number);            
+            $stmt_con->bind_result($id_spares, $stock, $stock_alarm, $state, $concept, $number);
 
             while($stmt_con->fetch())
             {
-                $state = $state + 1;             
-       
+                $state = $state + 1;
+
                 $token = $mto->GenerateTokenMtto();
                 $module = "Alerta de Stock de inventario.";
                 $description = "Hacer requesición inmediata, de la siguiente referencia: ".$concept.$number;
@@ -3781,12 +3852,12 @@ class mtto{
                 $view = 0;
                 $statereg = 0;
                 $fkstock = $id_spares;
-                $typenot = 2; 
+                $typenot = 2;
 
                 $mto->InsertNotificationStock($token, $module, $description, $datetime, $view, $statereg, $fkstock, $typenot);
                 $mto->UpdateStateNotificationStock($state, $fkstock);
 
-                
+
             }
         }
     }
@@ -3896,11 +3967,11 @@ class mtto{
 
         $totalFilter = $totalData;
 
-        $sql = "SELECT module_notification_mtto, description_notification_mtto, datetime_notification_module, view_notification_mtto, fk_type_notification_mtto, token_notification_mtto FROM notifications_mtto";     
+        $sql = "SELECT module_notification_mtto, description_notification_mtto, datetime_notification_module, view_notification_mtto, fk_type_notification_mtto, token_notification_mtto FROM notifications_mtto";
 
         if(!empty($resquest['search']['value']))
         {
-            $sql.= "description_notification_mtto LIKE '".$resquest['search']['value']."%'";          
+            $sql.= "description_notification_mtto LIKE '".$resquest['search']['value']."%'";
         }
         $query = $mysqli->query($sql);
         $totalData = $query->num_rows;
@@ -3920,7 +3991,7 @@ class mtto{
 
                     $st = "<i class='fas fa-check-circle text-success'></i></span>";
 
-                break;               
+                break;
             }
 
             switch($row[4]){
@@ -3945,7 +4016,7 @@ class mtto{
 
                 break;
         }
-               
+
             $subdata = array();
             $subdata[] = $row[0];
             $subdata[] = $row[1];
@@ -4048,11 +4119,11 @@ class mtto{
             </div>
             </div>";
         }
-        
+
 
         return $widget;
     }
-    
+
     //Conteo de alertas según la clasificación (Ejecutar inmediatamanente)
     function CountAlertStock()
     {
@@ -4085,7 +4156,7 @@ class mtto{
                   </div>
                   <a href='notifications' class='small-box-footer'>Más Información <i class='fas fa-arrow-circle-right'></i></a>
                 </div>
-              </div>";            
+              </div>";
         }
         else
         {
@@ -4102,7 +4173,7 @@ class mtto{
               </div>
               <a href='notifications' class='small-box-footer'>Más Información <i class='fas fa-arrow-circle-right'></i></a>
             </div>
-          </div>";  
+          </div>";
 
         }
 
@@ -4139,7 +4210,7 @@ class mtto{
               </div>
               <a href='notifications' class='small-box-footer'>Más Información <i class='fas fa-arrow-circle-right'></i></a>
             </div>
-          </div>"; 
+          </div>";
         }
         else
         {
@@ -4156,7 +4227,7 @@ class mtto{
               </div>
               <a href='notifications' class='small-box-footer'>Más Información <i class='fas fa-arrow-circle-right'></i></a>
             </div>
-          </div>"; 
+          </div>";
         }
 
         return $widget;
@@ -4179,10 +4250,10 @@ class mtto{
             $stmt->execute();
             $stmt->store_result();
             $stmt->bind_result($num);
-            $stmt->fetch();    
-            
+            $stmt->fetch();
+
             $total[] = $num;
-        }        
+        }
 
         return json_encode($total);
     }
@@ -4191,7 +4262,7 @@ class mtto{
     function CountMantsForDate($year)
     {
         global $mysqli;
-        
+
         $total = array();
 
         for($month = 1; $month <= 12; $month ++)
@@ -4201,10 +4272,10 @@ class mtto{
             $stmt->execute();
             $stmt->store_result();
             $stmt->bind_result($num);
-            $stmt->fetch();    
-            
+            $stmt->fetch();
+
             $total[] = $num;
-        }        
+        }
 
         return json_encode($total);
     }
@@ -4222,13 +4293,13 @@ class mtto{
             $stmt->execute();
             $stmt->store_result();
             $stmt->bind_result($num);
-            $stmt->fetch();    
-            
+            $stmt->fetch();
+
             $total[] = $num;
         }
 
         return json_encode($total);
-        
+
     }
 
     //Consulta las horas paradas por mes
@@ -4246,13 +4317,13 @@ class mtto{
             $stmt->execute();
             $stmt->store_result();
             $stmt->bind_result($num);
-            $stmt->fetch();    
-            
+            $stmt->fetch();
+
             $total[] = $num;
         }
 
         return json_encode($total);
-        
+
     }
 
     //Cantidad de activos en cada RSU
@@ -4262,16 +4333,16 @@ class mtto{
 
         $stmt = $mysqli->prepare("SELECT f.reference_units_rsu AS unidad, COUNT(t.name_teams_units) AS total FROM teams_units_rsu AS t INNER JOIN father_units_rsu AS f ON t.fk_id_father_teams_units = f.id_units_rsu GROUP BY f.reference_units_rsu");
         $stmt->execute();
-        $res = $stmt-> get_result();       
-               
-        $data = array(); 
+        $res = $stmt-> get_result();
+
+        $data = array();
 
         while($row = $res->fetch_array())
         {
-            $data[] = $row;   
-           
+            $data[] = $row;
+
         }
-        
+
         return json_encode($data);
 
     }
@@ -4288,16 +4359,16 @@ class mtto{
         f ON t.fk_id_father_teams_units = f.id_units_rsu WHERE YEAR(date_report_mant) = ? GROUP BY f.reference_units_rsu");
         $stmt->bind_param('s', $year);
         $stmt->execute();
-        $res = $stmt-> get_result();       
-               
-        $data = array(); 
+        $res = $stmt-> get_result();
+
+        $data = array();
 
         while($row = $res->fetch_array())
         {
-            $data[] = $row;   
-           
+            $data[] = $row;
+
         }
-        
+
         return json_encode($data);
 
     }
@@ -4335,7 +4406,7 @@ class mtto{
         while($stmt->fetch())
         {
             echo "<option value=".$id_work.">".$name_work."</option>";
-        } 
+        }
     }
 
     //---------------------LISTADO DE ACTIVOS-------------------------
@@ -4352,7 +4423,7 @@ class mtto{
         $stmt = $mysqli->prepare("SELECT concept_warehouse, num_concept_warehouse, description_element_spares,
         name_active_type, unity_spares, unity_value_spares, maker_spares, model_spares, serie_spares, 
         stock_spares FROM spares_parts INNER JOIN type_active ON spares_parts.type_element_spares = type_active.id_type_active 
-        WHERE date_register_spares BETWEEN ? AND ?");        
+        WHERE date_register_spares BETWEEN ? AND ?");
         $stmt->bind_param('ss', $date_ini, $date_end);
         $stmt->execute();
         $stmt->store_result();
@@ -4376,7 +4447,7 @@ class mtto{
             
           </tr>";
 
-            
+
 
             while($stmt->fetch())
             {
@@ -4451,7 +4522,7 @@ class mtto{
         $stmt = $mysqli->prepare("SELECT concept_warehouse, num_concept_warehouse, description_element_spares,
         name_active_type, unity_spares, unity_value_spares, maker_spares, model_spares, serie_spares, 
         stock_spares FROM spares_parts INNER JOIN type_active ON spares_parts.type_element_spares = type_active.id_type_active 
-        WHERE warehouse_reference_spares = ? AND date_register_spares BETWEEN ? AND ?");        
+        WHERE warehouse_reference_spares = ? AND date_register_spares BETWEEN ? AND ?");
         $stmt->bind_param('iss',$id_warehouse, $date_ini, $date_end);
         $stmt->execute();
         $stmt->store_result();
@@ -4475,7 +4546,7 @@ class mtto{
             
           </tr>";
 
-            
+
 
             while($stmt->fetch())
             {
@@ -4549,7 +4620,7 @@ class mtto{
 
         $stmt = $mysqli->prepare("SELECT number_remission_output, date_output, concept_warehouse, num_concept_warehouse, description_element_spares, quantity_remove 
         FROM output_actives INNER JOIN spares_parts ON output_actives.fk_active_output = spares_parts.id_spares
-        WHERE date_output BETWEEN ? AND ?");        
+        WHERE date_output BETWEEN ? AND ?");
         $stmt->bind_param('ss', $date_ini, $date_end);
         $stmt->execute();
         $stmt->store_result();
@@ -4569,7 +4640,7 @@ class mtto{
             
           </tr>";
 
-            
+
 
             while($stmt->fetch())
             {
@@ -4626,7 +4697,7 @@ class mtto{
 
         $stmt = $mysqli->prepare("SELECT number_remission_output, date_output, concept_warehouse, num_concept_warehouse, description_element_spares, quantity_remove 
         FROM output_actives INNER JOIN spares_parts ON output_actives.fk_active_output = spares_parts.id_spares
-        WHERE fk_warehouse_output = ? AND date_output BETWEEN ? AND ?");        
+        WHERE fk_warehouse_output = ? AND date_output BETWEEN ? AND ?");
         $stmt->bind_param('iss', $id_warehouse, $date_ini, $date_end);
         $stmt->execute();
         $stmt->store_result();
@@ -4646,7 +4717,7 @@ class mtto{
             
           </tr>";
 
-            
+
 
             while($stmt->fetch())
             {
@@ -4702,7 +4773,7 @@ class mtto{
 
         $stmt = $mysqli->prepare("SELECT number_remission_input, date_input, concept_warehouse, num_concept_warehouse, description_element_spares, quantity_add 
         FROM input_actives INNER JOIN spares_parts ON input_actives.fk_active_input = spares_parts.id_spares
-        WHERE date_input BETWEEN ? AND ?");        
+        WHERE date_input BETWEEN ? AND ?");
         $stmt->bind_param('ss', $date_ini, $date_end);
         $stmt->execute();
         $stmt->store_result();
@@ -4722,7 +4793,7 @@ class mtto{
             
           </tr>";
 
-            
+
 
             while($stmt->fetch())
             {
@@ -4779,7 +4850,7 @@ class mtto{
 
         $stmt = $mysqli->prepare("SELECT number_remission_input, date_input, concept_warehouse, num_concept_warehouse, description_element_spares, quantity_add 
         FROM input_actives INNER JOIN spares_parts ON input_actives.fk_active_input = spares_parts.id_spares
-        WHERE fk_warehouse_input = ? AND date_input BETWEEN ? AND ?");        
+        WHERE fk_warehouse_input = ? AND date_input BETWEEN ? AND ?");
         $stmt->bind_param('iss',$warehouse, $date_ini, $date_end);
         $stmt->execute();
         $stmt->store_result();
@@ -4799,7 +4870,7 @@ class mtto{
             
           </tr>";
 
-            
+
 
             while($stmt->fetch())
             {
@@ -4881,7 +4952,7 @@ class mtto{
             <th colspan='9' style='border-radius: 2px; border: 0.5px solid black; width: 70px;''>CARACTERISTICAS</th>     
           </tr>";
 
-            
+
 
             while($stmt->fetch())
             {
@@ -4983,7 +5054,7 @@ class mtto{
             <th colspan='9' style='border-radius: 2px; border: 0.5px solid black; width: 70px;''>CARACTERISTICAS</th>     
           </tr>";
 
-            
+
 
             while($stmt->fetch())
             {
@@ -5079,7 +5150,7 @@ class mtto{
             <th style='border-radius: 2px; border: 0.5px solid black; width: 100px;'>FECHA DE REGISTRO</th>
           </tr>";
 
-            
+
 
             while($stmt->fetch())
             {
@@ -5161,7 +5232,7 @@ class mtto{
             <th style='border-radius: 2px; border: 0.5px solid black; width: 100px;'>FECHA DE REGISTRO</th>
           </tr>";
 
-            
+
 
             while($stmt->fetch())
             {
@@ -5242,7 +5313,7 @@ class mtto{
             
           </tr>";
 
-            
+
 
             while($stmt->fetch())
             {
@@ -5326,7 +5397,7 @@ class mtto{
             
           </tr>";
 
-            
+
 
             while($stmt->fetch())
             {
@@ -5384,8 +5455,8 @@ class mtto{
     //Registra el cronograma dependiendo el día y hora establecida
     function NewSchedule($description, $year, $token_schedule)
     {
-        global $mysqli;       
-        
+        global $mysqli;
+
         $mtto = new mtto();
         $dateregister = $mtto->DateMtto();
 
@@ -5403,7 +5474,7 @@ class mtto{
     //Devuelve la fecha para registrar.
     function DateSchedule()
     {
-        date_default_timezone_set('America/Bogota'); 
+        date_default_timezone_set('America/Bogota');
 
         $date = date("Y-m-d");
 
@@ -5429,7 +5500,7 @@ class mtto{
 
         if(!empty($resquest['search']['value']))
         {
-            $sql.= "description_schedule_mant LIKE '".$resquest['search']['value']."%'";          
+            $sql.= "description_schedule_mant LIKE '".$resquest['search']['value']."%'";
         }
         $query = $mysqli->query($sql);
         $totalData = $query->num_rows;
@@ -5474,7 +5545,7 @@ class mtto{
         while($stmt->fetch())
         {
             echo "<option value=".$id_work.">".$name_work."</option>";
-        } 
+        }
 
 
     }
@@ -5508,7 +5579,7 @@ class mtto{
             }else{
             return 0;
         }
-    } 
+    }
 
     //Realiza el conteo personalizada del cronograma
     function CountValuesSchedule($month, $state_value, $id_schedule)
@@ -5580,7 +5651,7 @@ class mtto{
 
         if($num > 0)
         {
-            $stmt->bind_result($id_activie, $description, $resources, $responsable, $where, $description_type, $id_activies_fk);           
+            $stmt->bind_result($id_activie, $description, $resources, $responsable, $where, $description_type, $id_activies_fk);
 
             while($stmt->fetch()){
 
@@ -5589,8 +5660,8 @@ class mtto{
                 $stmto = $mysqli->prepare("SELECT id_type_ratings, concept_type_ratings FROM type_ratings");
                 $stmto->execute();
                 $stmto->store_result();
-                $stmto->bind_result($id_work, $name_work);         
-                
+                $stmto->bind_result($id_work, $name_work);
+
                 //Busca los valores de evaluación
                 $stmtv = $mysqli->prepare("SELECT id_values_ratings, cant_values_ratings FROM values_ratings");
                 $stmtv->execute();
@@ -5680,7 +5751,7 @@ class mtto{
                                                         {
                                                             $cron.="<option value=".$id_work.">".$name_work."</option>";
                                                         };
-                                                        
+
                                                         $cron.="                                                       
                                                                                                                                                                      
                                                     </select>                                                   
@@ -5698,7 +5769,7 @@ class mtto{
                                                         {
                                                             $cron.="<option value=".$id_work.">".$name_work."</option>";
                                                         };
-                                                        
+
                                                         $cron.="                                                       
                                                                                                                                                                      
                                                     </select>                                                   
@@ -5804,7 +5875,7 @@ class mtto{
                     if($nov == 1){$nov = "<a href='../functions/Delete/DeleteValueSchedule?idvalue=".$id_values."&month=november_ratings&tkschedule=".$schedule."' class='btn btn-info' style='width: 30px; height: 30px;'></a>";};
                     if($dic == 1){$dic = "<a href='../functions/Delete/DeleteValueSchedule?idvalue=".$id_values."&month=december_ratings&tkschedule=".$schedule."' class='btn btn-info' style='width: 30px; height: 30px;'></a>";};
 
-                    
+
 
                     $cron.="
                     
@@ -5889,8 +5960,8 @@ class mtto{
                 }
 
 
-            }; 
-            
+            };
+
             // $cron.= "</table>";
 
         }
@@ -5913,7 +5984,7 @@ class mtto{
 
         if($num > 0)
         {
-            $stmt->bind_result($id_activie, $description, $resources, $responsable, $where, $description_type, $id_activies_fk);            
+            $stmt->bind_result($id_activie, $description, $resources, $responsable, $where, $description_type, $id_activies_fk);
 
             while($stmt->fetch()){
 
@@ -5922,7 +5993,7 @@ class mtto{
                 $stmto = $mysqli->prepare("SELECT id_type_ratings, concept_type_ratings FROM type_ratings");
                 $stmto->execute();
                 $stmto->store_result();
-                $stmto->bind_result($id_work, $name_work);   
+                $stmto->bind_result($id_work, $name_work);
 
                 //Busca los valores de evaluación
                 $stmtv = $mysqli->prepare("SELECT id_values_ratings, cant_values_ratings FROM values_ratings");
@@ -6011,7 +6082,7 @@ class mtto{
                                                     {
                                                         $cron.="<option value=".$id_work.">".$name_work."</option>";
                                                     };
-                                                    
+
                                                     $cron.="                                                       
                                                                                                                                                                  
                                                 </select>                                                   
@@ -6029,7 +6100,7 @@ class mtto{
                                                     {
                                                         $cron.="<option value=".$id_work.">".$name_work."</option>";
                                                     };
-                                                    
+
                                                     $cron.="                                                       
                                                                                                                                                                  
                                                 </select>                                                   
@@ -6212,8 +6283,8 @@ class mtto{
                 }
 
 
-            }; 
-            
+            };
+
             // $cron.= "</table>";
 
         }
@@ -6238,7 +6309,7 @@ class mtto{
         {
             $stmt->bind_result($id_activie, $description, $resources, $responsable, $where, $description_type, $id_activies_fk);
 
-            
+
 
             while($stmt->fetch()){
 
@@ -6247,7 +6318,7 @@ class mtto{
                 $stmto = $mysqli->prepare("SELECT id_type_ratings, concept_type_ratings FROM type_ratings");
                 $stmto->execute();
                 $stmto->store_result();
-                $stmto->bind_result($id_work, $name_work); 
+                $stmto->bind_result($id_work, $name_work);
 
                 //Busca los valores de evaluación
                 $stmtv = $mysqli->prepare("SELECT id_values_ratings, cant_values_ratings FROM values_ratings");
@@ -6335,7 +6406,7 @@ class mtto{
                                                     {
                                                         $cron.="<option value=".$id_work.">".$name_work."</option>";
                                                     };
-                                                    
+
                                                     $cron.="                                                       
                                                                                                                                                                  
                                                 </select>                                                   
@@ -6353,7 +6424,7 @@ class mtto{
                                                     {
                                                         $cron.="<option value=".$id_work.">".$name_work."</option>";
                                                     };
-                                                    
+
                                                     $cron.="                                                       
                                                                                                                                                                  
                                                 </select>                                                   
@@ -6537,8 +6608,8 @@ class mtto{
                 }
 
 
-            }; 
-            
+            };
+
             // $cron.= "</table>";
 
         }
@@ -6554,7 +6625,7 @@ class mtto{
         a INNER JOIN plan_activities_schedule AS b ON a.fk_activies_id_ratings = b.id_activies_schedule INNER JOIN type_activies AS 
         c ON b.fk_type_activies_schedule = c.id_type_activies_schedule INNER JOIN maintenance_schedule AS 
         d ON a.fk_schedule_id_ratings = d.id_schedule_mant WHERE b.fk_type_activies_schedule = 4 AND fk_schedule_id_ratings = ? GROUP BY fk_activies_id_ratings");
-        $stmt->bind_param('i', $id_schedule);        
+        $stmt->bind_param('i', $id_schedule);
         $stmt->execute();
         $stmt->store_result();
         $num = $stmt->num_rows;
@@ -6563,7 +6634,7 @@ class mtto{
         {
             $stmt->bind_result($id_activie, $description, $resources, $responsable, $where, $description_type, $id_activies_fk);
 
-            
+
 
             while($stmt->fetch()){
 
@@ -6572,7 +6643,7 @@ class mtto{
                 $stmto = $mysqli->prepare("SELECT id_type_ratings, concept_type_ratings FROM type_ratings");
                 $stmto->execute();
                 $stmto->store_result();
-                $stmto->bind_result($id_work, $name_work);   
+                $stmto->bind_result($id_work, $name_work);
 
                 //Busca los valores de evaluación
                 $stmtv = $mysqli->prepare("SELECT id_values_ratings, cant_values_ratings FROM values_ratings");
@@ -6662,7 +6733,7 @@ class mtto{
                                                         {
                                                             $cron.="<option value=".$id_work.">".$name_work."</option>";
                                                         };
-                                                        
+
                                                         $cron.="                                                       
                                                                                                                                                                      
                                                     </select>                                                   
@@ -6680,7 +6751,7 @@ class mtto{
                                                         {
                                                             $cron.="<option value=".$id_work.">".$name_work."</option>";
                                                         };
-                                                        
+
                                                         $cron.="                                                       
                                                                                                                                                                      
                                                     </select>                                                   
@@ -6866,8 +6937,8 @@ class mtto{
                 }
 
 
-            }; 
-            
+            };
+
             $st = $mysqli->prepare("SELECT 
             COUNT(january_rantings) AS enero,
             COUNT(february_rantings) AS febrero,
@@ -6884,7 +6955,7 @@ class mtto{
             $st->bind_param('i', $id_schedule);
             $st->execute();
             $st->store_result();
-            
+
                 $st->bind_result($ene1, $feb1, $mar1, $abr1, $may1, $jun1, $jul1, $ago1, $sep1, $oct1, $nov1, $dic1);
                 $st->fetch();
 
@@ -6903,11 +6974,11 @@ class mtto{
                 COUNT(december_ratings) AS diciembre FROM ratings_month_schedule WHERE fk_state_ratings_schedule = 2 AND fk_schedule_id_ratings = ?");
                 $sts->bind_param('i', $id_schedule);
                 $sts->execute();
-                $sts->store_result();            
+                $sts->store_result();
                 $sts->bind_result($ene2, $feb2, $mar2, $abr2, $may2, $jun2, $jul2, $ago2, $sep2, $oct2, $nov2, $dic2);
-                $sts->fetch();                
-                
-                        
+                $sts->fetch();
+
+
                         @$ene = $ene2 / $ene1 * 100;
                         @$feb = $feb2 / $feb1 * 100;
                         @$mar = $mar2 / $mar1 * 100;
@@ -6921,9 +6992,9 @@ class mtto{
                         @$nov = $nov2 / $nov1 * 100;
                         @$dic = $dic2 / $dic1 * 100;
 
-                        
 
-                        
+
+
 
                         $cron.="<tr>
                         <th colspan='7' style='text-align: center; background-color: #F1948A;'>% CUMPLIMIENTO (No. actividades ejecutadas/No. actividades programadas x 100)</th>
@@ -6940,10 +7011,10 @@ class mtto{
                         <th style='text-align: center; font-size: 20px; '>".round(number_format($nov))."%</th>
                         <th style='text-align: center; font-size: 20px; '>".round(number_format($dic))."%</th>          
                         </tr>";
-                    
+
 
             $cron.= "</table>";
-            
+
 
         }
         else
@@ -7004,7 +7075,7 @@ class mtto{
             }else{
             return 0;
         }
-        
+
     }
 
     //Realiza la inserción de actvidades con el nuevo cronograma
@@ -7021,7 +7092,7 @@ class mtto{
             return 0;
         }
 
-    }   
+    }
 
     //Inserta el plan de actividades según el cronograma
     function ConsultPlanActivies($id_schedule, $date)
@@ -7046,7 +7117,7 @@ class mtto{
 
                 $mtto->InsertActiviesNew($id_schedule, $id_activies, $state_uno, $date);
                 $mtto->InsertActiviesNew($id_schedule, $id_activies, $state_dos, $date);
-            }          
+            }
 
             $stmt->close();
         }
@@ -7097,7 +7168,7 @@ class mtto{
 
         if(!empty($resquest['search']['value']))
         {
-            $sql.= "description_history_indicators LIKE '".$resquest['search']['value']."%'";          
+            $sql.= "description_history_indicators LIKE '".$resquest['search']['value']."%'";
         }
         $query = $mysqli->query($sql);
         $totalData = $query->num_rows;
@@ -7127,7 +7198,7 @@ class mtto{
 
         return json_encode($json_data);
 
-        
+
     }
 
     //Consulta los indicadores en meta programda
@@ -7184,7 +7255,7 @@ class mtto{
                 $stmto->store_result();
                 $stmto->bind_result($id_work, $name_work);
 
-                
+
 
                 $table.= "
                     <tr>
@@ -7309,7 +7380,7 @@ class mtto{
             return $mysqli->insert_id;
             }else{
             return 0;
-        }        
+        }
     }
 
     //Inserta la matriz de evaluación de los indicadores
@@ -7325,7 +7396,7 @@ class mtto{
             return $mysqli->insert_id;
             }else{
             return 0;
-        } 
+        }
     }
 
     //Registra los indicadores con las frecuencias establecidas
@@ -7346,8 +7417,8 @@ class mtto{
 
             while($stmt->fetch())
             {
-                $mtto->InsertIndicatorFrequency($id_reg, $value_meta, $fk_frequency, $activies_ind, $fk_indicator);  
-                $mtto->InsertIndicatorMonth($fk_indicator, $id_reg);              
+                $mtto->InsertIndicatorFrequency($id_reg, $value_meta, $fk_frequency, $activies_ind, $fk_indicator);
+                $mtto->InsertIndicatorMonth($fk_indicator, $id_reg);
             }
             $stmt->close();
         }
@@ -7355,8 +7426,8 @@ class mtto{
         {
             $stmt->close();
         }
-    }  
-    
+    }
+
     //Actualiza los valores cuantitativos del indicador
     function UpdateQuantityIndicator($v_ene, $v_feb, $v_mar, $v_abr, $v_may, $v_jun, $v_jul, $v_ago, $v_sep, $v_oct, $v_nov, $v_dic, $id_month_indicator)
     {
@@ -7378,7 +7449,7 @@ class mtto{
         $cons = new mtto();
 
         $year = $cons->getValueMtto('year_history_indication', 'history_indicators', 'id_history_indicators', $id_history_indicator);
-        
+
         $table = "";
 
         $table = "<table class='table table-bordered' style='font-size: 12px;'>
@@ -7423,12 +7494,12 @@ class mtto{
         $num = $stmt->num_rows;
 
         if($num > 0)
-        {   
-           
+        {
+
             $stmt->bind_result($id_indicator, $description, $comment, $frequency, $description_frequency, $id_mont_indicator,
                                 $ene_v, $feb_v, $mar_v, $abr_v, $may_v, $jun_v, $jul_v, $ago_v, $sep_v, $oct_v, $nov_v, $dic_v);
 
-            while($stmt->fetch()){                
+            while($stmt->fetch()){
 
                 switch($id_indicator){
                     //Listado de indicadores
@@ -7436,11 +7507,11 @@ class mtto{
                     //INDICADOR DE CUMPLIMIENTO
                     case 1:
                         switch($frequency){
-                            case 1:  
-                                
-                                
+                            case 1:
+
+
                                 //CONSULTA DATOS DEL PRIMER SEMESTRE
-                                
+
                                 $value_ene = $cons->getValueMtto('january_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_feb = $cons->getValueMtto('february_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_mar = $cons->getValueMtto('march_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
@@ -7472,8 +7543,8 @@ class mtto{
                                 $valueoct = '';
                                 $valuenov = '';
                                 $valuedic = round($prom_sem2);
-        
-                                        
+
+
                                 $ene = '#FCF3CF';
                                 $feb = '#FCF3CF';
                                 $mar = '#FCF3CF';
@@ -7487,30 +7558,30 @@ class mtto{
                                 $nov = '#FCF3CF';
                                 $dic = '#AED6F1';
                             break;
-        
+
                             case 2:
 
                                  //CONSULTA DATOS HASTA NOVIEMBRE
-                                
+
                                  $value_ene = $cons->getValueMtto('january_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                  $value_feb = $cons->getValueMtto('february_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                  $value_mar = $cons->getValueMtto('march_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                  $value_abr = $cons->getValueMtto('april_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                 $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
-                                 $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
+                                 $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                 $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                  $value_jul = $cons->getValueMtto('july_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                  $value_ago = $cons->getValueMtto('august_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                  $value_sep = $cons->getValueMtto('september_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                  $value_oct = $cons->getValueMtto('october_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                  $value_nov = $cons->getValueMtto('november_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                  $value_dec = $cons->getValueMtto('december_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
- 
-                                
-                                 $prom_anual = ($value_ene + $value_feb + $value_mar + 
-                                                $value_abr + $value_may + $value_jun + 
-                                                $value_jul + $value_ago + $value_sep + 
+
+
+                                 $prom_anual = ($value_ene + $value_feb + $value_mar +
+                                                $value_abr + $value_may + $value_jun +
+                                                $value_jul + $value_ago + $value_sep +
                                                 $value_oct + $value_nov + $value_dec) / 12;
- 
+
                                  $valueene = '';
                                  $valuefeb = '';
                                  $valuemar = '';
@@ -7523,7 +7594,7 @@ class mtto{
                                  $valueoct = '';
                                  $valuenov = '';
                                  $valuedic = round($prom_anual);
-        
+
                                 $ene = '#FCF3CF';
                                 $feb = '#FCF3CF';
                                 $mar = '#FCF3CF';
@@ -7537,22 +7608,22 @@ class mtto{
                                 $nov = '#FCF3CF';
                                 $dic = '#AED6F1';
                             break;
-        
+
                             case 3:
 
                                 $value_ene = $cons->getValueMtto('january_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_feb = $cons->getValueMtto('february_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_mar = $cons->getValueMtto('march_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_abr = $cons->getValueMtto('april_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
-                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
+                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_jul = $cons->getValueMtto('july_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_ago = $cons->getValueMtto('august_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_sep = $cons->getValueMtto('september_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_oct = $cons->getValueMtto('october_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_nov = $cons->getValueMtto('november_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_dic = $cons->getValueMtto('december_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);   
-                                
+                                $value_dic = $cons->getValueMtto('december_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+
                                 $prom_bi_1 = ($value_ene + $value_feb) / 2;
                                 $prom_bi_2 = ($value_mar + $value_abr) / 2;
                                 $prom_bi_3 = ($value_may + $value_jun) / 2;
@@ -7572,7 +7643,7 @@ class mtto{
                                 $valueoct = round($prom_bi_5);
                                 $valuenov = '';
                                 $valuedic = round($prom_bi_6);
-                                
+
                                 $ene = '#FCF3CF';
                                 $feb = '#AED6F1';
                                 $mar = '#FCF3CF';
@@ -7586,7 +7657,7 @@ class mtto{
                                 $nov = '#FCF3CF';
                                 $dic = '#AED6F1';
                             break;
-        
+
                             case 4:
 
                                 $value_ene = $cons->getValueMtto('january_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
@@ -7594,8 +7665,8 @@ class mtto{
                                 $value_mar = $cons->getValueMtto('march_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
 
                                 $value_abr = $cons->getValueMtto('april_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
-                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
+                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
 
                                 $value_jul = $cons->getValueMtto('july_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_ago = $cons->getValueMtto('august_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
@@ -7604,7 +7675,7 @@ class mtto{
                                 $value_oct = $cons->getValueMtto('october_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_nov = $cons->getValueMtto('november_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_dic = $cons->getValueMtto('december_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                
+
                                 $promtri_1 = ($value_ene + $value_feb + $value_mar) / 3;
                                 $promtri_2 = ($value_abr + $value_may + $value_jun) / 3;
                                 $promtri_3 = ($value_jul + $value_ago + $value_sep) / 3;
@@ -7622,8 +7693,8 @@ class mtto{
                                 $valueoct = '';
                                 $valuenov = '';
                                 $valuedic = round($promtri_4);
-                                 
-                                
+
+
                                 $ene = '#FCF3CF';
                                 $feb = '#FCF3CF';
                                 $mar = '#AED6F1';
@@ -7637,21 +7708,21 @@ class mtto{
                                 $nov = '#FCF3CF';
                                 $dic = '#AED6F1';
                             break;
-        
+
                             case 5:
 
                                 $value_ene = $cons->getValueMtto('january_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_feb = $cons->getValueMtto('february_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_mar = $cons->getValueMtto('march_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_abr = $cons->getValueMtto('april_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
-                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
+                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_jul = $cons->getValueMtto('july_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_ago = $cons->getValueMtto('august_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_sep = $cons->getValueMtto('september_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_oct = $cons->getValueMtto('october_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_nov = $cons->getValueMtto('november_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_dic = $cons->getValueMtto('december_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);                                
+                                $value_dic = $cons->getValueMtto('december_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
 
                                 $valueene = $value_ene;
                                 $valuefeb = $value_feb;
@@ -7665,7 +7736,7 @@ class mtto{
                                 $valueoct = $value_oct;
                                 $valuenov = $value_nov;
                                 $valuedic = $value_dic;
-                                
+
                                 $ene = '#AED6F1';
                                 $feb = '#AED6F1';
                                 $mar = '#AED6F1';
@@ -7679,15 +7750,15 @@ class mtto{
                                 $nov = '#AED6F1';
                                 $dic = '#AED6F1';
                             break;
-        
-                        } 
+
+                        }
                     break;
 
                     case 2:
                         switch($frequency){
-                            case 1:     
+                            case 1:
                                 //CONSULTA DATOS DEL PRIMER SEMESTRE
-                                
+
                                 $value_ene = $cons->getValueMtto('january_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_feb = $cons->getValueMtto('february_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_mar = $cons->getValueMtto('march_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
@@ -7718,8 +7789,8 @@ class mtto{
                                 $valuesep = '';
                                 $valueoct = '';
                                 $valuenov = '';
-                                $valuedic = round($prom_sem2);                               
-        
+                                $valuedic = round($prom_sem2);
+
                                 $ene = '#FCF3CF';
                                 $feb = '#FCF3CF';
                                 $mar = '#FCF3CF';
@@ -7733,17 +7804,17 @@ class mtto{
                                 $nov = '#FCF3CF';
                                 $dic = '#AED6F1';
                             break;
-        
+
                             case 2:
 
                                 //CONSULTA DATOS HASTA NOVIEMBRE
-                                
+
                                 $value_ene = $cons->getValueMtto('january_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_feb = $cons->getValueMtto('february_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_mar = $cons->getValueMtto('march_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_abr = $cons->getValueMtto('april_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
-                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
+                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_jul = $cons->getValueMtto('july_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_ago = $cons->getValueMtto('august_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_sep = $cons->getValueMtto('september_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
@@ -7751,10 +7822,10 @@ class mtto{
                                 $value_nov = $cons->getValueMtto('november_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_dec = $cons->getValueMtto('december_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
 
-                               
-                                $prom_anual = ($value_ene + $value_feb + $value_mar + 
-                                               $value_abr + $value_may + $value_jun + 
-                                               $value_jul + $value_ago + $value_sep + 
+
+                                $prom_anual = ($value_ene + $value_feb + $value_mar +
+                                               $value_abr + $value_may + $value_jun +
+                                               $value_jul + $value_ago + $value_sep +
                                                $value_oct + $value_nov + $value_dec) / 12;
 
                                 $valueene = '';
@@ -7768,9 +7839,9 @@ class mtto{
                                 $valuesep = '';
                                 $valueoct = '';
                                 $valuenov = '';
-                                $valuedic = round($prom_anual);                              
+                                $valuedic = round($prom_anual);
 
-        
+
                                 $ene = '#FCF3CF';
                                 $feb = '#FCF3CF';
                                 $mar = '#FCF3CF';
@@ -7784,269 +7855,22 @@ class mtto{
                                 $nov = '#FCF3CF';
                                 $dic = '#AED6F1';
                             break;
-        
+
                             case 3:
 
                                 $value_ene = $cons->getValueMtto('january_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_feb = $cons->getValueMtto('february_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_mar = $cons->getValueMtto('march_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_abr = $cons->getValueMtto('april_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
-                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
+                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_jul = $cons->getValueMtto('july_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_ago = $cons->getValueMtto('august_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_sep = $cons->getValueMtto('september_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_oct = $cons->getValueMtto('october_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_nov = $cons->getValueMtto('november_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_dic = $cons->getValueMtto('december_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);   
-                                
-                                $prom_bi_1 = ($value_ene + $value_feb) / 2;
-                                $prom_bi_2 = ($value_mar + $value_abr) / 2;
-                                $prom_bi_3 = ($value_may + $value_jun) / 2;
-                                $prom_bi_4 = ($value_jul + $value_ago) / 2;
-                                $prom_bi_5 = ($value_sep + $value_oct) / 2;
-                                $prom_bi_6 = ($value_nov + $value_dic) / 2;
-
-                                $valueene = '';
-                                $valuefeb = round($prom_bi_1);
-                                $valuemar = '';
-                                $valueabr = round($prom_bi_2);
-                                $valuemay = '';
-                                $valuejun = round($prom_bi_3);
-                                $valuejul = '';
-                                $valueago = round($prom_bi_4);
-                                $valuesep = '';
-                                $valueoct = round($prom_bi_5);
-                                $valuenov = '';
-                                $valuedic = round($prom_bi_6);                                
-
-                                
-                                $ene = '#FCF3CF';
-                                $feb = '#AED6F1';
-                                $mar = '#FCF3CF';
-                                $abr = '#AED6F1';
-                                $may = '#FCF3CF';
-                                $jun = '#AED6F1';
-                                $jul = '#FCF3CF';
-                                $ago = '#AED6F1';
-                                $sep = '#FCF3CF';
-                                $oct = '#AED6F1';
-                                $nov = '#FCF3CF';
-                                $dic = '#AED6F1';
-                            break;
-        
-                            case 4:
-
-                                $value_ene = $cons->getValueMtto('january_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_feb = $cons->getValueMtto('february_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_mar = $cons->getValueMtto('march_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-
-                                $value_abr = $cons->getValueMtto('april_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
-                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
-
-                                $value_jul = $cons->getValueMtto('july_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_ago = $cons->getValueMtto('august_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_sep = $cons->getValueMtto('september_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-
                                 $value_oct = $cons->getValueMtto('october_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_nov = $cons->getValueMtto('november_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_dic = $cons->getValueMtto('december_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                
-                                $promtri_1 = ($value_ene + $value_feb + $value_mar) / 3;
-                                $promtri_2 = ($value_abr + $value_may + $value_jun) / 3;
-                                $promtri_3 = ($value_jul + $value_ago + $value_sep) / 3;
-                                $promtri_4 = ($value_oct + $value_nov + $value_dic) / 3;
 
-                                $valueene = '';
-                                $valuefeb = '';
-                                $valuemar = round($promtri_1);
-                                $valueabr = '';
-                                $valuemay = '';
-                                $valuejun = round($promtri_2);
-                                $valuejul = '';
-                                $valueago = '';
-                                $valuesep = round($promtri_3);
-                                $valueoct = '';
-                                $valuenov = '';
-                                $valuedic = round($promtri_4);                
-
-                                $ene = '#FCF3CF';
-                                $feb = '#FCF3CF';
-                                $mar = '#AED6F1';
-                                $abr = '#FCF3CF';
-                                $may = '#FCF3CF';
-                                $jun = '#AED6F1';
-                                $jul = '#FCF3CF';
-                                $ago = '#FCF3CF';
-                                $sep = '#AED6F1';
-                                $oct = '#FCF3CF';
-                                $nov = '#FCF3CF';
-                                $dic = '#AED6F1';
-                            break;
-        
-                            case 5:  
-                                
-                                $value_ene = $cons->getValueMtto('january_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_feb = $cons->getValueMtto('february_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_mar = $cons->getValueMtto('march_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_abr = $cons->getValueMtto('april_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
-                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
-                                $value_jul = $cons->getValueMtto('july_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_ago = $cons->getValueMtto('august_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_sep = $cons->getValueMtto('september_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_oct = $cons->getValueMtto('october_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_nov = $cons->getValueMtto('november_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_dic = $cons->getValueMtto('december_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);                                
-
-                                $valueene = $value_ene;
-                                $valuefeb = $value_feb;
-                                $valuemar = $value_mar;
-                                $valueabr = $value_abr;
-                                $valuemay = $value_may;
-                                $valuejun = $value_jun;
-                                $valuejul = $value_jul;
-                                $valueago = $value_ago;
-                                $valuesep = $value_sep;
-                                $valueoct = $value_oct;
-                                $valuenov = $value_nov;
-                                $valuedic = $value_dic;
-                                
-                                $ene = '#AED6F1';
-                                $feb = '#AED6F1';
-                                $mar = '#AED6F1';
-                                $abr = '#AED6F1';
-                                $may = '#AED6F1';
-                                $jun = '#AED6F1';
-                                $jul = '#AED6F1';
-                                $ago = '#AED6F1';
-                                $sep = '#AED6F1';
-                                $oct = '#AED6F1';
-                                $nov = '#AED6F1';
-                                $dic = '#AED6F1';
-                            break;
-        
-                        } 
-                    break;
-
-                    case 3:
-                        switch($frequency){
-                            case 1:
-                                
-                                //CONSULTA DATOS DEL PRIMER SEMESTRE
-                                
-                                $value_ene = $cons->getValueMtto('january_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_feb = $cons->getValueMtto('february_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_mar = $cons->getValueMtto('march_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_abr = $cons->getValueMtto('april_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-
-                                //CONSULTA LOS DATOS DEL SEGUNDO SEMESTRE
-
-                                $value_jul = $cons->getValueMtto('july_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_ago = $cons->getValueMtto('august_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_sep = $cons->getValueMtto('september_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_oct = $cons->getValueMtto('october_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_nov = $cons->getValueMtto('november_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_dec = $cons->getValueMtto('december_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-
-                                $prom_sem1 = ($value_ene + $value_feb + $value_mar + $value_abr + $value_may + $value_jun) / 6;
-                                $prom_sem2 = ($value_jul + $value_ago + $value_sep + $value_oct + $value_nov + $value_dec) / 6;
-
-                                $valueene = '';
-                                $valuefeb = '';
-                                $valuemar = '';
-                                $valueabr = '';
-                                $valuemay = '';
-                                $valuejun = round($prom_sem1);
-                                $valuejul = '';
-                                $valueago = '';
-                                $valuesep = '';
-                                $valueoct = '';
-                                $valuenov = '';
-                                $valuedic = round($prom_sem2); 
-        
-                                $ene = '#FCF3CF';
-                                $feb = '#FCF3CF';
-                                $mar = '#FCF3CF';
-                                $abr = '#FCF3CF';
-                                $may = '#FCF3CF';
-                                $jun = '#AED6F1';
-                                $jul = '#FCF3CF';
-                                $ago = '#FCF3CF';
-                                $sep = '#FCF3CF';
-                                $oct = '#FCF3CF';
-                                $nov = '#FCF3CF';
-                                $dic = '#AED6F1';
-                            break;
-        
-                            case 2:
-
-                                //CONSULTA DATOS HASTA NOVIEMBRE
-                                
-                                $value_ene = $cons->getValueMtto('january_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_feb = $cons->getValueMtto('february_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_mar = $cons->getValueMtto('march_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_abr = $cons->getValueMtto('april_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
-                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
-                                $value_jul = $cons->getValueMtto('july_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_ago = $cons->getValueMtto('august_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_sep = $cons->getValueMtto('september_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_oct = $cons->getValueMtto('october_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_nov = $cons->getValueMtto('november_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_dec = $cons->getValueMtto('december_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-
-                               
-                                $prom_anual = ($value_ene + $value_feb + $value_mar + 
-                                               $value_abr + $value_may + $value_jun + 
-                                               $value_jul + $value_ago + $value_sep + 
-                                               $value_oct + $value_nov + $value_dec) / 12;
-
-                                $valueene = '';
-                                $valuefeb = '';
-                                $valuemar = '';
-                                $valueabr = '';
-                                $valuemay = '';
-                                $valuejun = '';
-                                $valuejul = '';
-                                $valueago = '';
-                                $valuesep = '';
-                                $valueoct = '';
-                                $valuenov = '';
-                                $valuedic = round($prom_anual);   
-        
-                                $ene = '#FCF3CF';
-                                $feb = '#FCF3CF';
-                                $mar = '#FCF3CF';
-                                $abr = '#FCF3CF';
-                                $may = '#FCF3CF';
-                                $jun = '#FCF3CF';
-                                $jul = '#FCF3CF';
-                                $ago = '#FCF3CF';
-                                $sep = '#FCF3CF';
-                                $oct = '#FCF3CF';
-                                $nov = '#FCF3CF';
-                                $dic = '#AED6F1';
-                            break;
-        
-                            case 3:
-
-                                $value_ene = $cons->getValueMtto('january_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_feb = $cons->getValueMtto('february_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_mar = $cons->getValueMtto('march_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_abr = $cons->getValueMtto('april_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
-                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
-                                $value_jul = $cons->getValueMtto('july_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_ago = $cons->getValueMtto('august_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_sep = $cons->getValueMtto('september_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_oct = $cons->getValueMtto('october_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_nov = $cons->getValueMtto('november_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_dic = $cons->getValueMtto('december_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);   
-                                
                                 $prom_bi_1 = ($value_ene + $value_feb) / 2;
                                 $prom_bi_2 = ($value_mar + $value_abr) / 2;
                                 $prom_bi_3 = ($value_may + $value_jun) / 2;
@@ -8066,7 +7890,8 @@ class mtto{
                                 $valueoct = round($prom_bi_5);
                                 $valuenov = '';
                                 $valuedic = round($prom_bi_6);
-                                
+
+
                                 $ene = '#FCF3CF';
                                 $feb = '#AED6F1';
                                 $mar = '#FCF3CF';
@@ -8080,7 +7905,7 @@ class mtto{
                                 $nov = '#FCF3CF';
                                 $dic = '#AED6F1';
                             break;
-        
+
                             case 4:
 
                                 $value_ene = $cons->getValueMtto('january_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
@@ -8088,8 +7913,8 @@ class mtto{
                                 $value_mar = $cons->getValueMtto('march_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
 
                                 $value_abr = $cons->getValueMtto('april_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
-                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
+                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
 
                                 $value_jul = $cons->getValueMtto('july_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_ago = $cons->getValueMtto('august_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
@@ -8098,7 +7923,7 @@ class mtto{
                                 $value_oct = $cons->getValueMtto('october_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_nov = $cons->getValueMtto('november_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_dic = $cons->getValueMtto('december_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                
+
                                 $promtri_1 = ($value_ene + $value_feb + $value_mar) / 3;
                                 $promtri_2 = ($value_abr + $value_may + $value_jun) / 3;
                                 $promtri_3 = ($value_jul + $value_ago + $value_sep) / 3;
@@ -8115,8 +7940,8 @@ class mtto{
                                 $valuesep = round($promtri_3);
                                 $valueoct = '';
                                 $valuenov = '';
-                                $valuedic = round($promtri_4); 
-                                
+                                $valuedic = round($promtri_4);
+
                                 $ene = '#FCF3CF';
                                 $feb = '#FCF3CF';
                                 $mar = '#AED6F1';
@@ -8130,21 +7955,21 @@ class mtto{
                                 $nov = '#FCF3CF';
                                 $dic = '#AED6F1';
                             break;
-        
+
                             case 5:
 
                                 $value_ene = $cons->getValueMtto('january_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_feb = $cons->getValueMtto('february_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_mar = $cons->getValueMtto('march_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_abr = $cons->getValueMtto('april_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
-                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
+                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_jul = $cons->getValueMtto('july_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_ago = $cons->getValueMtto('august_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_sep = $cons->getValueMtto('september_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_oct = $cons->getValueMtto('october_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_nov = $cons->getValueMtto('november_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_dic = $cons->getValueMtto('december_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);                                
+                                $value_dic = $cons->getValueMtto('december_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
 
                                 $valueene = $value_ene;
                                 $valuefeb = $value_feb;
@@ -8158,7 +7983,7 @@ class mtto{
                                 $valueoct = $value_oct;
                                 $valuenov = $value_nov;
                                 $valuedic = $value_dic;
-                                
+
                                 $ene = '#AED6F1';
                                 $feb = '#AED6F1';
                                 $mar = '#AED6F1';
@@ -8172,8 +7997,254 @@ class mtto{
                                 $nov = '#AED6F1';
                                 $dic = '#AED6F1';
                             break;
-        
-                        } 
+
+                        }
+                    break;
+
+                    case 3:
+                        switch($frequency){
+                            case 1:
+
+                                //CONSULTA DATOS DEL PRIMER SEMESTRE
+
+                                $value_ene = $cons->getValueMtto('january_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_feb = $cons->getValueMtto('february_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_mar = $cons->getValueMtto('march_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_abr = $cons->getValueMtto('april_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+
+                                //CONSULTA LOS DATOS DEL SEGUNDO SEMESTRE
+
+                                $value_jul = $cons->getValueMtto('july_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_ago = $cons->getValueMtto('august_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_sep = $cons->getValueMtto('september_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_oct = $cons->getValueMtto('october_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_nov = $cons->getValueMtto('november_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_dec = $cons->getValueMtto('december_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+
+                                $prom_sem1 = ($value_ene + $value_feb + $value_mar + $value_abr + $value_may + $value_jun) / 6;
+                                $prom_sem2 = ($value_jul + $value_ago + $value_sep + $value_oct + $value_nov + $value_dec) / 6;
+
+                                $valueene = '';
+                                $valuefeb = '';
+                                $valuemar = '';
+                                $valueabr = '';
+                                $valuemay = '';
+                                $valuejun = round($prom_sem1);
+                                $valuejul = '';
+                                $valueago = '';
+                                $valuesep = '';
+                                $valueoct = '';
+                                $valuenov = '';
+                                $valuedic = round($prom_sem2);
+
+                                $ene = '#FCF3CF';
+                                $feb = '#FCF3CF';
+                                $mar = '#FCF3CF';
+                                $abr = '#FCF3CF';
+                                $may = '#FCF3CF';
+                                $jun = '#AED6F1';
+                                $jul = '#FCF3CF';
+                                $ago = '#FCF3CF';
+                                $sep = '#FCF3CF';
+                                $oct = '#FCF3CF';
+                                $nov = '#FCF3CF';
+                                $dic = '#AED6F1';
+                            break;
+
+                            case 2:
+
+                                //CONSULTA DATOS HASTA NOVIEMBRE
+
+                                $value_ene = $cons->getValueMtto('january_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_feb = $cons->getValueMtto('february_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_mar = $cons->getValueMtto('march_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_abr = $cons->getValueMtto('april_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_jul = $cons->getValueMtto('july_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_ago = $cons->getValueMtto('august_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_sep = $cons->getValueMtto('september_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_oct = $cons->getValueMtto('october_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_nov = $cons->getValueMtto('november_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_dec = $cons->getValueMtto('december_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+
+
+                                $prom_anual = ($value_ene + $value_feb + $value_mar +
+                                               $value_abr + $value_may + $value_jun +
+                                               $value_jul + $value_ago + $value_sep +
+                                               $value_oct + $value_nov + $value_dec) / 12;
+
+                                $valueene = '';
+                                $valuefeb = '';
+                                $valuemar = '';
+                                $valueabr = '';
+                                $valuemay = '';
+                                $valuejun = '';
+                                $valuejul = '';
+                                $valueago = '';
+                                $valuesep = '';
+                                $valueoct = '';
+                                $valuenov = '';
+                                $valuedic = round($prom_anual);
+
+                                $ene = '#FCF3CF';
+                                $feb = '#FCF3CF';
+                                $mar = '#FCF3CF';
+                                $abr = '#FCF3CF';
+                                $may = '#FCF3CF';
+                                $jun = '#FCF3CF';
+                                $jul = '#FCF3CF';
+                                $ago = '#FCF3CF';
+                                $sep = '#FCF3CF';
+                                $oct = '#FCF3CF';
+                                $nov = '#FCF3CF';
+                                $dic = '#AED6F1';
+                            break;
+
+                            case 3:
+
+                                $value_ene = $cons->getValueMtto('january_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_feb = $cons->getValueMtto('february_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_mar = $cons->getValueMtto('march_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_abr = $cons->getValueMtto('april_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_jul = $cons->getValueMtto('july_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_ago = $cons->getValueMtto('august_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_sep = $cons->getValueMtto('september_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_oct = $cons->getValueMtto('october_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_nov = $cons->getValueMtto('november_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_dic = $cons->getValueMtto('december_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+
+                                $prom_bi_1 = ($value_ene + $value_feb) / 2;
+                                $prom_bi_2 = ($value_mar + $value_abr) / 2;
+                                $prom_bi_3 = ($value_may + $value_jun) / 2;
+                                $prom_bi_4 = ($value_jul + $value_ago) / 2;
+                                $prom_bi_5 = ($value_sep + $value_oct) / 2;
+                                $prom_bi_6 = ($value_nov + $value_dic) / 2;
+
+                                $valueene = '';
+                                $valuefeb = round($prom_bi_1);
+                                $valuemar = '';
+                                $valueabr = round($prom_bi_2);
+                                $valuemay = '';
+                                $valuejun = round($prom_bi_3);
+                                $valuejul = '';
+                                $valueago = round($prom_bi_4);
+                                $valuesep = '';
+                                $valueoct = round($prom_bi_5);
+                                $valuenov = '';
+                                $valuedic = round($prom_bi_6);
+
+                                $ene = '#FCF3CF';
+                                $feb = '#AED6F1';
+                                $mar = '#FCF3CF';
+                                $abr = '#AED6F1';
+                                $may = '#FCF3CF';
+                                $jun = '#AED6F1';
+                                $jul = '#FCF3CF';
+                                $ago = '#AED6F1';
+                                $sep = '#FCF3CF';
+                                $oct = '#AED6F1';
+                                $nov = '#FCF3CF';
+                                $dic = '#AED6F1';
+                            break;
+
+                            case 4:
+
+                                $value_ene = $cons->getValueMtto('january_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_feb = $cons->getValueMtto('february_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_mar = $cons->getValueMtto('march_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+
+                                $value_abr = $cons->getValueMtto('april_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+
+                                $value_jul = $cons->getValueMtto('july_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_ago = $cons->getValueMtto('august_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_sep = $cons->getValueMtto('september_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+
+                                $value_oct = $cons->getValueMtto('october_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_nov = $cons->getValueMtto('november_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_dic = $cons->getValueMtto('december_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+
+                                $promtri_1 = ($value_ene + $value_feb + $value_mar) / 3;
+                                $promtri_2 = ($value_abr + $value_may + $value_jun) / 3;
+                                $promtri_3 = ($value_jul + $value_ago + $value_sep) / 3;
+                                $promtri_4 = ($value_oct + $value_nov + $value_dic) / 3;
+
+                                $valueene = '';
+                                $valuefeb = '';
+                                $valuemar = round($promtri_1);
+                                $valueabr = '';
+                                $valuemay = '';
+                                $valuejun = round($promtri_2);
+                                $valuejul = '';
+                                $valueago = '';
+                                $valuesep = round($promtri_3);
+                                $valueoct = '';
+                                $valuenov = '';
+                                $valuedic = round($promtri_4);
+
+                                $ene = '#FCF3CF';
+                                $feb = '#FCF3CF';
+                                $mar = '#AED6F1';
+                                $abr = '#FCF3CF';
+                                $may = '#FCF3CF';
+                                $jun = '#AED6F1';
+                                $jul = '#FCF3CF';
+                                $ago = '#FCF3CF';
+                                $sep = '#AED6F1';
+                                $oct = '#FCF3CF';
+                                $nov = '#FCF3CF';
+                                $dic = '#AED6F1';
+                            break;
+
+                            case 5:
+
+                                $value_ene = $cons->getValueMtto('january_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_feb = $cons->getValueMtto('february_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_mar = $cons->getValueMtto('march_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_abr = $cons->getValueMtto('april_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_jul = $cons->getValueMtto('july_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_ago = $cons->getValueMtto('august_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_sep = $cons->getValueMtto('september_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_oct = $cons->getValueMtto('october_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_nov = $cons->getValueMtto('november_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_dic = $cons->getValueMtto('december_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+
+                                $valueene = $value_ene;
+                                $valuefeb = $value_feb;
+                                $valuemar = $value_mar;
+                                $valueabr = $value_abr;
+                                $valuemay = $value_may;
+                                $valuejun = $value_jun;
+                                $valuejul = $value_jul;
+                                $valueago = $value_ago;
+                                $valuesep = $value_sep;
+                                $valueoct = $value_oct;
+                                $valuenov = $value_nov;
+                                $valuedic = $value_dic;
+
+                                $ene = '#AED6F1';
+                                $feb = '#AED6F1';
+                                $mar = '#AED6F1';
+                                $abr = '#AED6F1';
+                                $may = '#AED6F1';
+                                $jun = '#AED6F1';
+                                $jul = '#AED6F1';
+                                $ago = '#AED6F1';
+                                $sep = '#AED6F1';
+                                $oct = '#AED6F1';
+                                $nov = '#AED6F1';
+                                $dic = '#AED6F1';
+                            break;
+
+                        }
                     break;
 
                     case 4:
@@ -8181,7 +8252,7 @@ class mtto{
                             case 1:
 
                                 //CONSULTA DATOS DEL PRIMER SEMESTRE
-                                
+
                                 $value_ene = $cons->getValueMtto('january_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_feb = $cons->getValueMtto('february_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_mar = $cons->getValueMtto('march_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
@@ -8213,7 +8284,7 @@ class mtto{
                                 $valueoct = '';
                                 $valuenov = '';
                                 $valuedic = round($prom_sem2);
-        
+
                                 $ene = '#FCF3CF';
                                 $feb = '#FCF3CF';
                                 $mar = '#FCF3CF';
@@ -8227,17 +8298,17 @@ class mtto{
                                 $nov = '#FCF3CF';
                                 $dic = '#AED6F1';
                             break;
-        
+
                             case 2:
 
                                 //CONSULTA DATOS HASTA NOVIEMBRE
-                                
+
                                 $value_ene = $cons->getValueMtto('january_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_feb = $cons->getValueMtto('february_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_mar = $cons->getValueMtto('march_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_abr = $cons->getValueMtto('april_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
-                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
+                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_jul = $cons->getValueMtto('july_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_ago = $cons->getValueMtto('august_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_sep = $cons->getValueMtto('september_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
@@ -8245,10 +8316,10 @@ class mtto{
                                 $value_nov = $cons->getValueMtto('november_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_dec = $cons->getValueMtto('december_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
 
-                               
-                                $prom_anual = ($value_ene + $value_feb + $value_mar + 
-                                               $value_abr + $value_may + $value_jun + 
-                                               $value_jul + $value_ago + $value_sep + 
+
+                                $prom_anual = ($value_ene + $value_feb + $value_mar +
+                                               $value_abr + $value_may + $value_jun +
+                                               $value_jul + $value_ago + $value_sep +
                                                $value_oct + $value_nov + $value_dec) / 12;
 
                                 $valueene = '';
@@ -8262,8 +8333,8 @@ class mtto{
                                 $valuesep = '';
                                 $valueoct = '';
                                 $valuenov = '';
-                                $valuedic = round($prom_anual);   
-        
+                                $valuedic = round($prom_anual);
+
                                 $ene = '#FCF3CF';
                                 $feb = '#FCF3CF';
                                 $mar = '#FCF3CF';
@@ -8277,22 +8348,22 @@ class mtto{
                                 $nov = '#FCF3CF';
                                 $dic = '#AED6F1';
                             break;
-        
+
                             case 3:
 
                                 $value_ene = $cons->getValueMtto('january_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_feb = $cons->getValueMtto('february_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_mar = $cons->getValueMtto('march_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_abr = $cons->getValueMtto('april_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
-                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
+                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_jul = $cons->getValueMtto('july_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_ago = $cons->getValueMtto('august_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_sep = $cons->getValueMtto('september_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_oct = $cons->getValueMtto('october_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_nov = $cons->getValueMtto('november_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_dic = $cons->getValueMtto('december_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);   
-                                
+                                $value_dic = $cons->getValueMtto('december_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+
                                 $prom_bi_1 = ($value_ene + $value_feb) / 2;
                                 $prom_bi_2 = ($value_mar + $value_abr) / 2;
                                 $prom_bi_3 = ($value_may + $value_jun) / 2;
@@ -8312,7 +8383,7 @@ class mtto{
                                 $valueoct = round($prom_bi_5);
                                 $valuenov = '';
                                 $valuedic = round($prom_bi_6);
-                                
+
                                 $ene = '#FCF3CF';
                                 $feb = '#AED6F1';
                                 $mar = '#FCF3CF';
@@ -8326,7 +8397,7 @@ class mtto{
                                 $nov = '#FCF3CF';
                                 $dic = '#AED6F1';
                             break;
-        
+
                             case 4:
 
                                 $value_ene = $cons->getValueMtto('january_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
@@ -8334,8 +8405,8 @@ class mtto{
                                 $value_mar = $cons->getValueMtto('march_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
 
                                 $value_abr = $cons->getValueMtto('april_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
-                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
+                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
 
                                 $value_jul = $cons->getValueMtto('july_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_ago = $cons->getValueMtto('august_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
@@ -8344,7 +8415,7 @@ class mtto{
                                 $value_oct = $cons->getValueMtto('october_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_nov = $cons->getValueMtto('november_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_dic = $cons->getValueMtto('december_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                
+
                                 $promtri_1 = ($value_ene + $value_feb + $value_mar) / 3;
                                 $promtri_2 = ($value_abr + $value_may + $value_jun) / 3;
                                 $promtri_3 = ($value_jul + $value_ago + $value_sep) / 3;
@@ -8361,8 +8432,8 @@ class mtto{
                                 $valuesep = round($promtri_3);
                                 $valueoct = '';
                                 $valuenov = '';
-                                $valuedic = round($promtri_4); 
-                                
+                                $valuedic = round($promtri_4);
+
                                 $ene = '#FCF3CF';
                                 $feb = '#FCF3CF';
                                 $mar = '#AED6F1';
@@ -8376,21 +8447,21 @@ class mtto{
                                 $nov = '#FCF3CF';
                                 $dic = '#AED6F1';
                             break;
-        
+
                             case 5:
 
                                 $value_ene = $cons->getValueMtto('january_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_feb = $cons->getValueMtto('february_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_mar = $cons->getValueMtto('march_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_abr = $cons->getValueMtto('april_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
-                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
+                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_jul = $cons->getValueMtto('july_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_ago = $cons->getValueMtto('august_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_sep = $cons->getValueMtto('september_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_oct = $cons->getValueMtto('october_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_nov = $cons->getValueMtto('november_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_dic = $cons->getValueMtto('december_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);                                
+                                $value_dic = $cons->getValueMtto('december_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
 
                                 $valueene = $value_ene;
                                 $valuefeb = $value_feb;
@@ -8404,7 +8475,7 @@ class mtto{
                                 $valueoct = $value_oct;
                                 $valuenov = $value_nov;
                                 $valuedic = $value_dic;
-                                
+
                                 $ene = '#AED6F1';
                                 $feb = '#AED6F1';
                                 $mar = '#AED6F1';
@@ -8418,8 +8489,8 @@ class mtto{
                                 $nov = '#AED6F1';
                                 $dic = '#AED6F1';
                             break;
-        
-                        } 
+
+                        }
                     break;
 
                     case 5:
@@ -8427,7 +8498,7 @@ class mtto{
                             case 1:
 
                                 //CONSULTA DATOS DEL PRIMER SEMESTRE
-                                
+
                                 $value_ene = $cons->getValueMtto('january_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_feb = $cons->getValueMtto('february_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_mar = $cons->getValueMtto('march_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
@@ -8459,7 +8530,7 @@ class mtto{
                                 $valueoct = '';
                                 $valuenov = '';
                                 $valuedic = round($prom_sem2);
-        
+
                                 $ene = '#FCF3CF';
                                 $feb = '#FCF3CF';
                                 $mar = '#FCF3CF';
@@ -8473,17 +8544,17 @@ class mtto{
                                 $nov = '#FCF3CF';
                                 $dic = '#AED6F1';
                             break;
-        
+
                             case 2:
 
                                 //CONSULTA DATOS HASTA NOVIEMBRE
-                                
+
                                 $value_ene = $cons->getValueMtto('january_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_feb = $cons->getValueMtto('february_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_mar = $cons->getValueMtto('march_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_abr = $cons->getValueMtto('april_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
-                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
+                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_jul = $cons->getValueMtto('july_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_ago = $cons->getValueMtto('august_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_sep = $cons->getValueMtto('september_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
@@ -8491,10 +8562,10 @@ class mtto{
                                 $value_nov = $cons->getValueMtto('november_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_dec = $cons->getValueMtto('december_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
 
-                               
-                                $prom_anual = ($value_ene + $value_feb + $value_mar + 
-                                               $value_abr + $value_may + $value_jun + 
-                                               $value_jul + $value_ago + $value_sep + 
+
+                                $prom_anual = ($value_ene + $value_feb + $value_mar +
+                                               $value_abr + $value_may + $value_jun +
+                                               $value_jul + $value_ago + $value_sep +
                                                $value_oct + $value_nov + $value_dec) / 12;
 
                                 $valueene = '';
@@ -8508,8 +8579,8 @@ class mtto{
                                 $valuesep = '';
                                 $valueoct = '';
                                 $valuenov = '';
-                                $valuedic = round($prom_anual);  
-        
+                                $valuedic = round($prom_anual);
+
                                 $ene = '#FCF3CF';
                                 $feb = '#FCF3CF';
                                 $mar = '#FCF3CF';
@@ -8523,22 +8594,22 @@ class mtto{
                                 $nov = '#FCF3CF';
                                 $dic = '#AED6F1';
                             break;
-        
+
                             case 3:
 
                                 $value_ene = $cons->getValueMtto('january_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_feb = $cons->getValueMtto('february_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_mar = $cons->getValueMtto('march_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_abr = $cons->getValueMtto('april_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
-                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
+                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_jul = $cons->getValueMtto('july_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_ago = $cons->getValueMtto('august_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_sep = $cons->getValueMtto('september_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_oct = $cons->getValueMtto('october_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_nov = $cons->getValueMtto('november_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_dic = $cons->getValueMtto('december_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);   
-                                
+                                $value_dic = $cons->getValueMtto('december_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+
                                 $prom_bi_1 = ($value_ene + $value_feb) / 2;
                                 $prom_bi_2 = ($value_mar + $value_abr) / 2;
                                 $prom_bi_3 = ($value_may + $value_jun) / 2;
@@ -8558,7 +8629,7 @@ class mtto{
                                 $valueoct = round($prom_bi_5);
                                 $valuenov = '';
                                 $valuedic = round($prom_bi_6);
-                                
+
                                 $ene = '#FCF3CF';
                                 $feb = '#AED6F1';
                                 $mar = '#FCF3CF';
@@ -8572,7 +8643,7 @@ class mtto{
                                 $nov = '#FCF3CF';
                                 $dic = '#AED6F1';
                             break;
-        
+
                             case 4:
 
                                 $value_ene = $cons->getValueMtto('january_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
@@ -8580,8 +8651,8 @@ class mtto{
                                 $value_mar = $cons->getValueMtto('march_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
 
                                 $value_abr = $cons->getValueMtto('april_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
-                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
+                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
 
                                 $value_jul = $cons->getValueMtto('july_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_ago = $cons->getValueMtto('august_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
@@ -8590,7 +8661,7 @@ class mtto{
                                 $value_oct = $cons->getValueMtto('october_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_nov = $cons->getValueMtto('november_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_dic = $cons->getValueMtto('december_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                
+
                                 $promtri_1 = ($value_ene + $value_feb + $value_mar) / 3;
                                 $promtri_2 = ($value_abr + $value_may + $value_jun) / 3;
                                 $promtri_3 = ($value_jul + $value_ago + $value_sep) / 3;
@@ -8607,8 +8678,8 @@ class mtto{
                                 $valuesep = round($promtri_3);
                                 $valueoct = '';
                                 $valuenov = '';
-                                $valuedic = round($promtri_4); 
-                                
+                                $valuedic = round($promtri_4);
+
                                 $ene = '#FCF3CF';
                                 $feb = '#FCF3CF';
                                 $mar = '#AED6F1';
@@ -8622,21 +8693,21 @@ class mtto{
                                 $nov = '#FCF3CF';
                                 $dic = '#AED6F1';
                             break;
-        
+
                             case 5:
 
                                 $value_ene = $cons->getValueMtto('january_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_feb = $cons->getValueMtto('february_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_mar = $cons->getValueMtto('march_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_abr = $cons->getValueMtto('april_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
-                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
+                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_jul = $cons->getValueMtto('july_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_ago = $cons->getValueMtto('august_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_sep = $cons->getValueMtto('september_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_oct = $cons->getValueMtto('october_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_nov = $cons->getValueMtto('november_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_dic = $cons->getValueMtto('december_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);                                
+                                $value_dic = $cons->getValueMtto('december_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
 
                                 $valueene = $value_ene;
                                 $valuefeb = $value_feb;
@@ -8650,7 +8721,7 @@ class mtto{
                                 $valueoct = $value_oct;
                                 $valuenov = $value_nov;
                                 $valuedic = $value_dic;
-                                
+
                                 $ene = '#AED6F1';
                                 $feb = '#AED6F1';
                                 $mar = '#AED6F1';
@@ -8664,8 +8735,8 @@ class mtto{
                                 $nov = '#AED6F1';
                                 $dic = '#AED6F1';
                             break;
-        
-                        } 
+
+                        }
                     break;
 
                     case 6:
@@ -8673,7 +8744,7 @@ class mtto{
                             case 1:
 
                                 //CONSULTA DATOS DEL PRIMER SEMESTRE
-                                
+
                                 $value_ene = $cons->getValueMtto('january_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_feb = $cons->getValueMtto('february_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_mar = $cons->getValueMtto('march_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
@@ -8705,7 +8776,7 @@ class mtto{
                                 $valueoct = '';
                                 $valuenov = '';
                                 $valuedic = round($prom_sem2);
-        
+
                                 $ene = '#FCF3CF';
                                 $feb = '#FCF3CF';
                                 $mar = '#FCF3CF';
@@ -8719,17 +8790,17 @@ class mtto{
                                 $nov = '#FCF3CF';
                                 $dic = '#AED6F1';
                             break;
-        
+
                             case 2:
 
                                 //CONSULTA DATOS HASTA NOVIEMBRE
-                                
+
                                 $value_ene = $cons->getValueMtto('january_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_feb = $cons->getValueMtto('february_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_mar = $cons->getValueMtto('march_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_abr = $cons->getValueMtto('april_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
-                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
+                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_jul = $cons->getValueMtto('july_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_ago = $cons->getValueMtto('august_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_sep = $cons->getValueMtto('september_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
@@ -8737,10 +8808,10 @@ class mtto{
                                 $value_nov = $cons->getValueMtto('november_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_dec = $cons->getValueMtto('december_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
 
-                               
-                                $prom_anual = ($value_ene + $value_feb + $value_mar + 
-                                               $value_abr + $value_may + $value_jun + 
-                                               $value_jul + $value_ago + $value_sep + 
+
+                                $prom_anual = ($value_ene + $value_feb + $value_mar +
+                                               $value_abr + $value_may + $value_jun +
+                                               $value_jul + $value_ago + $value_sep +
                                                $value_oct + $value_nov + $value_dec) / 12;
 
                                 $valueene = '';
@@ -8755,7 +8826,7 @@ class mtto{
                                 $valueoct = '';
                                 $valuenov = '';
                                 $valuedic = round($prom_anual);
-        
+
                                 $ene = '#FCF3CF';
                                 $feb = '#FCF3CF';
                                 $mar = '#FCF3CF';
@@ -8769,22 +8840,22 @@ class mtto{
                                 $nov = '#FCF3CF';
                                 $dic = '#AED6F1';
                             break;
-        
+
                             case 3:
 
                                 $value_ene = $cons->getValueMtto('january_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_feb = $cons->getValueMtto('february_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_mar = $cons->getValueMtto('march_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_abr = $cons->getValueMtto('april_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
-                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
+                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_jul = $cons->getValueMtto('july_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_ago = $cons->getValueMtto('august_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_sep = $cons->getValueMtto('september_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_oct = $cons->getValueMtto('october_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_nov = $cons->getValueMtto('november_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_dic = $cons->getValueMtto('december_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);   
-                                
+                                $value_dic = $cons->getValueMtto('december_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+
                                 $prom_bi_1 = ($value_ene + $value_feb) / 2;
                                 $prom_bi_2 = ($value_mar + $value_abr) / 2;
                                 $prom_bi_3 = ($value_may + $value_jun) / 2;
@@ -8804,7 +8875,7 @@ class mtto{
                                 $valueoct = round($prom_bi_5);
                                 $valuenov = '';
                                 $valuedic = round($prom_bi_6);
-                                
+
                                 $ene = '#FCF3CF';
                                 $feb = '#AED6F1';
                                 $mar = '#FCF3CF';
@@ -8818,7 +8889,7 @@ class mtto{
                                 $nov = '#FCF3CF';
                                 $dic = '#AED6F1';
                             break;
-        
+
                             case 4:
 
                                 $value_ene = $cons->getValueMtto('january_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
@@ -8826,8 +8897,8 @@ class mtto{
                                 $value_mar = $cons->getValueMtto('march_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
 
                                 $value_abr = $cons->getValueMtto('april_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
-                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
+                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
 
                                 $value_jul = $cons->getValueMtto('july_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_ago = $cons->getValueMtto('august_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
@@ -8836,7 +8907,7 @@ class mtto{
                                 $value_oct = $cons->getValueMtto('october_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_nov = $cons->getValueMtto('november_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_dic = $cons->getValueMtto('december_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                
+
                                 $promtri_1 = ($value_ene + $value_feb + $value_mar) / 3;
                                 $promtri_2 = ($value_abr + $value_may + $value_jun) / 3;
                                 $promtri_3 = ($value_jul + $value_ago + $value_sep) / 3;
@@ -8853,8 +8924,8 @@ class mtto{
                                 $valuesep = round($promtri_3);
                                 $valueoct = '';
                                 $valuenov = '';
-                                $valuedic = round($promtri_4); 
-                                
+                                $valuedic = round($promtri_4);
+
                                 $ene = '#FCF3CF';
                                 $feb = '#FCF3CF';
                                 $mar = '#AED6F1';
@@ -8868,21 +8939,21 @@ class mtto{
                                 $nov = '#FCF3CF';
                                 $dic = '#AED6F1';
                             break;
-        
+
                             case 5:
 
                                 $value_ene = $cons->getValueMtto('january_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_feb = $cons->getValueMtto('february_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_mar = $cons->getValueMtto('march_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_abr = $cons->getValueMtto('april_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
-                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
+                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_jul = $cons->getValueMtto('july_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_ago = $cons->getValueMtto('august_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_sep = $cons->getValueMtto('september_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_oct = $cons->getValueMtto('october_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_nov = $cons->getValueMtto('november_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_dic = $cons->getValueMtto('december_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);                                
+                                $value_dic = $cons->getValueMtto('december_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
 
                                 $valueene = $value_ene;
                                 $valuefeb = $value_feb;
@@ -8896,7 +8967,7 @@ class mtto{
                                 $valueoct = $value_oct;
                                 $valuenov = $value_nov;
                                 $valuedic = $value_dic;
-                                
+
                                 $ene = '#AED6F1';
                                 $feb = '#AED6F1';
                                 $mar = '#AED6F1';
@@ -8910,8 +8981,8 @@ class mtto{
                                 $nov = '#AED6F1';
                                 $dic = '#AED6F1';
                             break;
-        
-                        } 
+
+                        }
                     break;
 
                     case 7:
@@ -8919,7 +8990,7 @@ class mtto{
                             case 1:
 
                                 //CONSULTA DATOS DEL PRIMER SEMESTRE
-                                
+
                                 $value_ene = $cons->getValueMtto('january_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_feb = $cons->getValueMtto('february_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_mar = $cons->getValueMtto('march_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
@@ -8951,7 +9022,7 @@ class mtto{
                                 $valueoct = '';
                                 $valuenov = '';
                                 $valuedic = round($prom_sem2);
-        
+
                                 $ene = '#FCF3CF';
                                 $feb = '#FCF3CF';
                                 $mar = '#FCF3CF';
@@ -8965,17 +9036,17 @@ class mtto{
                                 $nov = '#FCF3CF';
                                 $dic = '#AED6F1';
                             break;
-        
+
                             case 2:
 
                                 //CONSULTA DATOS HASTA NOVIEMBRE
-                                
+
                                 $value_ene = $cons->getValueMtto('january_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_feb = $cons->getValueMtto('february_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_mar = $cons->getValueMtto('march_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_abr = $cons->getValueMtto('april_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
-                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
+                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_jul = $cons->getValueMtto('july_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_ago = $cons->getValueMtto('august_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_sep = $cons->getValueMtto('september_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
@@ -8983,10 +9054,10 @@ class mtto{
                                 $value_nov = $cons->getValueMtto('november_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_dec = $cons->getValueMtto('december_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
 
-                               
-                                $prom_anual = ($value_ene + $value_feb + $value_mar + 
-                                               $value_abr + $value_may + $value_jun + 
-                                               $value_jul + $value_ago + $value_sep + 
+
+                                $prom_anual = ($value_ene + $value_feb + $value_mar +
+                                               $value_abr + $value_may + $value_jun +
+                                               $value_jul + $value_ago + $value_sep +
                                                $value_oct + $value_nov + $value_dec) / 12;
 
                                 $valueene = '';
@@ -9001,7 +9072,7 @@ class mtto{
                                 $valueoct = '';
                                 $valuenov = '';
                                 $valuedic = round($prom_anual);
-        
+
                                 $ene = '#FCF3CF';
                                 $feb = '#FCF3CF';
                                 $mar = '#FCF3CF';
@@ -9015,22 +9086,22 @@ class mtto{
                                 $nov = '#FCF3CF';
                                 $dic = '#AED6F1';
                             break;
-        
+
                             case 3:
 
                                 $value_ene = $cons->getValueMtto('january_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_feb = $cons->getValueMtto('february_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_mar = $cons->getValueMtto('march_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_abr = $cons->getValueMtto('april_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
-                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
+                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_jul = $cons->getValueMtto('july_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_ago = $cons->getValueMtto('august_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_sep = $cons->getValueMtto('september_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_oct = $cons->getValueMtto('october_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_nov = $cons->getValueMtto('november_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_dic = $cons->getValueMtto('december_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);   
-                                
+                                $value_dic = $cons->getValueMtto('december_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+
                                 $prom_bi_1 = ($value_ene + $value_feb) / 2;
                                 $prom_bi_2 = ($value_mar + $value_abr) / 2;
                                 $prom_bi_3 = ($value_may + $value_jun) / 2;
@@ -9050,7 +9121,7 @@ class mtto{
                                 $valueoct = round($prom_bi_5);
                                 $valuenov = '';
                                 $valuedic = round($prom_bi_6);
-                                
+
                                 $ene = '#FCF3CF';
                                 $feb = '#AED6F1';
                                 $mar = '#FCF3CF';
@@ -9064,7 +9135,7 @@ class mtto{
                                 $nov = '#FCF3CF';
                                 $dic = '#AED6F1';
                             break;
-        
+
                             case 4:
 
                                 $value_ene = $cons->getValueMtto('january_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
@@ -9072,8 +9143,8 @@ class mtto{
                                 $value_mar = $cons->getValueMtto('march_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
 
                                 $value_abr = $cons->getValueMtto('april_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
-                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
+                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
 
                                 $value_jul = $cons->getValueMtto('july_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_ago = $cons->getValueMtto('august_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
@@ -9082,7 +9153,7 @@ class mtto{
                                 $value_oct = $cons->getValueMtto('october_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_nov = $cons->getValueMtto('november_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_dic = $cons->getValueMtto('december_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                
+
                                 $promtri_1 = ($value_ene + $value_feb + $value_mar) / 3;
                                 $promtri_2 = ($value_abr + $value_may + $value_jun) / 3;
                                 $promtri_3 = ($value_jul + $value_ago + $value_sep) / 3;
@@ -9099,8 +9170,8 @@ class mtto{
                                 $valuesep = round($promtri_3);
                                 $valueoct = '';
                                 $valuenov = '';
-                                $valuedic = round($promtri_4); 
-                                
+                                $valuedic = round($promtri_4);
+
                                 $ene = '#FCF3CF';
                                 $feb = '#FCF3CF';
                                 $mar = '#AED6F1';
@@ -9114,21 +9185,21 @@ class mtto{
                                 $nov = '#FCF3CF';
                                 $dic = '#AED6F1';
                             break;
-        
+
                             case 5:
 
                                 $value_ene = $cons->getValueMtto('january_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_feb = $cons->getValueMtto('february_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_mar = $cons->getValueMtto('march_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_abr = $cons->getValueMtto('april_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
-                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator); 
+                                $value_may = $cons->getValueMtto('may_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
+                                $value_jun = $cons->getValueMtto('june_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_jul = $cons->getValueMtto('july_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_ago = $cons->getValueMtto('august_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_sep = $cons->getValueMtto('september_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_oct = $cons->getValueMtto('october_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
                                 $value_nov = $cons->getValueMtto('november_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
-                                $value_dic = $cons->getValueMtto('december_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);                                
+                                $value_dic = $cons->getValueMtto('december_indicator', 'month_indicators_quantity', 'id_indicators_program', $id_mont_indicator);
 
                                 $valueene = $value_ene;
                                 $valuefeb = $value_feb;
@@ -9142,7 +9213,7 @@ class mtto{
                                 $valueoct = $value_oct;
                                 $valuenov = $value_nov;
                                 $valuedic = $value_dic;
-                                
+
                                 $ene = '#AED6F1';
                                 $feb = '#AED6F1';
                                 $mar = '#AED6F1';
@@ -9156,8 +9227,8 @@ class mtto{
                                 $nov = '#AED6F1';
                                 $dic = '#AED6F1';
                             break;
-        
-                        } 
+
+                        }
                     break;
 
                 };
@@ -9371,12 +9442,12 @@ class mtto{
                     
                 </div>
                 
-                ";               
-            
+                ";
+
             };
-          
+
         }
-        
+
         else
         {
             $table.= "";
@@ -9385,7 +9456,7 @@ class mtto{
         $table.="</table>";
 
         return $table;
-        
+
     }
 
     //Actualiza el porcentaje de los indicadores base y cronograma
@@ -9396,7 +9467,7 @@ class mtto{
         $stmt1 = $mysqli->prepare("UPDATE meta_indicator_program SET value_meta_indicator = ?, fk_frequency_measuring = ? WHERE id_meta_indicator_program = ?");
         $stmt1->bind_param('iii', $value_porcent, $frequency, $id_activies);
         $stmt1->execute();
-        $stmt1->close();        
+        $stmt1->close();
 
     }
 
@@ -9451,14 +9522,14 @@ class mtto{
         $stmt = $mysqli->prepare("INSERT INTO products_consumables (token_products_consumables, description_products_consumables, 
         quantity_products_consumables, price_products_consumables, observation_products_consumables) VALUES (?,?,?,?,?)");
         $stmt->bind_param('ssiis', $token, $description, $quantity, $price, $observation);
-        
+
         if($stmt->execute())
         {
             return $mysqli->insert_id;
             }else{
             return 0;
         }
-        
+
     }
 
     //Eliminar productos de los consumibles
@@ -9488,8 +9559,8 @@ class mtto{
 
         $opt = new mtto();
 
-        
-        
+
+
 
         $form.= "<table class='table table-bordered'>
         <thead style='text-align: center;'>
@@ -9622,8 +9693,8 @@ class mtto{
                                     <option>Seleccione Unidad RSU</option>
                                     ";
                                     foreach($rs as $op_rsu):
-                                        $form.="<option value='".$op_rsu['id_units_rsu']."'>".$op_rsu['reference_units_rsu']."</option>";  
-                                        
+                                        $form.="<option value='".$op_rsu['id_units_rsu']."'>".$op_rsu['reference_units_rsu']."</option>";
+
                                     endforeach;
 
                                     $form.="
@@ -9680,7 +9751,7 @@ class mtto{
                 </form>
                 
                 </table>";
-            
+
         }
 
         return $form;
@@ -9832,7 +9903,7 @@ class mtto{
                     <td style='border: 1px solid black; width: 385px; height: 10px;'>".$description."</td>
                     <td style='border: 1px solid black; width: 80px; height: 10px; text-align: center;'>".$quantity."</td>
                     <td style='border: 1px solid black; width: 200px; height: 10px;'>".$observation."</td>
-                </tr>";                
+                </tr>";
             }
 
             $stmt->close();
@@ -9880,7 +9951,7 @@ class mtto{
                     <td style='border-radius: 2px; border: 1px solid black; width: 60px; height: 10px; text-align: center;'>".$quantity."</td>
                     <td style='border-radius: 2px; border: 1px solid black; width: 110px; height: 10px; text-align: center;'>$".number_format($value_total)."</td>
                     <td style='border-radius: 2px; border: 1px solid black; width: 160px; height: 10px;'>".$observation."</td>
-                </tr>";                
+                </tr>";
             }
 
             $stmt->close();
@@ -9996,7 +10067,7 @@ class mtto{
                 <td style='border: 1px solid black; width:50px;'>".$stock."</td>
                 </tr>";
             }
-           
+
         }
         else
         {
@@ -10046,7 +10117,7 @@ class mtto{
                 <td style='border: 1px solid black; width:200px;'>".$description_element."</td>
                 <td style='border: 1px solid black; width:90px;'>".$quantity."</td>
                 </tr>";
-            }            
+            }
 
         }
         else
@@ -10093,7 +10164,7 @@ class mtto{
                 <td style='border: 1px solid black; width:200px;'>".$description_element."</td>
                 <td style='border: 1px solid black; width:90px;'>".$quantity."</td>
                 </tr>";
-            }            
+            }
 
         }
         else
@@ -10144,7 +10215,7 @@ class mtto{
                 <td style='border: 1px solif black; width: 80px; text-align: center;'>".$no_analysis."</td>
                 </tr>";
 
-            }            
+            }
 
         }
         else
@@ -10183,7 +10254,7 @@ class mtto{
 
         if($num > 0)
         {
-            $stmt->bind_result($number_report, $type_activity, $location_report, $reference_report_teams, $name_teams, $cod_report_fails, $description_report, 
+            $stmt->bind_result($number_report, $type_activity, $location_report, $reference_report_teams, $name_teams, $cod_report_fails, $description_report,
             $actor_execution_report, $analysis_data, $date_report);
 
             while($stmt->fetch()){
@@ -10197,7 +10268,7 @@ class mtto{
                     $cod = $cod_report_fails;
                 }
 
-            
+
             $table.= "
             <tr style='font-size: 10px; text-align: center;'>
             <td style='border: 1px solif black; width: 80px;'>".$number_report."</td>
@@ -10212,7 +10283,7 @@ class mtto{
             <td style='border: 1px solif black; width: 80px;'>".$date_report."</td>
             </tr>";
 
-            }            
+            }
 
         }
         else
@@ -10298,9 +10369,31 @@ class mtto{
         return $table;
     }
 
+    function insertRequisition($data) {
+        global $mysqli;
 
-    
+        $stmt = $mysqli->prepare("INSERT INTO requisitions (user_id, equipment, requested_items, place, request_date, status, status_text) VALUES (?,?,?,?,?,?,?)");
+        $stmt->bind_param('sssssss', $data['user_id'], $data['equipment'], $data['requested_items'], $data['place'], $data['request_date'], $data['status'], $data['status_text']);
 
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return 0;
+        }
+    }
+
+    function obtenerRequisiciones() {
+        global $mysqli;
+        $result = $mysqli->query('select user_id, admin_id, equipment, requested_items, place, request_date, delivery_date, status, status_text from requisitions where user_id = ' . $_SESSION['id_user']);
+        $resultArr = [];
+        if ($result->num_rows > 0) {
+            // output data of each row
+            while($row = $result->fetch_assoc()) {
+                $resultArr[] = $row;
+            }
+        }
+        return $resultArr;
+    }
 }
 
 

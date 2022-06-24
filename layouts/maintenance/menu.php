@@ -43,6 +43,14 @@ $session = new UserFunctions();
                     </p>
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="/pages/requisition.php" class="nav-link">
+                    <i class="nav-icon far fa-image"></i>
+                    <p>
+                        Requisición
+                    </p>
+                </a>
+            </li>
           
           <?php
 

@@ -150,6 +150,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'team_activity_create') {
     $reg = $mtto->insertTeamActivities([
         'fk_teams_units'=> $id_teams,
         'fk_user_id'=> $id_user,
+        'type'=> $_POST['team_activity_type'],
         'hours_worked'=> $_POST['team_activity_hours_worked'],
         'date'=> $_POST['team_activity_date'],
         'comment'=> $_POST['team_activity_comment'],
@@ -443,6 +444,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'team_activity_create') {
                                             <thead>
                                             <tr>
                                                 <th>Fecha</th>
+                                                <th>Tipo</th>
                                                 <th>Horas trabajadas</th>
                                                 <th>Comentario</th>
                                             </tr>
@@ -779,8 +781,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'team_activity_create') {
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                    <h4 class="modal-title">Registrar actividad del Equipo
-                </h4>
+                    <h4 class="modal-title">Registrar actividad del Equipo</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -798,8 +799,18 @@ if (isset($_POST['action']) && $_POST['action'] == 'team_activity_create') {
 
                         <div class="col-sm-6">
                             <div class="form-group">
+                                <label>Tipo</label>
+                                <select name="team_activity_type" id="team_activity_type" class="form-control">
+                                    <option value="1">Horas de trabajo</option>
+                                    <option value="2">Cambio de Aceite</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="col-sm-6" id="div_team_activity_hours_worked">
+                            <div class="form-group">
                                 <label>Horas trabajadas</label>
-                                <input type="number" class="form-control" name="team_activity_hours_worked" required>
+                                <input type="number" class="form-control" name="team_activity_hours_worked" id="team_activity_hours_worked" required>
                             </div>
                         </div>
 
