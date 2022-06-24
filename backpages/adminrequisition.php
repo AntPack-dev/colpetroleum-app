@@ -1,21 +1,15 @@
 <?php
 
 $mtto = new mtto();
-$result = $mtto->obtenerRequisicionesAdmin(1);
-
-/*if ($_POST['action'] == 'create') {
-
-    $mtto->insertRequisition([
-        'user_id' => $_SESSION['id_user'],
-        'equipment' => $_POST['equipment'],
-        'requested_items' => $_POST['requested_items'],
-        'place' => $_POST['place'],
-        'request_date' => date('Y-m-d'),
-        'status' => 1,
-        'status_text' => 'Solicitado',
-    ]);
-    echo "<script> window.location='requisition.php';</script>";
-}*/
+$result = $mtto->obtenerRequisicionesAdmin('1,2');
+if ($_GET['action'] == 'atender') {
+    $mtto->actualizarRequisition($_GET['id'], 2);
+    echo "<script> window.location='adminrequisition.php';</script>";
+}
+if ($_GET['action'] == 'entregar') {
+    $mtto->actualizarRequisition($_GET['id'], 3);
+    echo "<script> window.location='adminrequisition.php';</script>";
+}
 ?>
 
 
@@ -59,7 +53,7 @@ $result = $mtto->obtenerRequisicionesAdmin(1);
                                                             <button class="btn btn-primary" onclick="atender(<?php echo $item['id']?>)">Atender</button>
                                                         <?php } ?>
                                                         <?php if ($item['status'] == 2) {?>
-                                                            <button class="btn btn-primary">Entregar</button>
+                                                            <button class="btn btn-primary" onclick="entregar(<?php echo $item['id']?>)">Entregar</button>
                                                         <?php } ?>
                                                     </td>
                                                 </tr>
@@ -79,6 +73,31 @@ $result = $mtto->obtenerRequisicionesAdmin(1);
 
 <script>
     function atender(id) {
-
+        swal.fire({
+            title: `¿Estás seguro que deseas marcar esta requisición como "Atendiendo"?`,
+            type: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Aceptar',
+            cancelButtonText: 'Cerrar',
+            showLoaderOnConfirm: true,
+            preConfirm: (arg) => {
+                window.location.replace("<?php $_SERVER['PHP_SELF'] ?>?action=atender&id=" + id);
+            },
+            allowOutsideClick: () => !swal.isLoading()
+        });
+    }
+    function entregar(id) {
+        swal.fire({
+            title: `¿Estás seguro que deseas marcar esta requisición como "Entregada"?`,
+            type: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Aceptar',
+            cancelButtonText: 'Cerrar',
+            showLoaderOnConfirm: true,
+            preConfirm: (arg) => {
+                window.location.replace("<?php $_SERVER['PHP_SELF'] ?>?action=entregar&id=" + id);
+            },
+            allowOutsideClick: () => !swal.isLoading()
+        });
     }
 </script>

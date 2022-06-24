@@ -10382,6 +10382,22 @@ class mtto{
         }
     }
 
+    function actualizarRequisition($id, $status) {
+        global $mysqli;
+
+        $statusText = '';
+        if ($status == 2) {
+            $statusText = 'Atendiendo';
+        } else {
+            $statusText = 'Entregado';
+        }
+
+        $stmt = $mysqli->prepare("UPDATE requisitions SET status = ?, status_text = ? WHERE id = ?");
+        $stmt->bind_param('ssi', $status, $statusText, $id);
+        $stmt->execute();
+        $stmt->close();
+    }
+
     function obtenerRequisiciones() {
         global $mysqli;
         $result = $mysqli->query('select user_id, admin_id, equipment, requested_items, place, request_date, delivery_date, status, status_text from requisitions where user_id = ' . $_SESSION['id_user']);
@@ -10397,7 +10413,7 @@ class mtto{
 
     function obtenerRequisicionesAdmin($status) {
         global $mysqli;
-        $result = $mysqli->query("select user_id, admin_id, equipment, requested_items, place, request_date, delivery_date, status, status_text, users.first_name, users.second_name from requisitions inner join users on users.id_user = requisitions.user_id where status = $status");
+        $result = $mysqli->query("select id, user_id, admin_id, equipment, requested_items, place, request_date, delivery_date, status, status_text, users.first_name, users.second_name from requisitions inner join users on users.id_user = requisitions.user_id where status in($status)");
         $resultArr = [];
         if ($result->num_rows > 0) {
             // output data of each row
