@@ -56,7 +56,8 @@ if (calendarEl) {
 
     const eventResults = [];
     maintenanceEvents.forEach(event => {
-        if (event.type_row == 'frecuencia') {
+        if (event.type_row == 'frecuencia' && event.next_date) {
+
             const dateParts = event.next_date.split("-");
             const jsDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2].substr(0, 2));
 
@@ -68,15 +69,17 @@ if (calendarEl) {
                 borderColor: '#0073b7' //Blue
             });
         } else {
-            const dateParts = event.date.split("-");
-            const jsDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2].substr(0, 2));
-            eventResults.push({
-                title: event.comment ? event.comment : 'Horas Trabajadas',
-                start: jsDate,
-                allDay: false,
-                backgroundColor: '#b7002b', //Blue
-                borderColor: '#b7002b' //Blue
-            });
+            if (event.date) {
+                const dateParts = event.date.split("-");
+                const jsDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2].substr(0, 2));
+                eventResults.push({
+                    title: event.comment ? event.comment : 'Horas Trabajadas',
+                    start: jsDate,
+                    allDay: false,
+                    backgroundColor: '#b7002b', //Blue
+                    borderColor: '#b7002b' //Blue
+                });
+            }
         }
     });
     var calendar = new Calendar(calendarEl, {
