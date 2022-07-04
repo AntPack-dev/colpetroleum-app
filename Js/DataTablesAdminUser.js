@@ -64,11 +64,11 @@ $(document).ready(function() {
     $('#id_table_warehouse').DataTable({
         responsive: true,
         paging: true,
-        scrollY: 200,
+        // scrollY: 200,
         hover: true, 
         searching: true,  
         info: true,    
-        paging: true,  
+        // paging: true,
         language: spanish,  
         ajax:{
             url: "../functions/Search/SearchWarehouse.php",

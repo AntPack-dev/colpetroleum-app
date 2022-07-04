@@ -55,7 +55,7 @@ $userid = $ser->getValue('id_user','users','token', $user);
                                 
                             </ul>
 
-                            <form action="../functions/AssignPermits?token=<?php echo $user; ?>" method="POST"/>
+                            <form action="../functions/AssignPermits.php?token=<?php echo $user; ?>" method="POST"/>
                                 <div class="form-group">
                                     <input type="hidden" name="userid" value="<?php echo $userid;?>">
                                 

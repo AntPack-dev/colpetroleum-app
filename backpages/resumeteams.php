@@ -307,10 +307,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'team_activity_create') {
                                                                     title="NO REGISTRAR SIMBOLOS"> </i></div>
                                                     </div>
                                                 </div>
-
-
                                             </div>
-
 
                                             <div class="row">
 
@@ -320,7 +317,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'team_activity_create') {
                                                         <thead>
                                                         <tr style='background-color: #F8F9F9;'>
                                                             <th style='text-align: left;'><?php echo $session->AdminRegisterInspection($tokenuser); ?></th>
-                                                            <th colspan='2' style='text-align: center;'>FRECUENCIA DE
+                                                            <th colspan='5' style='text-align: center;'>FRECUENCIA DE
                                                                 INSPECCIÓN Y MANTENIMIENTO
                                                             </th>
                                                         </tr>

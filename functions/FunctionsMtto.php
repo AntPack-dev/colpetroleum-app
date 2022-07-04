@@ -10382,7 +10382,35 @@ class mtto{
         }
     }
 
-    function actualizarRequisition($id, $status) {
+    function actualizarRequisition($id, $data) {
+        global $mysqli;
+
+        $stmt = $mysqli->prepare("UPDATE requisitions set equipment = ?, requested_items = ?, place = ?, request_date = ? WHERE id = $id");
+        $stmt->bind_param('ssss', $data['equipment'], $data['requested_items'], $data['place'], $data['request_date']);
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return 0;
+        }
+    }
+
+    function obtenerRequisition($id) {
+        global $mysqli;
+        $result = $mysqli->query("select * from requisitions where id = $id");
+        $resultArr = [];
+        if ($result->num_rows > 0) {
+            // output data of each row
+            while($row = $result->fetch_assoc()) {
+                $resultArr = $row;
+            }
+        } else {
+            return null;
+        }
+        return $resultArr;
+    }
+
+    function actualizarEstadoRequisition($id, $status) {
         global $mysqli;
 
         $statusText = '';
@@ -10400,7 +10428,7 @@ class mtto{
 
     function obtenerRequisiciones() {
         global $mysqli;
-        $result = $mysqli->query('select user_id, admin_id, equipment, requested_items, place, request_date, delivery_date, status, status_text from requisitions where user_id = ' . $_SESSION['id_user']);
+        $result = $mysqli->query('select id, user_id, admin_id, equipment, requested_items, place, request_date, delivery_date, status, status_text from requisitions where user_id = ' . $_SESSION['id_user']);
         $resultArr = [];
         if ($result->num_rows > 0) {
             // output data of each row
@@ -10422,6 +10450,11 @@ class mtto{
             }
         }
         return $resultArr;
+    }
+
+    function deleteRequisicion($id){
+        global $mysqli;
+        return $mysqli->query("DELETE FROM requisitions WHERE id = $id");
     }
 }
 

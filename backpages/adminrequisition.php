@@ -4,11 +4,11 @@ $mtto = new mtto();
 $result = $mtto->obtenerRequisicionesAdmin('1,2');
 $resultEntregadas = $mtto->obtenerRequisicionesAdmin('3');
 if ($_GET['action'] == 'atender') {
-    $mtto->actualizarRequisition($_GET['id'], 2);
+    $mtto->actualizarEstadoRequisition($_GET['id'], 2);
     echo "<script> window.location='adminrequisition.php';</script>";
 }
 if ($_GET['action'] == 'entregar') {
-    $mtto->actualizarRequisition($_GET['id'], 3);
+    $mtto->actualizarEstadoRequisition($_GET['id'], 3);
     echo "<script> window.location='adminrequisition.php';</script>";
 }
 ?>
