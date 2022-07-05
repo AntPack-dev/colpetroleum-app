@@ -71,3 +71,9 @@ CREATE TABLE `requisitions` (
   `status` int NOT NULL,
   `status_text` varchar(255) NOT NULL
 );
+
+INSERT INTO `modules_mtto` (`description_module_mtto`)
+VALUES ('Administrador de requisiciones');
+
+ALTER TABLE `teams_units_rsu`
+CHANGE `description_teams_units` `description_teams_units` text NOT NULL AFTER `plate_teams_units`
