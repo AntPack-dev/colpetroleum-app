@@ -33,7 +33,7 @@ if ($result->num_rows > 0) {
         foreach ($mantenimientos as $mantenimiento) {
             $tr = '<tr>';
             $tr .= '<td style="border: 1px solid black;">' . $mantenimiento['letter_units_teams'] . ' con placa '. $mantenimiento['plate_teams_units'] . '</td>';
-            $tr .= '<td style="border: 1px solid black;">' . ($mantenimiento['next_date'] == 0 ? '' : '') . '</td>';
+            $tr .= '<td style="border: 1px solid black;">' . ($mantenimiento['next_date'] == 0 ? 'Urgente' : '') . '</td>';
             $tr .= '<td style="border: 1px solid black;">' . $mantenimiento['next_date'] . '</td>';
             $tr .= '<td style="border: 1px solid black;">' . $mantenimiento['maintenance_carried'] . '</td>';
             $tr .= '</tr>';
