@@ -35,30 +35,27 @@ $session = new UserFunctions();
           <?php echo $session->AdminTeams($tokenuser); ?>
           <?php echo $session->AdminWarehouse($tokenuser); ?>
           <?php echo $session->AdminProcedures($tokenuser); ?>
+          <?php echo $session->AdminRequisitions($tokenuser); ?>
             <li class="nav-item">
                 <a href="/pages/masterCalendar.php" class="nav-link">
-                    <i class="nav-icon far fa-image"></i>
-                    <p>
-                        Calendario General
-                    </p>
+                    <i class="text-danger fas fa-calendar"></i>
+                    Calendario General
                 </a>
             </li>
             <li class="nav-item">
                 <a href="/pages/requisition.php" class="nav-link">
-                    <i class="nav-icon far fa-image"></i>
-                    <p>
-                        Requisición
-                    </p>
+                    <i class='text-danger nav-icon fas fa-file-alt'></i>
+                    Requisición
                 </a>
             </li>
-            <li class="nav-item">
+            <!--<li class="nav-item">
                 <a href="/pages/adminrequisition.php" class="nav-link">
                     <i class="nav-icon far fa-image"></i>
                     <p>
                         Administrar requisiciones
                     </p>
                 </a>
-            </li>
+            </li>-->
           
           <?php
 

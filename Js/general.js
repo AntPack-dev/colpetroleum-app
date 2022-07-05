@@ -56,7 +56,8 @@ if (calendarEl) {
 
     const eventResults = [];
     maintenanceEvents.forEach(event => {
-        if (event.type_row == 'frecuencia') {
+        if (event.type_row == 'frecuencia' && event.next_date) {
+
             const dateParts = event.next_date.split("-");
             const jsDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2].substr(0, 2));
 
@@ -68,15 +69,17 @@ if (calendarEl) {
                 borderColor: '#0073b7' //Blue
             });
         } else {
-            const dateParts = event.date.split("-");
-            const jsDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2].substr(0, 2));
-            eventResults.push({
-                title: event.comment ? event.comment : 'Horas Trabajadas',
-                start: jsDate,
-                allDay: false,
-                backgroundColor: '#b7002b', //Blue
-                borderColor: '#b7002b' //Blue
-            });
+            if (event.date) {
+                const dateParts = event.date.split("-");
+                const jsDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2].substr(0, 2));
+                eventResults.push({
+                    title: event.comment ? event.comment : 'Horas Trabajadas',
+                    start: jsDate,
+                    allDay: false,
+                    backgroundColor: '#b7002b', //Blue
+                    borderColor: '#b7002b' //Blue
+                });
+            }
         }
     });
     var calendar = new Calendar(calendarEl, {
@@ -202,4 +205,59 @@ if (generalCalendarEl) {
         }
     });
     calendar.render();
+}
+
+
+function eliminarRequisicion(id) {
+    swal.fire({
+        title: `¿Estás seguro que deseas eliminar este registro?`,
+        type: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Aceptar',
+        cancelButtonText: 'Cerrar',
+        showLoaderOnConfirm: true,
+        preConfirm: (arg) => {
+            return fetch(`../functions/Delete/DeleteRequisition.php?id=${id}`, {
+                method: 'GET',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+            }).then(response => {
+                if (response.status == 401) {
+                    location.reload();
+                }
+                if (!response.ok) {
+                    response.json().then(result => {
+                        swal.fire({
+                            title: result.message,
+                            type: 'error',
+                        });
+                    });
+                    return false;
+                }
+                return response.json();
+            }).catch(error => {
+                console.error(error);
+                swal.fire({
+                    title: error,
+                    type: 'error'
+                });
+                return false;
+            });
+        },
+        allowOutsideClick: () => !swal.isLoading()
+    }).then((result) => {
+        if (result.value) {
+            swal.fire({
+                title: result.value.message,
+                type: "success",
+                showCancelButton: false,
+                confirmButtonText: "Ok",
+                closeOnConfirm: false
+            }).then(() => {
+                window.location.reload();
+            });
+        }
+    });
 }

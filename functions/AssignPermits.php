@@ -15,7 +15,6 @@ $iduser = $consult->ValueUser('id_user','users','token',$token);
 
 $module = $mysqli->real_escape_string($_POST['module']);
 
-
 if(isset($_POST['permit']))
 {       
 

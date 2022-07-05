@@ -1092,6 +1092,53 @@ class UserFunctions{
         return $settings;
     }
 
+    //Permisos Gestión de requisiciones
+    function AdminRequisitions($tokenuser)
+    {
+        global $mysqli;
+        $settings = "";
+
+        $stmt = $mysqli->prepare("SELECT permit_user_id, id_module_permit FROM users INNER JOIN asign_permits ON users.id_user = asign_permits.user_id_asign WHERE token = ?");
+        $stmt->bind_param('s', $tokenuser);
+        $stmt->execute();
+        $stmt->store_result();
+        $num = $stmt->num_rows;
+
+        if($num > 0)
+        {
+            $stmt->bind_result($rol, $module);
+
+            while($stmt->fetch())
+            {
+                if($rol == 4 && $module == 11)
+                {
+                    $settings = "<li class='nav-item'>
+                    <a href='/pages/adminrequisition.php' class='nav-link'>
+                    <i class='text-danger nav-icon fas fa-file-alt'></i>
+                    Administrar requisiciones
+                    </a></li>";
+                }
+
+                /*if($rol == 4 && $module == 4)
+                {
+                    $settings = "
+                    <button type='button' class='btn btn-success' data-toggle='modal' data-target='#modal-default'>
+                    Registrar Unidad
+                    </button>
+                    <button type='button' class='btn btn-success' data-toggle='modal' data-target='#modal-default-contract'>
+                    Asignar contrato
+                    </button>  ";
+                }*/
+            }
+        }
+        else
+        {
+            return null;
+        }
+
+        return $settings;
+    }
+
     //Permisos Gestión de unidades RSU
     function AdminRegisterTeams($tokenuser)
     {
