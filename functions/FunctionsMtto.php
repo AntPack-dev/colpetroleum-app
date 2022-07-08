@@ -10459,18 +10459,42 @@ class mtto{
 
     function deleteUnitRsu($id){
         global $mysqli;
-        $mysqli->query("DELETE FROM teams_units_rsu WHERE fk_id_father_teams_units = $id");
-        $mysqli->query("DELETE FROM report_fails WHERE fk_units_report_fail = $id");
-        return $mysqli->query("DELETE FROM contract_units_rsu WHERE fk_id_father_units_rsu = $id");
-//        return $mysqli->query("DELETE FROM father_units_rsu WHERE id_units_rsu = $id");
+        $result = $mysqli->query("select * from teams_units_rsu where fk_id_father_teams_units = $id");
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                $this->deleteTeamUnitRsu($row['id_teams_units']);
+            }
+        }
+
+        if (!$mysqli->query("DELETE FROM report_fails WHERE fk_units_report_fail = $id")) {
+            return false;
+        }
+        if (!$mysqli->query("DELETE FROM contract_units_rsu WHERE fk_id_father_units_rsu = $id")) {
+            return false;
+        }
+        return $mysqli->query("DELETE FROM father_units_rsu WHERE id_units_rsu = $id");
     }
 
     function deleteTeamUnitRsu($id){
         global $mysqli;
-        $mysqli->query("DELETE products_consumables.* FROM products_consumables inner join consumables_report on consumables_report.id_consumables = products_consumables.fk_id_report_consumables WHERE consumables_report.rsu_consumables = $id");
-        $mysqli->query("DELETE FROM consumables_report WHERE rsu_consumables = $id");
-        $mysqli->query("DELETE FROM inspection_of_mant_teams WHERE fk_teams_units = $id");
-        $mysqli->query("DELETE FROM report_maint WHERE fk_teams_report_mant = $id");
+        if (!$mysqli->query("DELETE products_consumables.* FROM products_consumables inner join consumables_report on consumables_report.id_consumables = products_consumables.fk_id_report_consumables WHERE consumables_report.rsu_consumables = $id")) {
+            return false;
+        }
+        if (!$mysqli->query("DELETE FROM consumables_report WHERE rsu_consumables = $id")) {
+            return false;
+        }
+        if(!$mysqli->query("DELETE FROM inspection_of_mant_teams WHERE fk_teams_units = $id")) {
+            return false;
+        }
+        if (!$mysqli->query("DELETE notifications_mtto.* FROM notifications_mtto JOIN report_teams_maint on report_teams_maint.id_report_teams_maint = notifications_mtto.fk_maintteams_mtto WHERE fk_teams_report_maint = $id")) {
+            return false;
+        }
+        if (!$mysqli->query("DELETE FROM report_teams_maint WHERE fk_teams_report_maint = $id")) {
+            return false;
+        }
+        if (!$mysqli->query("DELETE FROM report_maint WHERE fk_teams_report_mant = $id"))  {
+            return false;
+        }
         return $mysqli->query("DELETE FROM teams_units_rsu WHERE id_teams_units = $id");
     }
 }

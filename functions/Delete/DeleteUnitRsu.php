@@ -18,7 +18,8 @@ try {
     } else {
         $data = [
             'success' => false,
-            'message' => 'Ocurrió un error'
+            'message' => mysqli_error($mysqli),
+//            'message' => 'Ocurrió un error',
         ];
     }
 } catch (Exception $e) {
