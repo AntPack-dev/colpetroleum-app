@@ -2195,7 +2195,7 @@ class mtto{
 
         $totalFilter = $totalData;
 
-        $sql = "SELECT date_register_units, reference_units_rsu, state_units_rsu, costmaint_units_rsu, costnpt_units_rsu, location_contract_units_rsu, client_contract_units_rsu, token_units_rsu FROM father_units_rsu INNER JOIN contract_units_rsu ON father_units_rsu.id_units_rsu = contract_units_rsu.fk_id_father_units_rsu";
+        $sql = "SELECT date_register_units, reference_units_rsu, state_units_rsu, costmaint_units_rsu, costnpt_units_rsu, location_contract_units_rsu, client_contract_units_rsu, token_units_rsu, id_units_rsu FROM father_units_rsu INNER JOIN contract_units_rsu ON father_units_rsu.id_units_rsu = contract_units_rsu.fk_id_father_units_rsu";
 
         if(!empty($resquest['search']['value']))
         {
@@ -2216,7 +2216,7 @@ class mtto{
             $subdata[] = $row[6];
             $subdata[] = "<div class='btn-group'>
             <a class='btn btn-default btn-sm' title='Detalles' href='cpanelunits?units=".$row[7]."'><i class='fas fa-info-circle'></i></a>
-                             
+            <button class='btn btn-danger btn-sm' title='Eliminar Registro' onclick='deleteItemUnitRsu(".$row[8].")'><i class='fas fa-trash-alt'></i></button>   
             </div>";
 
             $data[] = $subdata;
@@ -2587,14 +2587,14 @@ class mtto{
 
         $resquest = $_REQUEST;
 
-        $sql = "SELECT letter_units_teams, number_teams_units, name_teams_units, type_teams_units, model_teams_units, serie_teams_units, capacity_teams_units, mark_teams_units, plate_teams_units, dateregister_teams_units, description_teams_units, token_teams_units
+        $sql = "SELECT letter_units_teams, number_teams_units, name_teams_units, type_teams_units, model_teams_units, serie_teams_units, capacity_teams_units, mark_teams_units, plate_teams_units, dateregister_teams_units, description_teams_units, token_teams_units, id_teams_units
         FROM teams_units_rsu WHERE fk_id_father_teams_units = '".$warehouse."'";
         $query = $mysqli->query($sql);
         $totalData = $query->num_rows;
 
         $totalFilter = $totalData;
 
-        $sql = "SELECT letter_units_teams, number_teams_units, name_teams_units, type_teams_units, model_teams_units, serie_teams_units, capacity_teams_units, mark_teams_units, plate_teams_units, dateregister_teams_units, description_teams_units, token_teams_units
+        $sql = "SELECT letter_units_teams, number_teams_units, name_teams_units, type_teams_units, model_teams_units, serie_teams_units, capacity_teams_units, mark_teams_units, plate_teams_units, dateregister_teams_units, description_teams_units, token_teams_units, id_teams_units
         FROM teams_units_rsu WHERE fk_id_father_teams_units = '".$warehouse."'";
 
         if(!empty($resquest['search']['value']))
@@ -2622,7 +2622,7 @@ class mtto{
             $subdata[] = $row[10];
             $subdata[] = "<div class='btn-group'>
             <a class='btn btn-default btn-sm' title='Ver información' href='resumeteams?teams=".$row[11]."'><i class='fas fa-file'></i></a>
-                             
+            <button class='btn btn-danger btn-sm' title='Eliminar Registro' onclick='deleteItemTeamUnitRsu(".$row[12].")'><i class='fas fa-trash-alt'></i></button>
             </div>";
 
 
@@ -10455,6 +10455,21 @@ class mtto{
     function deleteRequisicion($id){
         global $mysqli;
         return $mysqli->query("DELETE FROM requisitions WHERE id = $id");
+    }
+
+    function deleteUnitRsu($id){
+        global $mysqli;
+        $mysqli->query("DELETE FROM contract_units_rsu WHERE fk_id_father_units_rsu = $id");
+        return $mysqli->query("DELETE FROM father_units_rsu WHERE id_units_rsu = $id");
+    }
+
+    function deleteTeamUnitRsu($id){
+        global $mysqli;
+        $mysqli->query("DELETE products_consumables.* FROM products_consumables inner join consumables_report on consumables_report.id_consumables = products_consumables.fk_id_report_consumables WHERE consumables_report.rsu_consumables = $id");
+        $mysqli->query("DELETE FROM consumables_report WHERE rsu_consumables = $id");
+        $mysqli->query("DELETE FROM inspection_of_mant_teams WHERE fk_teams_units = $id");
+        $mysqli->query("DELETE FROM report_maint WHERE fk_teams_report_mant = $id");
+        return $mysqli->query("DELETE FROM teams_units_rsu WHERE id_teams_units = $id");
     }
 }
 

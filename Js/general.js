@@ -261,3 +261,111 @@ function eliminarRequisicion(id) {
         }
     });
 }
+
+function deleteItemUnitRsu(id) {
+    swal.fire({
+        title: `¿Estás seguro que deseas eliminar este registro?`,
+        type: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Aceptar',
+        cancelButtonText: 'Cerrar',
+        showLoaderOnConfirm: true,
+        preConfirm: (arg) => {
+            return fetch(`../functions/Delete/DeleteUnitRsu.php?id=${id}`, {
+                method: 'GET',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+            }).then(response => {
+                if (response.status == 401) {
+                    location.reload();
+                }
+                if (!response.ok) {
+                    response.json().then(result => {
+                        swal.fire({
+                            title: result.message,
+                            type: 'error',
+                        });
+                    });
+                    return false;
+                }
+                return response.json();
+            }).catch(error => {
+                console.error(error);
+                swal.fire({
+                    title: error,
+                    type: 'error'
+                });
+                return false;
+            });
+        },
+        allowOutsideClick: () => !swal.isLoading()
+    }).then((result) => {
+        if (result.value) {
+            swal.fire({
+                title: result.value.message,
+                type: "success",
+                showCancelButton: false,
+                confirmButtonText: "Ok",
+                closeOnConfirm: false
+            }).then(() => {
+                window.location.reload();
+            });
+        }
+    });
+}
+
+function deleteItemTeamUnitRsu(id) {
+    swal.fire({
+        title: `¿Estás seguro que deseas eliminar este registro?`,
+        type: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Aceptar',
+        cancelButtonText: 'Cerrar',
+        showLoaderOnConfirm: true,
+        preConfirm: (arg) => {
+            return fetch(`../functions/Delete/DeleteTeamUnitRsu.php?id=${id}`, {
+                method: 'GET',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+            }).then(response => {
+                if (response.status == 401) {
+                    location.reload();
+                }
+                if (!response.ok) {
+                    response.json().then(result => {
+                        swal.fire({
+                            title: result.message,
+                            type: 'error',
+                        });
+                    });
+                    return false;
+                }
+                return response.json();
+            }).catch(error => {
+                console.error(error);
+                swal.fire({
+                    title: error,
+                    type: 'error'
+                });
+                return false;
+            });
+        },
+        allowOutsideClick: () => !swal.isLoading()
+    }).then((result) => {
+        if (result.value) {
+            swal.fire({
+                title: result.value.message,
+                type: "success",
+                showCancelButton: false,
+                confirmButtonText: "Ok",
+                closeOnConfirm: false
+            }).then(() => {
+                window.location.reload();
+            });
+        }
+    });
+}
