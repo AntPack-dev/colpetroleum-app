@@ -2188,7 +2188,7 @@ class mtto{
 
         $resquest = $_REQUEST;
 
-        $sql = "SELECT date_register_units, reference_units_rsu, state_units_rsu, costmaint_units_rsu, costnpt_units_rsu, location_contract_units_rsu, client_contract_units_rsu, token_units_rsu FROM father_units_rsu INNER JOIN contract_units_rsu ON father_units_rsu.id_units_rsu = contract_units_rsu.fk_id_father_units_rsu";
+        $sql = "SELECT date_register_units, reference_units_rsu, state_units_rsu, costmaint_units_rsu, costnpt_units_rsu, location_contract_units_rsu, client_contract_units_rsu, token_units_rsu, id_units_rsu FROM father_units_rsu INNER JOIN contract_units_rsu ON father_units_rsu.id_units_rsu = contract_units_rsu.fk_id_father_units_rsu";
 
         $query = $mysqli->query($sql);
         $totalData = $query->num_rows;
@@ -10459,8 +10459,10 @@ class mtto{
 
     function deleteUnitRsu($id){
         global $mysqli;
-        $mysqli->query("DELETE FROM contract_units_rsu WHERE fk_id_father_units_rsu = $id");
-        return $mysqli->query("DELETE FROM father_units_rsu WHERE id_units_rsu = $id");
+        $mysqli->query("DELETE FROM teams_units_rsu WHERE fk_id_father_teams_units = $id");
+        $mysqli->query("DELETE FROM report_fails WHERE fk_units_report_fail = $id");
+        return $mysqli->query("DELETE FROM contract_units_rsu WHERE fk_id_father_units_rsu = $id");
+//        return $mysqli->query("DELETE FROM father_units_rsu WHERE id_units_rsu = $id");
     }
 
     function deleteTeamUnitRsu($id){
