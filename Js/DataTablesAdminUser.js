@@ -69,7 +69,8 @@ $(document).ready(function() {
         searching: true,  
         info: true,    
         // paging: true,
-        language: spanish,  
+        language: spanish,
+        pageLength: 50,
         ajax:{
             url: "../functions/Search/SearchWarehouse.php",
             type: "POST"

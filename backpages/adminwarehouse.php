@@ -134,3 +134,9 @@
         </div>
         <!-- /.modal-dialog -->
       </div>
+
+<style>
+    #id_table_warehouse_length {
+        display: none !important;
+    }
+</style>
