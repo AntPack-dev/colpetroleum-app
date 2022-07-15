@@ -19,7 +19,6 @@ if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $mantenimientos[] = $row;
     }
-//    var_dump($mantenimientos); exit;
     $result = $mysqli->query('select first_name, second_name, email_user from asign_permits inner join users on users.id_user = asign_permits.user_id_asign where id_module_permit = 1 group by user_id_asign');
     if ($result->num_rows > 0) {
         $usersEmails = [];
@@ -41,6 +40,13 @@ if ($result->num_rows > 0) {
         }
         $template = file_get_contents('./report/view/notificacionMantenimiento.php');
         $template = str_replace("{{contanidoTabla}}", $contenidoTabla, $template);
+
+        $path = 'images/LOGO.png';
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $data = file_get_contents($path);
+        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+
+        $template = str_replace("{{logoColpetroleum}}", $base64, $template);
 
         $mail = new PHPMailer();
         $mail->isSMTP();

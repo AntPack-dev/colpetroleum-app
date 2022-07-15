@@ -392,7 +392,7 @@ class mtto{
                 $table.= "<tr>
                 <td>".$name_workforce."</td>
                 <td>$ ".number_format($cost_workforce)."</td>
-                <td style='text-align: center;'><button type='button' class='btn btn-success btn-sm' data-toggle='modal' data-target='#modal-deleteuno".$id_workforce."'>Editar</td>
+                <td style='text-align: center;'><button type='button' class='btn btn-success btn-sm' data-toggle='modal' data-target='#modal-deleteuno".$id_workforce."'>Editar</button></td>
             </tr> 
             
             <div class='modal fade' id='modal-deleteuno".$id_workforce."'>
@@ -2181,6 +2181,11 @@ class mtto{
         }
     }
 
+    function updateUnitRsu($id_units_rsu, $reference_units_rsu, $state_units_rsu) {
+        global $mysqli;
+        return $mysqli->query("UPDATE father_units_rsu SET reference_units_rsu = '$reference_units_rsu', state_units_rsu = '$state_units_rsu' where id_units_rsu = $id_units_rsu ");
+    }
+
     //Genera el listado de unidades RSU
     function SerahcUnits()
     {
@@ -2217,6 +2222,7 @@ class mtto{
             $subdata[] = "<div class='btn-group'>
             <a class='btn btn-default btn-sm' title='Detalles' href='cpanelunits?units=".$row[7]."'><i class='fas fa-info-circle'></i></a>
             <button class='btn btn-danger btn-sm' title='Eliminar Registro' onclick='deleteItemUnitRsu(".$row[8].")'><i class='fas fa-trash-alt'></i></button>   
+            <button class='btn btn-primary btn-sm' title='Editar Registro' onclick='editItemUnitRsu(".$row[8].", \"".$row[1]."\",\"".$row[2]."\")'><i class='fas fa-edit'></i></button>   
             </div>";
 
             $data[] = $subdata;
@@ -2423,6 +2429,11 @@ class mtto{
             $template = file_get_contents('../report/view/notificacionCambioAceite.php');
             $template = str_replace("{{indicadorUrgente}}", $flagUrgente ? 'URGENTE!' : '', $template);
             $template = str_replace("{{nombreDeEquipo}}", $equipo['letter_units_teams'] . ' con placa '. $equipo['plate_teams_units'], $template);
+            $path = '../images/LOGO.png';
+            $type = pathinfo($path, PATHINFO_EXTENSION);
+            $data = file_get_contents($path);
+            $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+            $template = str_replace("{{logoColpetroleum}}", $base64, $template);
 
             $mail = new PHPMailer();
             $mail->isSMTP();
@@ -2432,7 +2443,6 @@ class mtto{
             $mail->Port = 2525;
             $mail->Username = '1355a47bcecae7';
             $mail->Password = '515048fe7327d4';
-
 
             $mail->setFrom('cpsmtto@colpetroleumservices.com','CPS MTTO');
             $mail->addAddress($usersEmails[0]['email_user'], $usersEmails[0]['first_name'] . ' ' . $usersEmails[0]['second_name']);

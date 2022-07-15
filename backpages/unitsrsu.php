@@ -59,10 +59,12 @@ if(isset($_POST['btnregistercontractunits']))
     {
       echo "<script> window.location='unitsrsu'; </script>";   
     }
-
-
 }
 
+if (!empty($_POST['action']) && $_POST['action'] == 'edit') {
+    $mtto->updateUnitRsu($mysqli->real_escape_string($_POST['id']), $mysqli->real_escape_string($_POST['reference_units_rsu']), $mysqli->real_escape_string($_POST['state_units_rsu']));
+    echo "<script> window.location='unitsrsu'; </script>";
+}
 
 ?>
 
@@ -73,7 +75,7 @@ if(isset($_POST['btnregistercontractunits']))
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
-            <h5 class="card-title">Unidades RSU</h5>   
+            <h5 class="card-title">Unidades RSU</h5>
             <div class="card-tools">
             <a href="../report/ReportF270" class="btn btn-danger btn-sm" target="_blank"><i class="fas fa-file-alt"></i> F-270</a>
             </div>         
@@ -160,6 +162,63 @@ if(isset($_POST['btnregistercontractunits']))
                 <button type="input" name="btnregisterunits" class="btn btn-success">Guardar</button>
               </div>
 
+            </form>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="modal-edit-unidad-rsu">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Registrar Unidad</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
+                <input type="hidden" name="action" value="edit">
+                <input type="hidden" id="unidad-rsu-id-edit" name="id">
+              <div class="modal-body">
+
+                <div class="callout callout-info">
+                  <h5>Pasos para registrar Unidad RSU:</h5>
+
+                  <p>
+                      1) Escribimos en la casilla Referencia del equipo, la descripción del equipo (Ejemplo: RSU 01, RSU 02, etc.)<br>
+                      2) Escribimos en la casilla Estado Actual, Unidad Asignada.<br>
+                      3) Presionamos sobre el botón <b>Guardar</b>.<br>
+                      <b>NOTA:</b> El registro no aparecerá en la tabla hasta que le asigne un contrato.
+
+                  </p>
+                </div>
+
+
+                <div class="row">
+
+                  <div class="col-sm-6">
+                      <div class="form-group">
+                      <label for="inputSuccess">Referencia del equipo <b style="color:#B20F0F;">*</b></label>
+                      <input type="text" class="form-control" id="unidad-rsu-reference_units_rsu-edit" name="reference_units_rsu" required>
+                      </div>
+                  </div>
+
+                  <div class="col-sm-6">
+                      <div class="form-group">
+                      <label>Estado actual <b style="color:#B20F0F;">*</b></label>
+                      <input type="text" class="form-control" id="unidad-rsu-state_units_rsu-edit" name="state_units_rsu" required>
+                      </div>
+                  </div>
+
+                </div>
+
+              </div>
+              <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                <button type="submit" name="btnregisterunits" class="btn btn-success">Actualizar</button>
+              </div>
             </form>
           </div>
           <!-- /.modal-content -->
