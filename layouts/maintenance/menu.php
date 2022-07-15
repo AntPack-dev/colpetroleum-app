@@ -38,7 +38,7 @@ $session = new UserFunctions();
           <?php echo $session->AdminRequisitions($tokenuser); ?>
             <li class="nav-item">
                 <a href="/pages/masterCalendar.php" class="nav-link">
-                    <i class="text-danger fas fa-calendar"></i>
+                    <i class="text-danger nav-icon fas fa-calendar"></i>
                     Calendario General
                 </a>
             </li>

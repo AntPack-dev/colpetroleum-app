@@ -369,3 +369,10 @@ function deleteItemTeamUnitRsu(id) {
         }
     });
 }
+
+function editItemUnitRsu(id, reference_units_rsu, state_units_rsu) {
+    $('#unidad-rsu-id-edit').val(id);
+    $('#unidad-rsu-reference_units_rsu-edit').val(reference_units_rsu);
+    $('#unidad-rsu-state_units_rsu-edit').val(state_units_rsu);
+    $('#modal-edit-unidad-rsu').modal('show');
+}

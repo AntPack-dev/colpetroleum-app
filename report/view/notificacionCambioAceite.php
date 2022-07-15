@@ -31,14 +31,33 @@
     <tr>
         <td align="center" style="box-sizing: border-box; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif; word-break: break-word;">
             <table class="email-content" width="100%" cellpadding="0" cellspacing="0" style="box-sizing: border-box; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif; margin: 0; padding: 0; width: 100%;">
-                <tr>
+                <!--<tr>
                     <td class="email-masthead" style="box-sizing: border-box; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif; padding: 25px 0; word-break: break-word;" align="center">
                         <a href="" class="email-masthead_name" style="box-sizing: border-box; color: #bbbfc3; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif; font-size: 30px; font-weight: 900; text-decoration: none; text-shadow: 0 1px 0 white;">
                             <b style="color: #C0392B; font-weight:bolder">CPS MTTO</b>
                         </a>
                     </td>
+                </tr>-->
+                <tr>
+                    <td class="email-masthead" style="box-sizing: border-box; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif; padding: 25px 0; word-break: break-word;" align="center">
+                        <!--<a href="" class="email-masthead_name" style="box-sizing: border-box; color: #bbbfc3; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif; font-size: 30px; font-weight: 900; text-decoration: none; text-shadow: 0 1px 0 white;">
+                            <b style="color: #C0392B; font-weight:bolder">CPS MTTO</b>
+                        </a>-->
+                        <table style="border: 1px solid black; width: 100%">
+                            <tr>
+                                <td rowspan="3" style="width: 30%;border: 1px solid white;"><img src="{{logoColpetroleum}}" style="position: relative; width: 200px; height: 50px;"></td>
+                                <td rowspan="3" style="width: 40%;border: 1px solid black; font-weight: bold; font-size: 18px; text-align:center; width: 350px;">MANTENIMIENTO DE UNIDAD</td>
+                                <td style="width: 30%; border: 1px solid black; font-size: 11px;"></td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid black; font-size: 11px;"></td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid black; font-size: 11px;"></td>
+                            </tr>
+                        </table>
+                    </td>
                 </tr>
-
                 <tr>
                     <td class="email-body" width="100%" cellpadding="0" cellspacing="0" style="-premailer-cellpadding: 0; -premailer-cellspacing: 0; border-bottom-color: #EDEFF2; border-bottom-style: solid; border-bottom-width: 1px; border-top-color: #EDEFF2; border-top-style: solid; border-top-width: 1px; box-sizing: border-box; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif; margin: 0; padding: 0; width: 100%; word-break: break-word;" bgcolor="#FFFFFF">
                         <table class="email-body_inner" align="center" width="570" cellpadding="0" cellspacing="0" style="box-sizing: border-box; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif; margin: 0 auto; padding: 0; width: 570px;" bgcolor="#FFFFFF">
